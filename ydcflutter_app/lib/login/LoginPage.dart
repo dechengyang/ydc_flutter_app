@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';//导入网络请求相关的包
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ydcflutter_app/main/MainPage.dart';
+import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -203,24 +204,32 @@ class _LoginPageState extends State<LoginPage> {
     void _loginAction(){
       //print("点击了按钮22");
 
-      setState(() {
-        Fluttertoast.showToast(
-            msg: "登录成功！",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
+//      setState(() {
+//        Fluttertoast.showToast(
+//            msg: "登录成功！",
+//            toastLength: Toast.LENGTH_SHORT,
+//            gravity: ToastGravity.BOTTOM,
+//            timeInSecForIos:1
+////            backgroundColor: Color(0xe74c3c),
+////            textColor: Color(0xffffff)
+//
+//        );
+//        Navigator.of(context).push(new MaterialPageRoute<Null>(
+//          builder: (BuildContext context) {
+////                return new HomePage();
+//            return new MainPage();
+//          },
+//        ));
+//      });
 
-        );
-        Navigator.of(context).push(new MaterialPageRoute<Null>(
-          builder: (BuildContext context) {
-//                return new HomePage();
-            return new MainPage();
-          },
-        ));
-      });
-
+      YdcLoadingPage loadingPage = YdcLoadingPage(context);
+      loadingPage.show();
+      Future.delayed(
+        Duration(seconds: 3),
+            () {
+          loadingPage.close();
+        },
+      );
 
 
     }
