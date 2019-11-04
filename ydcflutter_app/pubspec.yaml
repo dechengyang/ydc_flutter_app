@@ -53,6 +53,7 @@ flutter:
     - static/images/shoppingcart_selected_icon.png
     - static/images/my_normal_icon.png
     - static/images/my_selected_icon.png
+    - static/images/logo_icon.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

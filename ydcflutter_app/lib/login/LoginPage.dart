@@ -12,6 +12,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
   final TextEditingController _phoneController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
   String mPhoneText;
@@ -26,8 +31,7 @@ class _LoginPageState extends State<LoginPage> {
   String _loginTypeChangeStr='手机快捷登录';
   Timer _timer;
 
-
-//  PromptPage promptPage = new PromptPage();
+  bool _checkSelected = false;//维护复选框开关状态
 
 
   _startTimer() {
@@ -55,7 +59,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-
     Widget edtPhone = new Container(
       margin: new EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
       width: MediaQuery
@@ -132,8 +135,6 @@ class _LoginPageState extends State<LoginPage> {
     );
 
 
-
-
     Widget verifyCodeEdit=new Padding(
       padding: new EdgeInsets.only(right: 20.0),
       child:
@@ -202,35 +203,48 @@ class _LoginPageState extends State<LoginPage> {
 
 
     void _loginAction(){
-      //print("点击了按钮22");
-
-//      setState(() {
-//        Fluttertoast.showToast(
-//            msg: "登录成功！",
-//            toastLength: Toast.LENGTH_SHORT,
-//            gravity: ToastGravity.BOTTOM,
-//            timeInSecForIos:1
-////            backgroundColor: Color(0xe74c3c),
-////            textColor: Color(0xffffff)
-//
-//        );
-//        Navigator.of(context).push(new MaterialPageRoute<Null>(
-//          builder: (BuildContext context) {
-////                return new HomePage();
-//            return new MainPage();
-//          },
-//        ));
-//      });
-
       YdcLoadingPage loadingPage = YdcLoadingPage(context);
       loadingPage.show();
       Future.delayed(
         Duration(seconds: 3),
             () {
           loadingPage.close();
+          setState(() {
+            Fluttertoast.showToast(
+                msg: "登录成功！",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+            );
+            Navigator.of(context).push(new MaterialPageRoute<Null>(
+              builder: (BuildContext context) {
+//                return new HomePage();
+                return new MainPage();
+              },
+            ));
+          });
         },
       );
 
+
+    }
+
+    void _fasterLoginAction(){
+      setState(() {
+        Fluttertoast.showToast(
+            msg: "正在建设中...",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+        );
+
+      });
 
     }
 
@@ -246,7 +260,7 @@ class _LoginPageState extends State<LoginPage> {
           decoration: new BoxDecoration(
               borderRadius: new BorderRadius.all(new Radius.circular(50.0)),
               gradient: new LinearGradient(
-                  colors: [const Color(0xFF5AA1FD), const Color(0xFF3C73F1)])
+                  colors: [const Color(0xFFe9546b), const Color(0xFFd0465b)])
           ),
           child: new Center(
               child: new Text(
@@ -258,14 +272,16 @@ class _LoginPageState extends State<LoginPage> {
 
 
 
-    Widget changeLoginText =
+    Widget fasterLoginWidget =
     new Container(
       padding: new EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
       child: new FlatButton(
-          onPressed: null,
+          onPressed: (){
+            _fasterLoginAction();
+          },
           child: new Text('$_loginTypeChangeStr',
               style: new TextStyle(fontSize: 14.0,
-                color: const Color(0xff4B85FA),
+                color: const Color(0xFFe9546b),
               )
           )),
     );
@@ -355,25 +371,21 @@ class _LoginPageState extends State<LoginPage> {
         )
     );
 
-
-    /**
-     * 用户协议
-     */
-    bool isChecked = true;
-    Widget agreement = new Container(
+    Widget agreementWidget = new Container(
       padding: new EdgeInsets.all(0.0),
       child: new Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           new Container(
             //padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-            child: new Checkbox(value: isChecked,
+            child: new Checkbox(value: _checkSelected,
+              activeColor: const Color(0xffe9546b),
               onChanged: (bool) {
+              print(bool);
                 setState(() {
-                  isChecked = !bool;
+                  _checkSelected=bool;
                 });
               },
-              activeColor: const Color(0xff4B85FA),
             ),
           ),
           new Container(
@@ -383,7 +395,7 @@ class _LoginPageState extends State<LoginPage> {
           new Container(
             child: new Text("《用户协议》",
               style: new TextStyle(
-                color: const Color(0xff4B85FA),
+                color: const Color(0xffe9546b),
                 fontSize: 12.0,
               ),),
           )
@@ -409,9 +421,9 @@ class _LoginPageState extends State<LoginPage> {
             edtPhone,
             _passLogin==true? edtPassword: _edtPhoneCode(),
             buttonLogin,
-            changeLoginText,
+            fasterLoginWidget,
             reigistFindpass,
-            agreement
+            agreementWidget
           ],
         ),
       ),
@@ -423,7 +435,7 @@ class _LoginPageState extends State<LoginPage> {
           background,
           new ListView(
             children: <Widget>[
-              pangmaologo,
+              logoWidget,
               whitleContent,
             ],
           )
@@ -471,14 +483,14 @@ class _LoginPageState extends State<LoginPage> {
       )
   );
 
-  Widget pangmaologo =new Container(
+  Widget logoWidget=new Container(
     margin: const EdgeInsets.only( top: 50.0,bottom: 50.0),
     child:
     new Center(
         child: new Image.asset(
-          'images/logo_pm.png',
-          width: 107.0,
-          height: 20.0,
+          'static/images/logo_icon.png',
+          width: 40.0,
+          height: 40.0,
         )),
   );
 
