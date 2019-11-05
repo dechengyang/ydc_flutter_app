@@ -11,4 +11,4 @@
 
 ## 常用界面
 
-![](picture/page/login_page.png) 
+![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/login_page.png) 
