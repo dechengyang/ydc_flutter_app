@@ -1,14 +1,20 @@
-## ydcflutter_app是一款跨平台的开源客户端App，提供更丰富的功能
+## ydcflutter_app是一款跨平台Flutter电商项目，功能持续更新，适合学习和日常使用。完全可以当做一个脚手架项目来使用，只需在里面添加你的业务代码。
 
 ****
 
 |Author|西南黑少|
 |---|---
 |E-mail|345052649@qq.com
+|---|---
+|博客地址|https://blog.csdn.net/XiNanHeiShao/article/details/79980286
 
 
 ****
 
-## 常用界面
+## 效果图
 
 ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/login_page.png) 
+
+#### 如果对你有所帮助，请扫描下方的二维码随意打赏，要是能打赏个 10.24 :monkey_face:就太:thumbsup:了。您的支持将鼓励我继续创作:octocat:
+
+![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/weixin_pay.png) ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/ali_pay.png)
