@@ -1,4 +1,4 @@
-# ydcflutter_app
+## ydcflutter_app是一款跨平台的开源客户端App，提供更丰富的功能
 
 ****
 
