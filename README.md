@@ -1,2 +1,10 @@
-# ydc_flutter_app
-ydcflutter_app
+## ydcflutter_app是一款跨平台的开源客户端App，提供更丰富的功能
+
+****
+
+|Author|西南黑少|
+|---|---
+|E-mail|345052649@qq.com
+
+
+****
