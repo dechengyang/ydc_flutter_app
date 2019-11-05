@@ -28,21 +28,21 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _phoneController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
 
+  bool _checkSelected = false;//维护复选框开关状态
+  bool _loginType=true;//是否是账号密码登录
+
   var _userName = "";
   var _password = "";
+  var _code = "";
 
   bool _correctPhone = true;
   bool _correctPassword = true;
-  bool _passLogin=true;
-  String _verifyCode = '';
+
 
   int _seconds = 0;
   String _verifyStr = '获取验证码';
   String _loginTypeChangeStr='手机快捷登录';
   Timer _timer;
-
-  bool _checkSelected = false;//维护复选框开关状态
-
 
   _startTimer() {
     _seconds = 10;
@@ -69,7 +69,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    Widget edtPhone = new Container(
+
+    Widget phoneInputWidget = new Container(
       margin: new EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
       width: MediaQuery
           .of(context)
@@ -106,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
           }
       ),
     );
-    Widget edtPassword = new Container(
+    Widget passwordInputWidget = new Container(
       margin: new EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
       width: MediaQuery
           .of(context)
@@ -136,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
 
-    Widget verifyCodeEdit=new Padding(
+    Widget codeInputWidget=new Padding(
       padding: new EdgeInsets.only(right: 20.0),
       child:
       new TextField(
@@ -155,14 +156,15 @@ class _LoginPageState extends State<LoginPage> {
             height: 20.0,
           ),
         ),
-        onSubmitted: (value){
-//        checkInput();
+
+        onChanged: (String value){
+          _code=value;
         },
       ),
     );
 
 
-    Widget verifyCodeBtn = new InkWell(
+    Widget codeBtnWidget = new InkWell(
       onTap: (_seconds == 0)
           ? () {
         setState(() {
@@ -187,39 +189,27 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
 
-    Widget _edtPhoneCode(){
-      return new Padding(
+    Widget  codeWidget=new Padding(
         padding: new EdgeInsets.fromLTRB(20.0, 15.0, 0.0, 0.0),
         child: new Stack(
           children: <Widget>[
-            verifyCodeEdit,
+            codeInputWidget,
             new Align(
               alignment: Alignment.topRight,
-              child: verifyCodeBtn,
+              child: codeBtnWidget,
             ),
           ],
         ),
       );
-    }
+
 
 
     void _loginAction(){
 
-      if (_userName == null || _userName.length == 0) {
-        Fluttertoast.showToast(
-            msg: "账号不能为空！",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-        );
-        return;
-      }else{
-        if(!YDCVerify.isPhone(_userName)){
+      if(_loginType){
+        if (_userName == null || _userName.length == 0) {
           Fluttertoast.showToast(
-              msg: "请输入正确的手机号码！",
+              msg: "账号不能为空！",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIos:1
@@ -228,23 +218,23 @@ class _LoginPageState extends State<LoginPage> {
 
           );
           return;
-        }
-      }
-      if (_password == null || _password.length == 0) {
-        Fluttertoast.showToast(
-            msg: "密码不能为空！",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIos:1
+        }else{
+          if(!YDCVerify.isPhone(_userName)){
+            Fluttertoast.showToast(
+                msg: "请输入正确的手机号码！",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIos:1
 //            backgroundColor: Color(0xe74c3c),
 //            textColor: Color(0xffffff)
 
-        );
-        return;
-      }else{
-        if(_password.length<6){
+            );
+            return;
+          }
+        }
+        if (_password == null || _password.length == 0) {
           Fluttertoast.showToast(
-              msg: "请输入6位以上的密码！",
+              msg: "密码不能为空！",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIos:1
@@ -253,8 +243,35 @@ class _LoginPageState extends State<LoginPage> {
 
           );
           return;
+        }else{
+          if(_password.length<6){
+            Fluttertoast.showToast(
+                msg: "请输入6位以上的密码！",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+            );
+            return;
+          }
+        }
+      }else{
+        if (_code == null || _code.length == 0) {
+          Fluttertoast.showToast(
+              msg: "验证码不能为空！",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIos: 1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+          );
+          return;
         }
       }
+
 
       if(_checkSelected){
         YDCLoadingPage loadingPage = YDCLoadingPage(context);
@@ -298,21 +315,20 @@ class _LoginPageState extends State<LoginPage> {
 
     void _fasterLoginAction(){
       setState(() {
-        Fluttertoast.showToast(
-            msg: "正在建设中...",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-        );
+        _loginType=!_loginType;
 
       });
+      if(_loginType){
+        _loginTypeChangeStr="手机快捷登录";
+      }else{
+        _loginTypeChangeStr="账号密码登录";
+      }
+
+      print(_loginType);
 
     }
 
-    Widget buttonLogin = new FlatButton(
+    Widget btnLoginWidget = new FlatButton(
 
         onPressed: () {
           _loginAction();
@@ -456,17 +472,33 @@ class _LoginPageState extends State<LoginPage> {
             child: new Text("  阅读并同意xxxx",
               style: descTextStyle,),
           ),
-          new Container(
-            child: new Text("《用户协议》",
-              style: new TextStyle(
-                color: const Color(0xffe9546b),
-                fontSize: 12.0,
-              ),),
-          )
+    new GestureDetector(
+      onTap: (){
+        Fluttertoast.showToast(
+            msg: "正在建设中...",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+        );
+      },
+
+      child: new Container(
+        child: new Text("《用户协议》",
+          style: new TextStyle(
+            color: const Color(0xffe9546b),
+            fontSize: 12.0,
+          ),),
+      ),
+
+    )
+
         ],
       ),
     );
-    Widget whitleContent = new Center(
+    Widget contentWidget= new Center(
       child: new Container(
 //        margin: new EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
         constraints: new BoxConstraints.expand(width: MediaQuery
@@ -482,9 +514,9 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             textTile,
-            edtPhone,
-            _passLogin==true? edtPassword: _edtPhoneCode(),
-            buttonLogin,
+            phoneInputWidget,
+            _loginType?passwordInputWidget: codeWidget,
+            btnLoginWidget,
             fasterLoginWidget,
             reigistFindpass,
             agreementWidget
@@ -496,11 +528,11 @@ class _LoginPageState extends State<LoginPage> {
     return new Scaffold(
       body: new Stack(
         children: <Widget>[
-          background,
+          bgWidget,
           new ListView(
             children: <Widget>[
               logoWidget,
-              whitleContent,
+              contentWidget,
             ],
           )
         ],
@@ -534,7 +566,7 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {});
   }
 
-  Widget background = new Opacity(
+  Widget bgWidget = new Opacity(
 
       opacity: 0.98,
       child: new Container(
@@ -569,31 +601,4 @@ class _LoginPageState extends State<LoginPage> {
   );
 
 
-}
-
-class ShowAwait extends StatefulWidget {
-  ShowAwait(this.requestCallback);
-  final Future<int> requestCallback;
-
-  @override
-  _ShowAwaitState createState() => new _ShowAwaitState();
-}
-
-class _ShowAwaitState extends State<ShowAwait> {
-  @override
-  initState() {
-    super.initState();
-    new Timer(new Duration(seconds: 1), () {
-      widget.requestCallback.then((int onValue) {
-        Navigator.of(context).pop(onValue);
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return new Center(
-      child: new CircularProgressIndicator(),
-    );
-  }
 }
