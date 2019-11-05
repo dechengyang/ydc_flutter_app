@@ -7,10 +7,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
  * Date: 2019-11-04
  * https://github.com/jogboms/flutter_spinkit
  */
-class YdcLoadingPage {
+class YDCLoadingPage {
   final BuildContext _context;
 
-  YdcLoadingPage(this._context);
+  YDCLoadingPage(this._context);
 
   ///打开loading
   void show({Function onClosed}) {

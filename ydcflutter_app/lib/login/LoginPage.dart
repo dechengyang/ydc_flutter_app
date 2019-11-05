@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
@@ -5,7 +7,13 @@ import 'package:flutter/services.dart';//导入网络请求相关的包
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ydcflutter_app/main/MainPage.dart';
 import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
+import 'package:ydcflutter_app/utils/ydc_verify.dart';
 
+/**
+ * 登录
+ * Created by yangdecheng
+ * Date: 2019-11-04
+ */
 class LoginPage extends StatefulWidget {
   @override
   State createState() => new _LoginPageState();
@@ -19,7 +27,9 @@ class _LoginPageState extends State<LoginPage> {
   }
   final TextEditingController _phoneController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
-  String mPhoneText;
+
+  var _userName = "";
+  var _password = "";
 
   bool _correctPhone = true;
   bool _correctPassword = true;
@@ -69,15 +79,8 @@ class _LoginPageState extends State<LoginPage> {
       new TextField(
           controller: _phoneController,
           maxLines: 1,
-          onChanged: (text){
-            if(text.length<=11){
-              mPhoneText=text;
-            }else{
-              _phoneController.text=mPhoneText.toString();
-              _passwordController.selection=new TextSelection.fromPosition(
-                  new TextPosition(offset: 11,affinity: TextAffinity.downstream)
-              );
-            }
+          onChanged: (String value){
+            _userName=value;
           },
           style: new TextStyle(fontSize: 16.0, color: Colors.black),
           //键盘展示为号码
@@ -103,7 +106,6 @@ class _LoginPageState extends State<LoginPage> {
           }
       ),
     );
-
     Widget edtPassword = new Container(
       margin: new EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
       width: MediaQuery
@@ -128,12 +130,11 @@ class _LoginPageState extends State<LoginPage> {
           ),
           border: UnderlineInputBorder(),
         ),
-        onSubmitted: (value) {
-          _checkInput();
-        },
+        onChanged:(String value){
+          _password=value;
+        }
       ),
     );
-
 
     Widget verifyCodeEdit=new Padding(
       padding: new EdgeInsets.only(right: 20.0),
@@ -203,33 +204,96 @@ class _LoginPageState extends State<LoginPage> {
 
 
     void _loginAction(){
-      YdcLoadingPage loadingPage = YdcLoadingPage(context);
-      loadingPage.show();
-      Future.delayed(
-        Duration(seconds: 3),
-            () {
-          loadingPage.close();
-          setState(() {
-            Fluttertoast.showToast(
-                msg: "登录成功！",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIos:1
+
+      if (_userName == null || _userName.length == 0) {
+        Fluttertoast.showToast(
+            msg: "账号不能为空！",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIos:1
 //            backgroundColor: Color(0xe74c3c),
 //            textColor: Color(0xffffff)
 
-            );
-            Navigator.of(context).push(new MaterialPageRoute<Null>(
-              builder: (BuildContext context) {
+        );
+        return;
+      }else{
+        if(!YDCVerify.isPhone(_userName)){
+          Fluttertoast.showToast(
+              msg: "请输入正确的手机号码！",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+          );
+          return;
+        }
+      }
+      if (_password == null || _password.length == 0) {
+        Fluttertoast.showToast(
+            msg: "密码不能为空！",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+        );
+        return;
+      }else{
+        if(_password.length<6){
+          Fluttertoast.showToast(
+              msg: "请输入6位以上的密码！",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+          );
+          return;
+        }
+      }
+
+      if(_checkSelected){
+        YDCLoadingPage loadingPage = YDCLoadingPage(context);
+        loadingPage.show();
+        Future.delayed(
+          Duration(seconds: 3),
+              () {
+            loadingPage.close();
+            setState(() {
+              Fluttertoast.showToast(
+                  msg: "登录成功！",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+              );
+              Navigator.of(context).push(new MaterialPageRoute<Null>(
+                builder: (BuildContext context) {
 //                return new HomePage();
-                return new MainPage();
-              },
-            ));
-          });
-        },
-      );
+                  return new MainPage();
+                },
+              ));
+            });
+          },
+        );
+      }else{
+        Fluttertoast.showToast(
+            msg: "请勾选协议！",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
 
-
+        );
+        return;
+      }
     }
 
     void _fasterLoginAction(){
