@@ -18,100 +18,173 @@ class _MyPageState extends State<MyPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-
-
-
-    void _loginAction(){
-      //print("点击了按钮22");
-
-      Fluttertoast.showToast(
-          msg: "用户中心！",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-      );
-
-
-
-    }
-
-    Widget buttonLogin = new FlatButton(
-
-        onPressed: () {
-          _loginAction();
-        },
-
-        child: new Container(
-          height: 45.0,
-          margin: new EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 0.0),
-          decoration: new BoxDecoration(
-              borderRadius: new BorderRadius.all(new Radius.circular(50.0)),
-              gradient: new LinearGradient(
-                  colors: [const Color(0xFF5AA1FD), const Color(0xFF3C73F1)])
-          ),
-          child: new Center(
-              child: new Text(
-                "用户中心正在建设中...",
-                textScaleFactor: 1.1,
-                style: new TextStyle(fontSize: 16.0, color: Colors.white),
-              )),
-        ));
-
-
-    void _openSignUp() {
-//      setState(() {
-//        Navigator.of(context).push(new MaterialPageRoute<Null>(
-//          builder: (BuildContext context) {
-//            return new SignUp();
-//          },
-//        ));
-//      });
-    }
-
-
-
-
-
-    Widget whitleContent = new Center(
-      child: new Container(
-//        margin: new EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-        constraints: new BoxConstraints.expand(width: MediaQuery
-            .of(context)
-            .size
-            .width * 0.9, height: 450.0,),
-        decoration: new BoxDecoration(
-          color: Colors.white,
-          border: new Border.all(color: Colors.white, width: 5.0,),
-          borderRadius: new BorderRadius.all(new Radius.circular(15.0)),
-        ),
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            buttonLogin,
-
-
-
-          ],
-        ),
-      ),
-    );
-
     return new Scaffold(
-      body: new Stack(
+      appBar: new AppBar(
+        title: new Text("我的"),
+        centerTitle: true,
+        elevation: 0.25,
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false, //设置没有返回按钮
+      ),
+      body:new Stack(
         children: <Widget>[
           new ListView(
             children: <Widget>[
-              whitleContent,
+              personInfoWidget,
+              integralWidget,
+              walletWidget
             ],
           )
         ],
       ),
+
     );
   }
+
+
+  Widget personInfoWidget=new Container(
+      color: Colors.white,
+      child: new InkWell(
+        onTap: () {
+          Fluttertoast.showToast(
+              msg: "正在建设中...",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+          );
+        },
+
+        child:new Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            new Padding(
+                padding: const EdgeInsets.only(left: 20.0,top: 30.0,
+                    bottom: 30.0),
+                child: new Image.asset("static/images/head_portrait.png",
+                  width: 60.0,
+                  height: 60.0,)),
+            new Stack(
+              children: <Widget>[
+                new Padding(
+                    padding: const EdgeInsets.only(left: 18.0),
+                    child: new Text("西南黑少",
+                      style: new TextStyle(fontSize: 20.0, color:const Color(0xFF060606)),)),
+
+                new Padding(
+                    padding: const EdgeInsets.only(left: 20.0,top: 29.0),
+                    child: new Text("187****4888",
+                      style: new TextStyle(fontSize: 12.0,
+                          color:const Color(0xFF999999)),)),
+
+                new Padding(
+                    padding: const EdgeInsets.only(left: 20.0,top: 50.0),
+                    child: new Text("xxxx有限公司",
+                      style: new TextStyle(fontSize: 12.0,
+                          color:const Color(0xFF999999)),)),
+
+              ],),
+          ],
+        ),
+      )
+
+  );
+  Widget integralWidget=new Container(
+      color: const Color(0xFFFFFFFF),
+      height: 50.0,
+      child:new InkWell(
+        onTap: () {
+          Fluttertoast.showToast(
+              msg: "正在建设中...",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+          );
+        },
+        child: new Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            new Row(
+              children: <Widget>[
+                new Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: new Image.asset("static/images/account_balance.png",
+                      width: 20.0,
+                      height: 20.0,)),
+
+                new Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: new Text("我的积分",
+                      style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
+
+              ],
+            ),
+
+            new Row(
+              children: <Widget>[
+                new Padding(
+                    padding: const EdgeInsets.only(right: 15.0,left: 10.0),
+                    child: new Image.asset("static/images/enter.png",
+                        width: 16.0,
+                        height: 16.0)),
+              ],
+            )
+          ],
+        ),
+      )
+  );
+  Widget walletWidget=new Container(
+      color: const Color(0xFFFFFFFF),
+      height: 50.0,
+      child:new InkWell(
+        onTap: () {
+          Fluttertoast.showToast(
+              msg: "正在建设中...",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+          );
+        },
+        child: new Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            new Row(
+              children: <Widget>[
+                new Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: new Image.asset("static/images/wallet.png",
+                      width: 20.0,
+                      height: 20.0,)),
+
+                new Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: new Text("我的钱包",
+                      style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
+
+              ],
+            ),
+
+            new Row(
+              children: <Widget>[
+                new Padding(
+                    padding: const EdgeInsets.only(right: 15.0,left: 10.0),
+                    child: new Image.asset("static/images/enter.png",
+                        width: 16.0,
+                        height: 16.0)),
+              ],
+            )
+          ],
+        ),
+      )
+  );
 
   @override
   void dispose() {

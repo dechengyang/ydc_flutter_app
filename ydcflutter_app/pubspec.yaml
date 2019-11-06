@@ -54,6 +54,10 @@ flutter:
     - static/images/my_normal_icon.png
     - static/images/my_selected_icon.png
     - static/images/logo_icon.png
+    - static/images/enter.png
+    - static/images/account_balance.png
+    - static/images/wallet.png
+    - static/images/head_portrait.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
