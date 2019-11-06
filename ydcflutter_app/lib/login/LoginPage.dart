@@ -277,7 +277,7 @@ class _LoginPageState extends State<LoginPage> {
         YDCLoadingPage loadingPage = YDCLoadingPage(context);
         loadingPage.show();
         Future.delayed(
-          Duration(seconds: 3),
+          Duration(seconds: 2),
               () {
             loadingPage.close();
             setState(() {

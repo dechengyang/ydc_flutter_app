@@ -31,15 +31,20 @@ class _MyPageState extends State<MyPage> {
           new ListView(
             children: <Widget>[
               personInfoWidget,
-
               topMenuWidget,
+              orderWidget,
               integralWidget,
               dividerWidget,
               walletWidget,
               dividerWidget,
               aboutWidget,
               dividerWidget,
-              settingWidget
+              settingWidget,
+              dividerWidget,
+              walletWidget,
+              dividerWidget,
+              walletWidget,
+
             ],
           )
         ],
@@ -49,9 +54,28 @@ class _MyPageState extends State<MyPage> {
   }
 
 
+
+  Widget bgWidget = new Opacity(
+
+      opacity: 0.98,
+      child: new Container(
+        decoration: new BoxDecoration(
+          image: new DecorationImage(
+            image: new ExactAssetImage('static/images/login_back.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+      )
+  );
+
   Widget personInfoWidget=new Container(
-      margin: const EdgeInsets.only( bottom: 0.0),
-      color: Colors.white,
+      decoration:  new BoxDecoration(
+          image: new DecorationImage(
+            image: new ExactAssetImage('static/images/personinfo_head_bg.png'),
+            fit: BoxFit.cover,),
+      ),
+      margin: const EdgeInsets.only( bottom: 10.0),
+      //color: Colors.white,
       child: new InkWell(
         onTap: () {
           Fluttertoast.showToast(
@@ -79,19 +103,19 @@ class _MyPageState extends State<MyPage> {
                 new Padding(
                     padding: const EdgeInsets.only(left: 18.0),
                     child: new Text("西南黑少",
-                      style: new TextStyle(fontSize: 20.0, color:const Color(0xFF060606)),)),
+                      style: new TextStyle(fontSize: 20.0, color:const Color(0xFFffffff)),)),
 
                 new Padding(
                     padding: const EdgeInsets.only(left: 20.0,top: 29.0),
                     child: new Text("187****4888",
                       style: new TextStyle(fontSize: 12.0,
-                          color:const Color(0xFF999999)),)),
+                          color:const Color(0xFFffffff)),)),
 
                 new Padding(
                     padding: const EdgeInsets.only(left: 20.0,top: 50.0),
                     child: new Text("xxxx有限公司",
                       style: new TextStyle(fontSize: 12.0,
-                          color:const Color(0xFF999999)),)),
+                          color:const Color(0xFFffffff)),)),
 
               ],),
           ],
@@ -135,7 +159,7 @@ class _MyPageState extends State<MyPage> {
                 mainAxisSize: MainAxisSize.min,
              children: <Widget>[
               new Padding(
-               padding: const EdgeInsets.only(left: 15.0),
+               padding: const EdgeInsets.only(left: 0.0),
                child: new Image.asset("static/images/vip.png",
                 width: 30.0,
                 height: 30.0,)),
@@ -236,6 +260,211 @@ class _MyPageState extends State<MyPage> {
 
   );
 
+
+
+
+  Widget orderWidget=new Container(
+      padding: const EdgeInsets.only( bottom: 10.0,top: 10.0),
+      margin: const EdgeInsets.only( bottom: 10.0),
+      color: Colors.white,
+      child:new Column(
+        //水平方向填充
+        mainAxisSize: MainAxisSize.max,
+        //平分空白
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children:[
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              new Row(
+
+                children: <Widget>[
+                  new Padding(
+                      padding: const EdgeInsets.only(top: 0.0,bottom: 15.0,left: 15.0),
+                      child: new Text("我的订单",
+                        style: new TextStyle(fontWeight: FontWeight.w700  ,fontSize: 14.0, color:const Color(0xFF333333)),)),
+
+                ],
+              ),
+              new GestureDetector(
+                  onTap: (){
+                    Fluttertoast.showToast(
+                        msg: "正在建设中...",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                    );
+                  },
+                  child:
+                    new Row(
+                      children: <Widget>[
+                        new Padding(
+                            padding: const EdgeInsets.only(left: 8.0,bottom: 15.0),
+                            child: new Text("查看全部订单",
+                              style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
+                        new Padding(
+                            padding: const EdgeInsets.only(right: 15.0,left: 10.0,bottom: 15.0),
+                            child: new Image.asset("static/images/enter.png",
+                                width: 16.0,
+                                height: 16.0)),
+                      ],
+                    ))
+            ],
+          ),
+
+          new Row( children: <Widget>[
+          Expanded(
+              flex: 1,
+              child:
+              new GestureDetector(
+                  onTap: (){
+                    Fluttertoast.showToast(
+                        msg: "正在建设中...",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                    );
+                  },
+                  child:
+                  new Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        new Padding(
+                            padding: const EdgeInsets.only(left: 0.0),
+                            child: new Image.asset("static/images/wallet.png",
+                              width: 30.0,
+                              height: 30.0,)),
+                        new Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: new Text("待付款",
+                              style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
+                      ]
+                  ))),  Expanded(
+              flex: 1,
+              child:
+              new GestureDetector(
+                  onTap: (){
+                    Fluttertoast.showToast(
+                        msg: "正在建设中...",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                    );
+                  },
+                  child:new Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        new Padding(
+                            padding: const EdgeInsets.only(left: 15.0),
+                            child: new Image.asset("static/images/daifahuo_icon.png",
+                              width: 30.0,
+                              height: 30.0,)),
+                        new Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: new Text("待发货",
+                              style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
+                      ]
+                  ))),   Expanded(
+              flex: 1,
+              child:
+              new GestureDetector(
+                  onTap: (){
+                    Fluttertoast.showToast(
+                        msg: "正在建设中...",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                    );
+                  },
+                  child:new Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        new Padding(
+                            padding: const EdgeInsets.only(left: 15.0),
+                            child: new Image.asset("static/images/receiving.png",
+                              width: 30.0,
+                              height: 30.0,)),
+                        new Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: new Text("待收货",
+                              style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
+                      ]
+                  ))),   Expanded(
+              flex: 1,
+              child:
+              new GestureDetector(
+                  onTap: (){
+                    Fluttertoast.showToast(
+                        msg: "正在建设中...",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                    );
+                  },
+                  child:
+                  new Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        new Padding(
+                            padding: const EdgeInsets.only(left: 15.0),
+                            child: new Image.asset("static/images/evaluate.png",
+                              width: 30.0,
+                              height: 30.0,)),
+                        new Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: new Text("待评价",
+                              style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
+                      ]
+                  ))),   Expanded(
+              flex: 1,
+              child:
+              new GestureDetector(
+                  onTap: (){
+                    Fluttertoast.showToast(
+                        msg: "正在建设中...",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                    );
+                  },
+                  child:
+                  new Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        new Padding(
+                            padding: const EdgeInsets.only(left: 15.0),
+                            child: new Image.asset("static/images/aftersale.png",
+                              width: 30.0,
+                              height: 30.0,)),
+                        new Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: new Text("退款/售后",
+                              style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
+                      ]
+                  )))],
+      )])
+
+
+  );
+
   Widget dividerWidget=new Container(
       //margin: const EdgeInsets.only( left: 10.0,right: 10.0),
       child: new Padding(
@@ -281,7 +510,11 @@ class _MyPageState extends State<MyPage> {
 
             new Row(
               children: <Widget>[
-                new Padding(
+                 new Padding(
+                  padding: const EdgeInsets.only(left: 10.0,bottom: 0.0),
+                  child: new Text("1000.00",
+                  style: new TextStyle(fontSize: 14.0, color:const Color(0xFF888888)),))
+                ,new Padding(
                     padding: const EdgeInsets.only(right: 15.0,left: 10.0),
                     child: new Image.asset("static/images/enter.png",
                         width: 16.0,
