@@ -32,7 +32,12 @@ class _MyPageState extends State<MyPage> {
             children: <Widget>[
               personInfoWidget,
               integralWidget,
-              walletWidget
+              dividerWidget,
+              walletWidget,
+              dividerWidget,
+              aboutWidget,
+              dividerWidget,
+              settingWidget
             ],
           )
         ],
@@ -43,6 +48,7 @@ class _MyPageState extends State<MyPage> {
 
 
   Widget personInfoWidget=new Container(
+      margin: const EdgeInsets.only( bottom: 10.0),
       color: Colors.white,
       child: new InkWell(
         onTap: () {
@@ -91,6 +97,16 @@ class _MyPageState extends State<MyPage> {
       )
 
   );
+
+  Widget dividerWidget=new Container(
+      //margin: const EdgeInsets.only( left: 10.0,right: 10.0),
+      child: new Padding(
+          padding: const EdgeInsets.only(left: 15.0,right: 15.0),
+          child:
+          new Divider(height: 1.0,indent: 0.0,color: Colors.grey)
+          )
+
+  );
   Widget integralWidget=new Container(
       color: const Color(0xFFFFFFFF),
       height: 50.0,
@@ -113,7 +129,7 @@ class _MyPageState extends State<MyPage> {
               children: <Widget>[
                 new Padding(
                     padding: const EdgeInsets.only(left: 15.0),
-                    child: new Image.asset("static/images/account_balance.png",
+                    child: new Image.asset("static/images/my_points.png",
                       width: 20.0,
                       height: 20.0,)),
 
@@ -160,13 +176,108 @@ class _MyPageState extends State<MyPage> {
               children: <Widget>[
                 new Padding(
                     padding: const EdgeInsets.only(left: 15.0),
-                    child: new Image.asset("static/images/wallet.png",
+                    child: new Image.asset("static/images/account_balance.png",
                       width: 20.0,
                       height: 20.0,)),
 
                 new Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: new Text("我的钱包",
+                      style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
+
+              ],
+            ),
+
+            new Row(
+              children: <Widget>[
+                new Padding(
+                    padding: const EdgeInsets.only(right: 15.0,left: 10.0),
+                    child: new Image.asset("static/images/enter.png",
+                        width: 16.0,
+                        height: 16.0)),
+              ],
+            )
+          ],
+        ),
+      )
+  );
+  Widget aboutWidget=new Container(
+      color: const Color(0xFFFFFFFF),
+      height: 50.0,
+      child:new InkWell(
+        onTap: () {
+          Fluttertoast.showToast(
+              msg: "正在建设中...",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+          );
+        },
+        child: new Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            new Row(
+              children: <Widget>[
+                new Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: new Image.asset("static/images/about.png",
+                      width: 20.0,
+                      height: 20.0,)),
+
+                new Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: new Text("关于我们",
+                      style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
+
+              ],
+            ),
+
+            new Row(
+              children: <Widget>[
+                new Padding(
+                    padding: const EdgeInsets.only(right: 15.0,left: 10.0),
+                    child: new Image.asset("static/images/enter.png",
+                        width: 16.0,
+                        height: 16.0)),
+              ],
+            )
+          ],
+        ),
+      )
+  );
+
+  Widget settingWidget=new Container(
+      color: const Color(0xFFFFFFFF),
+      height: 50.0,
+      child:new InkWell(
+        onTap: () {
+          Fluttertoast.showToast(
+              msg: "正在建设中...",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+          );
+        },
+        child: new Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            new Row(
+              children: <Widget>[
+                new Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: new Image.asset("static/images/setting_icon.png",
+                      width: 20.0,
+                      height: 20.0,)),
+
+                new Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: new Text("设置",
                       style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
 
               ],
