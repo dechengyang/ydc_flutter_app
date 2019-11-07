@@ -3,7 +3,10 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/services.dart';//导入网络请求相关的包
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:ydcflutter_app/main/MainPage.dart';
+import 'package:dio/dio.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'dart:convert';
+import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
 
 class MyPage extends StatefulWidget {
   @override
@@ -15,6 +18,78 @@ class _MyPageState extends State<MyPage> {
   final TextEditingController _passwordController = new TextEditingController();
   String mPhoneText;
 
+  String data;
+  void _getDio() async {
+//    YDCLoadingPage loadingPage = YDCLoadingPage(context);
+//    loadingPage.show();
+    Response response =
+    await Dio().get("https://www.runoob.com/try/ajax/json_demo.json");
+    print("get ====== "+response.toString());
+    final body = json.decode(response.toString());
+
+    setState(() {
+      data = body['name'];
+      print("title ====== "+data);
+    });
+
+    //loadingPage.close();
+  }
+
+  void _postDio() async {
+//    YDCLoadingPage loadingPage = YDCLoadingPage(context);
+//    loadingPage.show();
+    var headers = Map<String, String>();
+    headers['loginSource'] = 'Android';
+    headers['useVersion'] = '3.1.0';
+    headers['isEncoded'] = '1';
+    headers['bundleId'] = 'com.nongfadai.iospro';
+    headers['Content-Type'] = 'application/json';
+
+    Dio dio = Dio();
+    dio.options.baseUrl = "http://api.juheapi.com/japi/toh";
+    dio.options.connectTimeout = 60000;
+    dio.options.receiveTimeout = 60000;
+    dio.options.headers.addAll(headers);
+    dio.options.method = 'post';
+
+    var params = {
+      'v': '1.0',
+      'month': '7',
+      'day': '25',
+      'key': 'bd6e35a2691ae5bb8425c8631e475c2a'
+    };
+
+    Options option = Options(method: 'post');
+    Response response = await dio.post("http://api.juheapi.com/japi/toh",
+        /*data: {
+          "v": "1.0",
+          "month": "7",
+          "day": "25",
+          "key": "bd6e35a2691ae5bb8425c8631e475c2a"
+        },*/
+        data: params,
+        options: option);
+
+    if (response.statusCode == 200) {
+      debugPrint('===请求求url: ${response.request.uri.toString()}');
+      debugPrint('===请求headler: ${response.request.headers}');
+      debugPrint('===请求结果: \n${response.data}\n');
+      //loadingPage.close();
+    } else {
+      print('请求失败');
+      //loadingPage.close();
+    }
+
+
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //_getDio();
+    _postDio();
+  }
 
   @override
   Widget build(BuildContext context) {
