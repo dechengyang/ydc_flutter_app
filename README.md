@@ -17,4 +17,4 @@
 #### 如果对你有所帮助,请扫描下方的二维码随意打赏(生活不易，要买奶粉呀)，要是能打赏个 10.24 :monkey_face:就太:thumbsup:了。您的支持将鼓励我继续创作:octocat:
 
 ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/weixin_pay.png) ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/ali_pay.png)
-![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/register_page.png)
+![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/register_page.png) ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/home_page.png)

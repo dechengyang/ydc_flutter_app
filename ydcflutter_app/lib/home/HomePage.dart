@@ -22,6 +22,8 @@ class _HomePageState extends State<HomePage> {
   String mPhoneText;
   List<String>   bannerDatas=List();
   List<PicModel> picList = new List();
+  List<PicModel> functionMenuList = new List();
+
   SwiperController _swiperController;
 
   String data;
@@ -46,12 +48,22 @@ class _HomePageState extends State<HomePage> {
       print("bannerDatas ====== "+bannerDatas.toString());
 
       List<PicModel> pList = new List();
+      List<PicModel> fList = new List();
       for(int i=0;i<10;i++){
         var p = PicModel();
         p.imageUrl="https://img.alicdn.com/tps/TB1oHwXMVXXXXXnXVXXXXXXXXXX-570-400.jpg";
+        p.name="功能菜单"+i.toString();
         pList.add(p);
       }
+
+      for(int i=0;i<10;i++){
+        var p = PicModel();
+        p.imageUrl="https://img.alicdn.com/tps/TB1oHwXMVXXXXXnXVXXXXXXXXXX-570-400.jpg";
+        p.name="功能菜单"+i.toString();
+        fList.add(p);
+      }
       picList=pList;
+      functionMenuList=fList;
     });
 
     _swiperController.startAutoplay();
@@ -156,8 +168,30 @@ class _HomePageState extends State<HomePage> {
               //personInfoWidget
               new Container(
                   width: MediaQuery.of(context).size.width,
+                  height:160.0,
+                  margin: const EdgeInsets.only(top: 10.0,bottom: 0.0),
+                  padding: const EdgeInsets.only(bottom: 0.0),
+                  child:
+                  new GridView.builder(
+                      padding: const EdgeInsets.only(bottom: 0.0),
+                      shrinkWrap: true,
+                      physics: new NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        mainAxisSpacing: 0.0,
+                        crossAxisSpacing: 0.0,
+                      ),
+                      itemCount: functionMenuList.length,
+                      itemBuilder: (BuildContext context, int index) {
+//                    if(index == picList.length - 1 ){
+//                    _getPicList();
+//                    }
+                        return fGridViewItem(functionMenuList[index],context);
+                      })),
+              new Container(
+                  width: MediaQuery.of(context).size.width,
                   height:MediaQuery.of(context).size.height,
-                 margin: const EdgeInsets.only(top: 10.0),
+                 margin: const EdgeInsets.only(top: 0.0),
                 child:
                 new GridView.builder(
                     padding: const EdgeInsets.all(10.0),
@@ -183,10 +217,9 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  gridViewItem(item,context) {
+  fGridViewItem(item,context) {
     return new Container(
-          width: MediaQuery.of(context).size.width,
-          height:MediaQuery.of(context).size.height,
+          padding: const EdgeInsets.only(left: 0.0,top: 10.0,bottom: 20.0),
           decoration:  new BoxDecoration(
             borderRadius: new BorderRadius.circular(5.0),
             color: Colors.white,
@@ -204,45 +237,90 @@ class _HomePageState extends State<HomePage> {
               );
             },
             child: new Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new Padding(
-                    padding: const EdgeInsets.only(left: 0.0,top: 0.0,
-                        bottom: 0.0),
-                    child:  new Image.network("https://img.alicdn.com/imgextra/i2/O1CN01suz9u92HRpmDbT7TJ_!!0-juitemmedia.jpg_270x270.jpg",
-                        alignment: Alignment.bottomRight,
-                        colorBlendMode: BlendMode.colorBurn,
-                        fit: BoxFit.cover, // 填充拉伸裁剪
-                        width: MediaQuery.of(context).size.width,
-                        height: 80.0)),
-                new Column(
-                  //mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    new Padding(
-                        padding: const EdgeInsets.only(left: 0.0,top: 0.0),
-                        child: new Text("￥200.00",
-                          style: new TextStyle(fontSize: 12.0,
-                              color:const Color(0xFFe9546b)),)),
-                    new Padding(
-                        padding: const EdgeInsets.only(left: 0.0,top: 0.0),
-                        child: new Text("￥320.00",
-                          style: new TextStyle(fontSize: 12.0,
-                              color:const Color(0xFFc8c8c8)),)),
+                //mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  new Padding(
+                      padding: const EdgeInsets.only(left: 0.0,top: 0.0),
+                      child: new Image.asset("static/images/zhengzu_icon.png",
+                        width: 30.0,
+                        height: 30.0,)),
+                  new Padding(
+                      padding: const EdgeInsets.only(left: 0.0),
+                      child: new Text(item.name,
+                        style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
+                ]
 
-                    new Padding(
-                        padding: const EdgeInsets.only(left: 15.0,top: 0.0),
-                        child: new Text("正品芦荟胶祛痘睡眠美白面膜泥粉免洗女男补水保湿面霜春季护肤品",
-                          style: new TextStyle(fontSize: 12.0,
-                              color:const Color(0xFFaaaaaa)),)),
-
-                  ],),
-              ],
             ),
 
 
           )
     );
   }
+
+
+  gridViewItem(item,context) {
+    return new Container(
+        width: MediaQuery.of(context).size.width,
+        height:MediaQuery.of(context).size.height,
+        decoration:  new BoxDecoration(
+          borderRadius: new BorderRadius.circular(5.0),
+          color: Colors.white,
+        ),
+        child: new InkWell(
+          onTap: () {
+            Fluttertoast.showToast(
+                msg: "正在建设中...",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+            );
+          },
+          child: new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Padding(
+                  padding: const EdgeInsets.only(left: 0.0,top: 0.0,
+                      bottom: 0.0),
+                  child:  new Image.network("https://img.alicdn.com/imgextra/i2/O1CN01suz9u92HRpmDbT7TJ_!!0-juitemmedia.jpg_270x270.jpg",
+                      alignment: Alignment.bottomRight,
+                      colorBlendMode: BlendMode.colorBurn,
+                      fit: BoxFit.cover, // 填充拉伸裁剪
+                      width: MediaQuery.of(context).size.width,
+                      height: 100.0)),
+              new Padding(padding:  const EdgeInsets.only(left: 0.0,top: 0.0,
+                  bottom: 0.0),child: new Column(
+                //mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Padding(
+                      padding: const EdgeInsets.only(left: 0.0,top: 0.0),
+                      child: new Text("￥200.00",
+                        style: new TextStyle(fontSize: 12.0,
+                            color:const Color(0xFFe9546b)),)),
+                  new Padding(
+                      padding: const EdgeInsets.only(left: 0.0,top: 0.0),
+                      child: new Text("￥320.00",
+                        style: new TextStyle(fontSize: 12.0,
+                            color:const Color(0xFFc8c8c8)),)),
+
+                  new Padding(
+                      padding: const EdgeInsets.only(left: 15.0,top: 0.0),
+                      child: new Text("正品芦荟胶祛痘睡眠美白...",
+                        style: new TextStyle(fontSize: 12.0,
+                            color:const Color(0xFFaaaaaa)),)),
+
+                ],))
+
+            ],
+          ),
+
+
+        )
+    );
+  }
+
 
   Widget bgWidget = new Opacity(
 
