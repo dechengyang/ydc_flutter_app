@@ -8,19 +8,18 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ydcflutter_app/main/MainPage.dart';
 import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
 import 'package:ydcflutter_app/utils/ydc_verify.dart';
-import 'package:ydcflutter_app/login/RegisterPage.dart';
 
 /**
- * 登录
+ * 注册
  * Created by yangdecheng
  * Date: 2019-11-04
  */
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   @override
-  State createState() => new _LoginPageState();
+  State createState() => new _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     // TODO: implement initState
@@ -30,7 +29,6 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = new TextEditingController();
 
   bool _checkSelected = false;//维护复选框开关状态
-  bool _loginType=true;//是否是账号密码登录
 
   var _userName = "";
   var _password = "";
@@ -116,25 +114,25 @@ class _LoginPageState extends State<LoginPage> {
           .width * 0.85,
       child:
       new TextField(
-        obscureText: true,
-        keyboardType: TextInputType.number,
-        controller: _passwordController,
-        style: new TextStyle(fontSize: 16.0, color: Colors.black),
-        decoration: new InputDecoration(
-          hintText: '请输入密码',
-          errorText: _correctPassword
-              ? null
-              : '请输入正确的密码',
-          icon: new Image.asset(
-            'static/images/password_icon.png',
-            width: 20.0,
-            height: 20.0,
+          obscureText: true,
+          keyboardType: TextInputType.number,
+          controller: _passwordController,
+          style: new TextStyle(fontSize: 16.0, color: Colors.black),
+          decoration: new InputDecoration(
+            hintText: '请输入密码',
+            errorText: _correctPassword
+                ? null
+                : '请输入正确的密码',
+            icon: new Image.asset(
+              'static/images/password_icon.png',
+              width: 20.0,
+              height: 20.0,
+            ),
+            border: UnderlineInputBorder(),
           ),
-          border: UnderlineInputBorder(),
-        ),
-        onChanged:(String value){
-          _password=value;
-        }
+          onChanged:(String value){
+            _password=value;
+          }
       ),
     );
 
@@ -191,23 +189,21 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     Widget  codeWidget=new Padding(
-        padding: new EdgeInsets.fromLTRB(20.0, 15.0, 0.0, 0.0),
-        child: new Stack(
-          children: <Widget>[
-            codeInputWidget,
-            new Align(
-              alignment: Alignment.topRight,
-              child: codeBtnWidget,
-            ),
-          ],
-        ),
-      );
+      padding: new EdgeInsets.fromLTRB(20.0, 15.0, 0.0, 0.0),
+      child: new Stack(
+        children: <Widget>[
+          codeInputWidget,
+          new Align(
+            alignment: Alignment.topRight,
+            child: codeBtnWidget,
+          ),
+        ],
+      ),
+    );
 
 
 
-    void _loginAction(){
-
-      if(_loginType){
+    void _submitAction(){
         if (_userName == null || _userName.length == 0) {
           Fluttertoast.showToast(
               msg: "账号不能为空！",
@@ -258,7 +254,6 @@ class _LoginPageState extends State<LoginPage> {
             return;
           }
         }
-      }else{
         if (_code == null || _code.length == 0) {
           Fluttertoast.showToast(
               msg: "验证码不能为空！",
@@ -271,14 +266,13 @@ class _LoginPageState extends State<LoginPage> {
           );
           return;
         }
-      }
 
 
       if(_checkSelected){
         YDCLoadingPage loadingPage = YDCLoadingPage(context);
         loadingPage.show();
         Future.delayed(
-          Duration(seconds: 2),
+          Duration(seconds: 3),
               () {
             loadingPage.close();
             setState(() {
@@ -291,12 +285,7 @@ class _LoginPageState extends State<LoginPage> {
 //            textColor: Color(0xffffff)
 
               );
-              Navigator.of(context).push(new MaterialPageRoute<Null>(
-                builder: (BuildContext context) {
-//                return new HomePage();
-                  return new MainPage();
-                },
-              ));
+              Navigator.of(context).pop();
             });
           },
         );
@@ -314,25 +303,11 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
 
-    void _fasterLoginAction(){
-      setState(() {
-        _loginType=!_loginType;
-
-      });
-      if(_loginType){
-        _loginTypeChangeStr="手机快捷登录";
-      }else{
-        _loginTypeChangeStr="账号密码登录";
-      }
-
-      print(_loginType);
-
-    }
 
     Widget btnLoginWidget = new FlatButton(
 
         onPressed: () {
-          _loginAction();
+          _submitAction();
         },
 
         child: new Container(
@@ -345,7 +320,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           child: new Center(
               child: new Text(
-                "登 录",
+                "确 定",
                 textScaleFactor: 1.1,
                 style: new TextStyle(fontSize: 16.0, color: Colors.white),
               )),
@@ -353,103 +328,10 @@ class _LoginPageState extends State<LoginPage> {
 
 
 
-    Widget fasterLoginWidget =
-    new Container(
-      padding: new EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-      child: new FlatButton(
-          onPressed: (){
-            _fasterLoginAction();
-          },
-          child: new Text('$_loginTypeChangeStr',
-              style: new TextStyle(fontSize: 14.0,
-                color: const Color(0xFFe9546b),
-              )
-          )),
-    );
-
 
     TextStyle descTextStyle = new TextStyle(
       color: const Color(0xFF999999),
       fontSize: 12.0,
-    );
-
-    void _signUpAction() {
-      setState(() {
-        Navigator.of(context).push(new MaterialPageRoute<Null>(
-          builder: (BuildContext context) {
-            return new RegisterPage();
-          },
-        ));
-      });
-    }
-
-
-    /**
-     * 找回密码
-     */
-    void _findPassWord(){
-//      setState(() {
-//        Navigator.of(context).push(new MaterialPageRoute<Null>(
-//          builder: (BuildContext context) {
-//            return new TabAcccountsPage();
-//          },
-//        ));
-//      });
-    }
-    // DefaultTextStyle.merge允许您创建一个默认文本，由子控件和所有后续子控件继承的风格
-    var reigistFindpass = DefaultTextStyle.merge(
-        child: new Container(
-            padding: new EdgeInsets.all(0.0),
-            child: new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  new Column(
-                      children: [
-                        new Container(
-                          padding: new EdgeInsets.all(5.0),
-                          child: new FlatButton(
-                            onPressed: _signUpAction,
-                            child: new Text("免费注册"
-                              ,
-                              style: descTextStyle,),
-
-                          ),
-
-                        ),
-
-                      ]
-                  ),
-                  new Column(
-                      children: [
-                        new Container(
-                          width: 0.4,
-                          height: 20.0,
-                          decoration: new BoxDecoration(
-                            color: const Color(0xFF999999),
-                          ),
-                        ),
-
-                      ]
-                  ),
-                  new Column(
-                      children: [
-                        new Container(
-                          padding: new EdgeInsets.all(5.0),
-                          child: new FlatButton(
-                            onPressed: _findPassWord,
-                            child: new Text("忘记密码"
-                              ,
-                              style: descTextStyle,),
-
-                          ),
-
-                        ),
-
-                      ]
-                  ),
-                ]
-            )
-        )
     );
 
     Widget agreementWidget = new Container(
@@ -462,7 +344,7 @@ class _LoginPageState extends State<LoginPage> {
             child: new Checkbox(value: _checkSelected,
               activeColor: const Color(0xffe9546b),
               onChanged: (bool) {
-              print(bool);
+                print(bool);
                 setState(() {
                   _checkSelected=bool;
                 });
@@ -473,35 +355,35 @@ class _LoginPageState extends State<LoginPage> {
             child: new Text(" 阅读并同意xxxx",
               style: descTextStyle,),
           ),
-    new GestureDetector(
-      onTap: (){
-        Fluttertoast.showToast(
-            msg: "正在建设中...",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIos:1
+          new GestureDetector(
+            onTap: (){
+              Fluttertoast.showToast(
+                  msg: "正在建设中...",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIos:1
 //            backgroundColor: Color(0xe74c3c),
 //            textColor: Color(0xffffff)
 
-        );
-      },
+              );
+            },
 
-      child: new Container(
-        child: new Text("《用户协议》",
-          style: new TextStyle(
-            color: const Color(0xffe9546b),
-            fontSize: 12.0,
-          ),),
-      ),
+            child: new Container(
+              child: new Text("《用户协议》",
+                style: new TextStyle(
+                  color: const Color(0xffe9546b),
+                  fontSize: 12.0,
+                ),),
+            ),
 
-    )
+          )
 
         ],
       ),
     );
     Widget contentWidget= new Center(
       child: new Container(
-//        margin: new EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
+        margin: const EdgeInsets.only(top: 20.0),
         constraints: new BoxConstraints.expand(width: MediaQuery
             .of(context)
             .size
@@ -514,12 +396,10 @@ class _LoginPageState extends State<LoginPage> {
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            textTile,
             phoneInputWidget,
-            _loginType?passwordInputWidget: codeWidget,
+            passwordInputWidget,
+            codeWidget,
             btnLoginWidget,
-            fasterLoginWidget,
-            reigistFindpass,
             agreementWidget
           ],
         ),
@@ -527,12 +407,18 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("注册"),
+        centerTitle: true,
+        elevation: 0.25,
+        backgroundColor: Colors.white,
+        //automaticallyImplyLeading: false, //设置没有返回按钮
+      ),
       body: new Stack(
         children: <Widget>[
           bgWidget,
           new ListView(
             children: <Widget>[
-              logoWidget,
               contentWidget,
             ],
           )
@@ -576,27 +462,6 @@ class _LoginPageState extends State<LoginPage> {
             image: new ExactAssetImage('static/images/login_back.png'),
             fit: BoxFit.cover,
           ),
-        ),
-      )
-  );
-
-  Widget logoWidget=new Container(
-    margin: const EdgeInsets.only( top: 50.0,bottom: 50.0),
-    child:
-    new Center(
-        child: new Image.asset(
-          'static/images/logo_icon.png',
-          width: 40.0,
-          height: 40.0,
-        )),
-  );
-
-  Widget textTile = new Container(
-      margin: new EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
-      child: new Center(
-        child: new Text(
-          '账号密码登录',
-          style: new TextStyle(fontSize: 20.0, color: Colors.black),
         ),
       )
   );
