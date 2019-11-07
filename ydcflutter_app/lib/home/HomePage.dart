@@ -9,6 +9,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:ydcflutter_app/home/bean/PicModel.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -20,6 +21,8 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _passwordController = new TextEditingController();
   String mPhoneText;
   List<String>   bannerDatas=List();
+  List<PicModel> picList = new List();
+  SwiperController _swiperController;
 
   String data;
   void _getDio() async {
@@ -41,9 +44,17 @@ class _HomePageState extends State<HomePage> {
         'https://aecpm.alicdn.com/simba/img/TB1t9gUXXXXXXczaVXXSutbFXXX.jpg',
       ];
       print("bannerDatas ====== "+bannerDatas.toString());
+
+      List<PicModel> pList = new List();
+      for(int i=0;i<10;i++){
+        var p = PicModel();
+        p.imageUrl="https://img.alicdn.com/tps/TB1oHwXMVXXXXXnXVXXXXXXXXXX-570-400.jpg";
+        pList.add(p);
+      }
+      picList=pList;
     });
 
-
+    _swiperController.startAutoplay();
     //loadingPage.close();
   }
 
@@ -98,6 +109,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _swiperController = SwiperController();
     _getDio();
    // _postDio();
 
@@ -127,8 +139,10 @@ class _HomePageState extends State<HomePage> {
                       // SwiperPagination.fraction 数字1/5，默认点
                       builder: DotSwiperPaginationBuilder(size: 8, activeSize: 12,activeColor:Color(0xFFe9546b)),
                     ),
-                    control: new SwiperControl(),
-                    autoplay: true,
+                    //默认分页按钮
+//        control: SwiperControl(),
+                    controller: _swiperController,
+                    //autoplay: true,
                     onTap: (index) => Fluttertoast.showToast(
                         msg: "点击了第$index个",
                         toastLength: Toast.LENGTH_SHORT,
@@ -140,6 +154,27 @@ class _HomePageState extends State<HomePage> {
                     ),
                   )),
               //personInfoWidget
+              new Container(
+                  width: MediaQuery.of(context).size.width,
+                  height:MediaQuery.of(context).size.height,
+                 margin: const EdgeInsets.only(top: 10.0),
+                child:
+                new GridView.builder(
+                    padding: const EdgeInsets.all(10.0),
+                    shrinkWrap: true,
+                    physics: new NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10.0,
+                    crossAxisSpacing: 10.0,
+                    ),
+                    itemCount: picList.length,
+                    itemBuilder: (BuildContext context, int index) {
+//                    if(index == picList.length - 1 ){
+//                    _getPicList();
+//                    }
+                  return gridViewItem(picList[index],context);
+                  }))
             ],
           ),
         ],
@@ -148,7 +183,66 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  gridViewItem(item,context) {
+    return new Container(
+          width: MediaQuery.of(context).size.width,
+          height:MediaQuery.of(context).size.height,
+          decoration:  new BoxDecoration(
+            borderRadius: new BorderRadius.circular(5.0),
+            color: Colors.white,
+          ),
+          child: new InkWell(
+            onTap: () {
+              Fluttertoast.showToast(
+                  msg: "正在建设中...",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
 
+              );
+            },
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Padding(
+                    padding: const EdgeInsets.only(left: 0.0,top: 0.0,
+                        bottom: 0.0),
+                    child:  new Image.network("https://img.alicdn.com/imgextra/i2/O1CN01suz9u92HRpmDbT7TJ_!!0-juitemmedia.jpg_270x270.jpg",
+                        alignment: Alignment.bottomRight,
+                        colorBlendMode: BlendMode.colorBurn,
+                        fit: BoxFit.cover, // 填充拉伸裁剪
+                        width: MediaQuery.of(context).size.width,
+                        height: 80.0)),
+                new Column(
+                  //mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    new Padding(
+                        padding: const EdgeInsets.only(left: 0.0,top: 0.0),
+                        child: new Text("￥200.00",
+                          style: new TextStyle(fontSize: 12.0,
+                              color:const Color(0xFFe9546b)),)),
+                    new Padding(
+                        padding: const EdgeInsets.only(left: 0.0,top: 0.0),
+                        child: new Text("￥320.00",
+                          style: new TextStyle(fontSize: 12.0,
+                              color:const Color(0xFFc8c8c8)),)),
+
+                    new Padding(
+                        padding: const EdgeInsets.only(left: 15.0,top: 0.0),
+                        child: new Text("正品芦荟胶祛痘睡眠美白面膜泥粉免洗女男补水保湿面霜春季护肤品",
+                          style: new TextStyle(fontSize: 12.0,
+                              color:const Color(0xFFaaaaaa)),)),
+
+                  ],),
+              ],
+            ),
+
+
+          )
+    );
+  }
 
   Widget bgWidget = new Opacity(
 
@@ -163,63 +257,6 @@ class _HomePageState extends State<HomePage> {
       )
   );
 
-  Widget personInfoWidget=new Container(
-      decoration:  new BoxDecoration(
-        image: new DecorationImage(
-          image: new ExactAssetImage('static/images/personinfo_head_bg.png'),
-          fit: BoxFit.cover,),
-      ),
-      margin: const EdgeInsets.only( bottom: 10.0),
-      //color: Colors.white,
-      child: new InkWell(
-        onTap: () {
-          Fluttertoast.showToast(
-              msg: "正在建设中...",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-          );
-        },
-
-        child:new Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            new Padding(
-                padding: const EdgeInsets.only(left: 20.0,top: 30.0,
-                    bottom: 30.0),
-                child: new Image.asset("static/images/head_portrait.png",
-                  width: 60.0,
-                  height: 60.0,)),
-            new Stack(
-              children: <Widget>[
-                new Padding(
-                    padding: const EdgeInsets.only(left: 18.0),
-                    child: new Text("西南黑少",
-                      style: new TextStyle(fontSize: 20.0, color:const Color(0xFFffffff)),)),
-
-                new Padding(
-                    padding: const EdgeInsets.only(left: 20.0,top: 29.0),
-                    child: new Text("187****4888",
-                      style: new TextStyle(fontSize: 12.0,
-                          color:const Color(0xFFffffff)),)),
-
-                new Padding(
-                    padding: const EdgeInsets.only(left: 20.0,top: 50.0),
-                    child: new Text("xxxx有限公司",
-                      style: new TextStyle(fontSize: 12.0,
-                          color:const Color(0xFFffffff)),)),
-
-              ],),
-          ],
-        ),
-
-
-      )
-
-  );
 
 
 
@@ -765,6 +802,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
+    _swiperController.stopAutoplay();
+    _swiperController.dispose();
     super.dispose();
 
   }

@@ -27,7 +27,9 @@ dependencies:
   flutter_spinkit: "^4.0.0"
   json_annotation: ^3.0.0
   dio: ^3.0.3
-  flutter_swiper: ^1.0.6
+  flutter_swiper: ^1.0.6 #https://github.com/best-flutter/flutter_swiper
+#  cached_network_image: ^0.8.0
+#  transparent_image: ^1.0.0
 
 dev_dependencies:
   flutter_test:
