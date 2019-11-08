@@ -10,14 +10,155 @@ import 'dart:convert';
 import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:ydcflutter_app/home/bean/PicModel.dart';
-import 'package:ydcflutter_app/shopping/GoodsDetailPage.dart';
 
-class HomePage extends StatefulWidget {
+const String _kGalleryAssetsPackage = 'flutter_gallery_assets';
+
+class _Page {
+  _Page({this.label});
+
+  final String label;
+
+  String get id => label[0];
+
   @override
-  State createState() => new _HomePageState();
+  String toString() => '$runtimeType("$label")';
 }
 
-class _HomePageState extends State<HomePage> {
+class _CardData {
+  const _CardData({this.title, this.imageAsset, this.imageAssetPackage});
+
+  final String title;
+  final String imageAsset;
+  final String imageAssetPackage;
+}
+
+final Map<_Page, List<_CardData>> _allPages = <_Page, List<_CardData>>{
+  new _Page(label: 'LEFT'): <_CardData>[
+    const _CardData(
+      title: 'Vintage Bluetooth Radio',
+      imageAsset: 'shrine/products/radio.png',
+      imageAssetPackage: _kGalleryAssetsPackage,
+    ),
+    const _CardData(
+      title: 'Sunglasses',
+      imageAsset: 'shrine/products/sunnies.png',
+      imageAssetPackage: _kGalleryAssetsPackage,
+    ),
+    const _CardData(
+      title: 'Clock',
+      imageAsset: 'shrine/products/clock.png',
+      imageAssetPackage: _kGalleryAssetsPackage,
+    ),
+    const _CardData(
+      title: 'Red popsicle',
+      imageAsset: 'shrine/products/popsicle.png',
+      imageAssetPackage: _kGalleryAssetsPackage,
+    ),
+    const _CardData(
+      title: 'Folding Chair',
+      imageAsset: 'shrine/products/lawn_chair.png',
+      imageAssetPackage: _kGalleryAssetsPackage,
+    ),
+    const _CardData(
+      title: 'Green comfort chair',
+      imageAsset: 'shrine/products/chair.png',
+      imageAssetPackage: _kGalleryAssetsPackage,
+    ),
+    const _CardData(
+      title: 'Old Binoculars',
+      imageAsset: 'shrine/products/binoculars.png',
+      imageAssetPackage: _kGalleryAssetsPackage,
+    ),
+    const _CardData(
+      title: 'Teapot',
+      imageAsset: 'shrine/products/teapot.png',
+      imageAssetPackage: _kGalleryAssetsPackage,
+    ),
+    const _CardData(
+      title: 'Blue suede shoes',
+      imageAsset: 'shrine/products/chucks.png',
+      imageAssetPackage: _kGalleryAssetsPackage,
+    ),
+  ],
+  new _Page(label: 'RIGHT'): <_CardData>[
+    const _CardData(
+      title: 'Beachball',
+      imageAsset: 'shrine/products/beachball.png',
+      imageAssetPackage: _kGalleryAssetsPackage,
+    ),
+    const _CardData(
+      title: 'Dipped Brush',
+      imageAsset: 'shrine/products/brush.png',
+      imageAssetPackage: _kGalleryAssetsPackage,
+    ),
+    const _CardData(
+      title: 'Perfect Goldfish Bowl',
+      imageAsset: 'shrine/products/fish_bowl.png',
+      imageAssetPackage: _kGalleryAssetsPackage,
+    ),
+  ],
+};
+
+class _CardDataItem extends StatelessWidget {
+  const _CardDataItem({this.page, this.data});
+
+  static const double height = 272.0;
+  final _Page page;
+  final _CardData data;
+
+  @override
+  Widget build(BuildContext context) {
+    return new Card(
+      child: new Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            new Align(
+              alignment:
+              page.id == 'L' ? Alignment.centerLeft : Alignment.centerRight,
+              child: new CircleAvatar(child: new Text('${page.id}')),
+            ),
+            new SizedBox(
+              width: 144.0,
+              height: 144.0,
+              child: new Image.asset(
+                data.imageAsset,
+                package: data.imageAssetPackage,
+                fit: BoxFit.contain,
+              ),
+            ),
+            new Center(
+              child: new Text(
+                data.title,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .title,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TabsDemo extends StatelessWidget {
+  static const String routeName = '/material/tabs';
+
+  @override
+  Widget build(BuildContext context) {
+  }
+}
+
+class GoodsDetailPage extends StatefulWidget {
+  @override
+  State createState() => new _GoodsDetailPageState();
+}
+
+class _GoodsDetailPageState extends State<GoodsDetailPage> {
   final TextEditingController _phoneController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
   String mPhoneText;
@@ -124,137 +265,205 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _swiperController = SwiperController();
     _getDio();
-   // _postDio();
+    // _postDio();
 
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body:new Stack(
-        children: <Widget>[
-          new ListView(
-            children: <Widget>[
-              new Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 220.0,
-                  child:
-                  new Swiper(
-                    itemBuilder: (BuildContext context,int index){
-                      return new Image.network(bannerDatas[index],fit: BoxFit.fill,);
-                    },
-                    itemCount: bannerDatas.length,
-                    //触发时是否停止播放
-                    autoplayDisableOnInteraction: true,
-                    //pagination: new SwiperPagination(),
-                    //默认指示器
-                    pagination: SwiperPagination(
-                      // SwiperPagination.fraction 数字1/5，默认点
-                      builder: DotSwiperPaginationBuilder(size: 8, activeSize: 12,activeColor:Color(0xFFe9546b)),
-                    ),
-                    //默认分页按钮
+
+    return new DefaultTabController(
+      length: _allPages.length,
+      child: new Scaffold(
+        body: new NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              new SliverOverlapAbsorber(
+                handle:
+                NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                child: new SliverAppBar(
+                  pinned: true,
+                  expandedHeight: 340.0,
+                  // 这个高度必须比flexibleSpace高度大
+                  forceElevated: innerBoxIsScrolled,
+                  bottom: PreferredSize(
+                      child: new Container(
+                        child: new TabBar(
+                          tabs: _allPages.keys
+                              .map(
+                                (_Page page) => new Tab(
+                              child: new Tab(text: page.label),
+                            ),
+                          )
+                              .toList(),
+                        ),
+                        color: Colors.redAccent[100],
+                      ),
+                      preferredSize: new Size(double.infinity, 46.0)),
+                  // 46.0为TabBar的高度，也就是tabs.dart中的_kTabHeight值，因为flutter不支持反射所以暂时没法通过代码获取
+                  flexibleSpace: new Container(
+                    child: new Column(
+                      children: <Widget>[
+                        new AppBar(
+                          title: Text("this is title"),
+                        ),
+                         new Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 154.0,
+                              margin: EdgeInsets.only(bottom: 10.0),
+                              child:
+                              new Swiper(
+                                itemBuilder: (BuildContext context,int index){
+                                  return new Image.network(bannerDatas[index],fit: BoxFit.fill,);
+                                },
+                                itemCount: bannerDatas.length,
+                                //触发时是否停止播放
+                                autoplayDisableOnInteraction: true,
+                                //pagination: new SwiperPagination(),
+                                //默认指示器
+                                pagination: SwiperPagination(
+                                  // SwiperPagination.fraction 数字1/5，默认点
+                                  builder: DotSwiperPaginationBuilder(size: 8, activeSize: 12,activeColor:Color(0xFFe9546b)),
+                                ),
+                                //默认分页按钮
 //        control: SwiperControl(),
-                    controller: _swiperController,
-                    //autoplay: true,
-                    onTap: (index) => Fluttertoast.showToast(
-                        msg: "点击了第$index个",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIos:1
+                                controller: _swiperController,
+                                //autoplay: true,
+                                onTap: (index) => Fluttertoast.showToast(
+                                    msg: "点击了第$index个",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIos:1
 //            backgroundColor: Color(0xe74c3c),
 //            textColor: Color(0xffffff)
 
-                    ),
-                  )),
-              //personInfoWidget
-              new Container(
-                  width: MediaQuery.of(context).size.width,
-                  height:160.0,
-                  margin: const EdgeInsets.only(top: 10.0,bottom: 0.0),
-                  padding: const EdgeInsets.only(bottom: 0.0),
-                  child:
-                  new GridView.builder(
-                      padding: const EdgeInsets.only(bottom: 0.0),
-                      shrinkWrap: true,
-                      physics: new NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        mainAxisSpacing: 0.0,
-                        crossAxisSpacing: 0.0,
-                      ),
-                      itemCount: functionMenuList.length,
-                      itemBuilder: (BuildContext context, int index) {
-//                    if(index == picList.length - 1 ){
-//                    _getPicList();
-//                    }
-                        return fGridViewItem(functionMenuList[index],context);
-                      })),
-              new Container(
-                  width: MediaQuery.of(context).size.width,
-                  height:MediaQuery.of(context).size.height,
-                 margin: const EdgeInsets.only(top: 0.0),
-                child:
-                new GridView.builder(
-                    padding: const EdgeInsets.all(10.0),
-                    shrinkWrap: true,
-                    physics: new NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10.0,
-                    crossAxisSpacing: 10.0,
-                    ),
-                    itemCount: picList.length,
-                    itemBuilder: (BuildContext context, int index) {
-//                    if(index == picList.length - 1 ){
-//                    _getPicList();
-//                    }
-                  return gridViewItem(picList[index],context);
-                  }))
-            ],
-          ),
-        ],
-      ),
+                                ),
+                              )),
+                        new Container(
+                          width: MediaQuery.of(context).size.width,
+                          height:200.0,
+                          decoration:  new BoxDecoration(
+                          color: Colors.white,
+                          ),
+                          child: new Column(
+                               //mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment:CrossAxisAlignment.start,
+                                children: <Widget>[
+                                new Padding(
+                                padding: const EdgeInsets.only(left: 10.0,top: 0.0),
+                                child: new Text("￥200.00",
+                                style: new TextStyle(fontSize: 12.0,
+                                color:const Color(0xFFe9546b)),)),
+                                new Padding(
+                                padding: const EdgeInsets.only(left: 10.0,top: 0.0),
+                                child: new Text("￥320.00",
+                                style: new TextStyle(fontSize: 12.0,
+                                color:const Color(0xFFc8c8c8)),)),
 
+                                new Padding(
+                                padding: const EdgeInsets.only(left: 15.0,top: 0.0),
+                                child: new Text("正品芦荟胶祛痘睡眠美白面膜泥粉免洗女男补水保湿面霜春季护肤品",
+                                style: new TextStyle(fontSize: 12.0,
+                                color:const Color(0xFFaaaaaa)),)),
+
+                                ],)
+
+                        )
+
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ];
+          },
+          body: new TabBarView(
+            children: _allPages.keys.map((_Page page) {
+              return new SafeArea(
+                top: false,
+                bottom: false,
+                child: new Builder(
+                  builder: (BuildContext context) {
+                    return new CustomScrollView(
+                      key: new PageStorageKey<_Page>(page),
+                      slivers: <Widget>[
+                        new SliverOverlapInjector(
+                          handle: NestedScrollView
+                              .sliverOverlapAbsorberHandleFor(context),
+                        ),
+                        new SliverPadding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 8.0,
+                            horizontal: 16.0,
+                          ),
+                          sliver: new SliverFixedExtentList(
+                            itemExtent: _CardDataItem.height,
+                            delegate: new SliverChildBuilderDelegate(
+                                  (BuildContext context, int index) {
+                                final _CardData data = _allPages[page][index];
+                                return new Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 8.0,
+                                  ),
+                                  child: new _CardDataItem(
+                                    page: page,
+                                    data: data,
+                                  ),
+                                );
+                              },
+                              childCount: _allPages[page].length,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      ),
     );
   }
 
   fGridViewItem(item,context) {
     return new Container(
-          padding: const EdgeInsets.only(left: 0.0,top: 10.0,bottom: 20.0),
-          decoration:  new BoxDecoration(
-            borderRadius: new BorderRadius.circular(5.0),
-            color: Colors.white,
-          ),
-          child: new InkWell(
-            onTap: () {
-              Fluttertoast.showToast(
-                  msg: "正在建设中...",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIos:1
+        padding: const EdgeInsets.only(left: 0.0,top: 10.0,bottom: 20.0),
+        decoration:  new BoxDecoration(
+          borderRadius: new BorderRadius.circular(5.0),
+          color: Colors.white,
+        ),
+        child: new InkWell(
+          onTap: () {
+            Fluttertoast.showToast(
+                msg: "正在建设中...",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIos:1
 //            backgroundColor: Color(0xe74c3c),
 //            textColor: Color(0xffffff)
 
-              );
-            },
-            child: new Column(
-                //mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  new Padding(
-                      padding: const EdgeInsets.only(left: 0.0,top: 0.0),
-                      child: new Image.asset("static/images/zhengzu_icon.png",
-                        width: 30.0,
-                        height: 30.0,)),
-                  new Padding(
-                      padding: const EdgeInsets.only(left: 0.0),
-                      child: new Text(item.name,
-                        style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
-                ]
+            );
+          },
+          child: new Column(
+            //mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                new Padding(
+                    padding: const EdgeInsets.only(left: 0.0,top: 0.0),
+                    child: new Image.asset("static/images/zhengzu_icon.png",
+                      width: 30.0,
+                      height: 30.0,)),
+                new Padding(
+                    padding: const EdgeInsets.only(left: 0.0),
+                    child: new Text(item.name,
+                      style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
+              ]
 
-            ),
+          ),
 
 
-          )
+        )
     );
   }
 
@@ -269,12 +478,15 @@ class _HomePageState extends State<HomePage> {
         ),
         child: new InkWell(
           onTap: () {
-            Navigator.of(context).push(new MaterialPageRoute<Null>(
-              builder: (BuildContext context) {
-//                return new HomePage();
-                return new GoodsDetailPage();
-              },
-            ));
+            Fluttertoast.showToast(
+                msg: "正在建设中...",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+            );
           },
           child: new Column(
             mainAxisAlignment: MainAxisAlignment.center,
