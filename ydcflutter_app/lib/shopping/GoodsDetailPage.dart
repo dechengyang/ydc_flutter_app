@@ -9,7 +9,8 @@ import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:ydcflutter_app/home/bean/PicModel.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ydcflutter_app/widget/ydc_button.dart';
 
 const String _kGalleryAssetsPackage = 'flutter_gallery_assets';
 
@@ -33,7 +34,7 @@ class _CardData {
 }
 
 final Map<_Page, List<_CardData>> _allPages = <_Page, List<_CardData>>{
-  new _Page(label: ''): <_CardData>[
+  new _Page(label: '商品'): <_CardData>[
     const _CardData(
       title: 'Vintage Bluetooth Radio',
       imageAsset: 'shrine/products/radio.png',
@@ -80,7 +81,42 @@ final Map<_Page, List<_CardData>> _allPages = <_Page, List<_CardData>>{
       imageAssetPackage: _kGalleryAssetsPackage,
     ),
   ],
-  new _Page(label: 'RIGHT'): <_CardData>[
+  new _Page(label: '详情'): <_CardData>[
+    const _CardData(
+      title: 'Beachball',
+      imageAsset: 'shrine/products/beachball.png',
+      imageAssetPackage: _kGalleryAssetsPackage,
+    ),
+    const _CardData(
+      title: 'Dipped Brush',
+      imageAsset: 'shrine/products/brush.png',
+      imageAssetPackage: _kGalleryAssetsPackage,
+    ),
+    const _CardData(
+      title: 'Perfect Goldfish Bowl',
+      imageAsset: 'shrine/products/fish_bowl.png',
+      imageAssetPackage: _kGalleryAssetsPackage,
+    ),
+  ],
+
+  new _Page(label: '评论'): <_CardData>[
+    const _CardData(
+      title: 'Beachball',
+      imageAsset: 'shrine/products/beachball.png',
+      imageAssetPackage: _kGalleryAssetsPackage,
+    ),
+    const _CardData(
+      title: 'Dipped Brush',
+      imageAsset: 'shrine/products/brush.png',
+      imageAssetPackage: _kGalleryAssetsPackage,
+    ),
+    const _CardData(
+      title: 'Perfect Goldfish Bowl',
+      imageAsset: 'shrine/products/fish_bowl.png',
+      imageAssetPackage: _kGalleryAssetsPackage,
+    ),
+  ],
+  new _Page(label: '推荐'): <_CardData>[
     const _CardData(
       title: 'Beachball',
       imageAsset: 'shrine/products/beachball.png',
@@ -142,14 +178,6 @@ class _CardDataItem extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class TabsDemo extends StatelessWidget {
-  static const String routeName = '/material/tabs';
-
-  @override
-  Widget build(BuildContext context) {
   }
 }
 
@@ -253,6 +281,17 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   @override
   Widget build(BuildContext context) {
 
+    // 建议在第一次 build 的时候就进行初始化，这样接下来就可以放心使用了。
+
+    // 方式一：默认设置宽度1080px，高度1920px
+    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
+    // 方式二：设置宽度750px，高度1334px
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
+    // 方式三：设置宽度750px，高度1334px，根据系统字体进行缩放
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);
+
+
+
     return new DefaultTabController(
       length: _allPages.length,
       child: new Scaffold(
@@ -264,12 +303,18 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                 NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 child: new SliverAppBar(
                   pinned: true,
-                  expandedHeight: 340.0,
+                  expandedHeight: 380.0,
                   // 这个高度必须比flexibleSpace高度大
                   forceElevated: innerBoxIsScrolled,
                   bottom: PreferredSize(
                       child: new Container(
                         child: new TabBar(
+                          indicatorColor: Colors.white,//选中下划线颜色,如果使用了indicator这里设置无效
+                          labelColor: Colors.white,
+                          //unselectedLabelColor: Colors.black,
+                          labelStyle: TextStyle(fontSize: 16),
+                          unselectedLabelStyle:TextStyle(fontSize: 14) ,
+                          indicatorWeight: 3,
                           tabs: _allPages.keys
                               .map(
                                 (_Page page) => new Tab(
@@ -320,7 +365,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                         ),
                         new Container(
                             width: MediaQuery.of(context).size.width,
-                            height: 154.0,
+                            height: 180.0,
                             margin: EdgeInsets.only(bottom: 10.0),
                             child:
                             new Swiper(
@@ -363,19 +408,19 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                                 new Padding(
                                     padding: const EdgeInsets.only(left: 10.0,top: 0.0),
                                     child: new Text("￥200.00",
-                                      style: new TextStyle(fontSize: 12.0,
+                                      style: new TextStyle(fontSize: 16.0,
                                           color:const Color(0xFFe9546b)),)),
                                 new Padding(
                                     padding: const EdgeInsets.only(left: 10.0,top: 0.0),
                                     child: new Text("￥320.00",
                                       style: new TextStyle(fontSize: 12.0,
-                                          color:const Color(0xFFc8c8c8)),)),
+                                          color:const Color(0xFFaaaaaa)),)),
 
                                 new Padding(
-                                    padding: const EdgeInsets.only(left: 15.0,top: 0.0),
+                                    padding: const EdgeInsets.only(left: 12.0,top: 0.0),
                                     child: new Text("正品芦荟胶祛痘睡眠美白面膜泥粉免洗女男补水保湿面霜春季护肤品",
-                                      style: new TextStyle(fontSize: 12.0,
-                                          color:const Color(0xFFaaaaaa)),)),
+                                      style: new TextStyle(fontSize: 16.0,
+                                          color:const Color(0xFF333333)),)),
 
                               ],)
 
@@ -388,10 +433,12 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
               ),
             ];
           },
-          body: new TabBarView(
-            children: _allPages.keys.map((_Page page) {
+          body:new Stack(
+              children: <Widget>[
+                new TabBarView(
+                children: _allPages.keys.map((_Page page) {
               //SafeArea 适配刘海屏的一个widget
-              return new SafeArea(
+                return new SafeArea(
                 top: false,
                 bottom: false,
                 child: new Builder(
@@ -433,7 +480,143 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                 ),
               );
             }).toList(),
-          ),
+          ), Positioned(
+                  width: ScreenUtil().setWidth(750),
+                  height: ScreenUtil().setHeight(110),
+                  bottom: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border(
+                            top: BorderSide(color: Color(0xFFe5e5e5), width: 1)),
+                        color: Colors.white),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                            padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+                            width: 60,
+                            height: ScreenUtil().setHeight(88),
+                            child:
+                            new InkWell(
+                              onTap: () {
+                                Fluttertoast.showToast(
+                                    msg: "正在建设中...",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                                );
+                              },
+                              child:Column(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.message,
+                                    size: 15,
+                                  ),
+                                  Text('联系客服',  style: new TextStyle(fontSize: 12.0,
+                                      color:const Color(0xFF666666)))
+                                ],
+                              ),
+                            )),
+                        Container(
+                            padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+                            width: 50,
+                            height: ScreenUtil().setHeight(88),
+                            child:
+                            new InkWell(
+                              onTap: () {
+                                Fluttertoast.showToast(
+                                    msg: "正在建设中...",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                                );
+                              },
+                              child:Column(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.store,
+                                    size: 15,
+                                  ),
+                                  Text('店铺',  style: new TextStyle(fontSize: 12.0,
+                                      color:const Color(0xFF666666)))
+                                ],
+                              ),
+                            )),
+                        Container(
+                          padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+                          width: 50,
+                          height: ScreenUtil().setHeight(88),
+                          child:
+                            new InkWell(
+                            onTap: () {
+                              Fluttertoast.showToast(
+                                  msg: "正在建设中...",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                              );
+                            },
+                              child:Column(
+                             children: <Widget>[
+                              Icon(
+                                Icons.shopping_cart,
+                                size: 15,
+                              ),
+                              Text('购物车',   style: new TextStyle(fontSize: 12.0,
+                                  color:const Color(0xFF666666)))
+                            ],
+                          ),
+                        )),
+                        Expanded(
+                          flex: 1,
+                          child: YDCButton(
+                            color: Color.fromRGBO(253, 1, 0, 0.9),
+                            text: "加入购物车",
+                            cb: (){
+                              Fluttertoast.showToast(
+                                  msg: "正在建设中...",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                              );
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: YDCButton(
+                            color: Color.fromRGBO(255, 165, 0, 0.9),
+                            text: "立即购买",
+                            cb: (){
+                              Fluttertoast.showToast(
+                                  msg: "正在建设中...",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                              );
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                )
+
+              ])
         ),
       ),
     );

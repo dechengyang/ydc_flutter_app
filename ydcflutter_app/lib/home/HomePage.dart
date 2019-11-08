@@ -52,15 +52,15 @@ class _HomePageState extends State<HomePage> {
       List<PicModel> fList = new List();
       for(int i=0;i<10;i++){
         var p = PicModel();
-        p.imageUrl="https://img.alicdn.com/tps/TB1oHwXMVXXXXXnXVXXXXXXXXXX-570-400.jpg";
-        p.name="功能菜单"+i.toString();
+        p.imageUrl="https://img.alicdn.com/tps/TB1G5oxMVXXXXbFXFXXXXXXXXXX-190-200.jpg";
+        p.name="功能菜单"+(i+1).toString();
         pList.add(p);
       }
 
       for(int i=0;i<10;i++){
         var p = PicModel();
         p.imageUrl="https://img.alicdn.com/tps/TB1oHwXMVXXXXXnXVXXXXXXXXXX-570-400.jpg";
-        p.name="功能菜单"+i.toString();
+        p.name="功能菜单"+(i+1).toString();
         fList.add(p);
       }
       picList=pList;
@@ -242,7 +242,7 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   new Padding(
                       padding: const EdgeInsets.only(left: 0.0,top: 0.0),
-                      child: new Image.asset("static/images/zhengzu_icon.png",
+                      child: new Image.asset("static/images/store.png",
                         width: 30.0,
                         height: 30.0,)),
                   new Padding(
@@ -282,7 +282,7 @@ class _HomePageState extends State<HomePage> {
               new Padding(
                   padding: const EdgeInsets.only(left: 0.0,top: 0.0,
                       bottom: 0.0),
-                  child:  new Image.network("https://img.alicdn.com/imgextra/i2/O1CN01suz9u92HRpmDbT7TJ_!!0-juitemmedia.jpg_270x270.jpg",
+                  child:  new Image.network("https://img.alicdn.com/tps/TB1G5oxMVXXXXbFXFXXXXXXXXXX-190-200.jpg",
                       alignment: Alignment.bottomRight,
                       colorBlendMode: BlendMode.colorBurn,
                       fit: BoxFit.cover, // 填充拉伸裁剪
