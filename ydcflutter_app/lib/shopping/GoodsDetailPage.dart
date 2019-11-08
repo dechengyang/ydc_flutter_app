@@ -33,7 +33,7 @@ class _CardData {
 }
 
 final Map<_Page, List<_CardData>> _allPages = <_Page, List<_CardData>>{
-  new _Page(label: 'LEFT'): <_CardData>[
+  new _Page(label: ''): <_CardData>[
     const _CardData(
       title: 'Vintage Bluetooth Radio',
       imageAsset: 'shrine/products/radio.png',
@@ -163,8 +163,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
   final TextEditingController _passwordController = new TextEditingController();
   String mPhoneText;
   List<String>   bannerDatas=List();
-  List<PicModel> picList = new List();
-  List<PicModel> functionMenuList = new List();
 
   SwiperController _swiperController;
 
@@ -189,23 +187,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
       ];
       print("bannerDatas ====== "+bannerDatas.toString());
 
-      List<PicModel> pList = new List();
-      List<PicModel> fList = new List();
-      for(int i=0;i<10;i++){
-        var p = PicModel();
-        p.imageUrl="https://img.alicdn.com/tps/TB1oHwXMVXXXXXnXVXXXXXXXXXX-570-400.jpg";
-        p.name="功能菜单"+i.toString();
-        pList.add(p);
-      }
-
-      for(int i=0;i<10;i++){
-        var p = PicModel();
-        p.imageUrl="https://img.alicdn.com/tps/TB1oHwXMVXXXXXnXVXXXXXXXXXX-570-400.jpg";
-        p.name="功能菜单"+i.toString();
-        fList.add(p);
-      }
-      picList=pList;
-      functionMenuList=fList;
     });
 
     _swiperController.startAutoplay();
@@ -301,72 +282,102 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
                       ),
                       preferredSize: new Size(double.infinity, 46.0)),
                   // 46.0为TabBar的高度，也就是tabs.dart中的_kTabHeight值，因为flutter不支持反射所以暂时没法通过代码获取
+                  actions: <Widget>[
+                      new IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: () {
+                        Fluttertoast.showToast(
+                            msg: "正在建设中...",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                        );
+                      },
+                      ),
+                    new IconButton(
+                      icon: Icon(Icons.more_horiz),
+                      onPressed: () {
+                        Fluttertoast.showToast(
+                            msg: "正在建设中...",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                        );
+                      },
+                    ),
+                  ],
                   flexibleSpace: new Container(
                     child: new Column(
                       children: <Widget>[
                         new AppBar(
-                          title: Text("this is title"),
+                          title: Text("商品详情"),
                         ),
-                         new Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 154.0,
-                              margin: EdgeInsets.only(bottom: 10.0),
-                              child:
-                              new Swiper(
-                                itemBuilder: (BuildContext context,int index){
-                                  return new Image.network(bannerDatas[index],fit: BoxFit.fill,);
-                                },
-                                itemCount: bannerDatas.length,
-                                //触发时是否停止播放
-                                autoplayDisableOnInteraction: true,
-                                //pagination: new SwiperPagination(),
-                                //默认指示器
-                                pagination: SwiperPagination(
-                                  // SwiperPagination.fraction 数字1/5，默认点
-                                  builder: DotSwiperPaginationBuilder(size: 8, activeSize: 12,activeColor:Color(0xFFe9546b)),
-                                ),
-                                //默认分页按钮
+                        new Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 154.0,
+                            margin: EdgeInsets.only(bottom: 10.0),
+                            child:
+                            new Swiper(
+                              itemBuilder: (BuildContext context,int index){
+                                return new Image.network(bannerDatas[index],fit: BoxFit.fill,);
+                              },
+                              itemCount: bannerDatas.length,
+                              //触发时是否停止播放
+                              autoplayDisableOnInteraction: true,
+                              //pagination: new SwiperPagination(),
+                              //默认指示器
+                              pagination: SwiperPagination(
+                                // SwiperPagination.fraction 数字1/5，默认点
+                                builder: DotSwiperPaginationBuilder(size: 8, activeSize: 12,activeColor:Color(0xFFe9546b)),
+                              ),
+                              //默认分页按钮
 //        control: SwiperControl(),
-                                controller: _swiperController,
-                                //autoplay: true,
-                                onTap: (index) => Fluttertoast.showToast(
-                                    msg: "点击了第$index个",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIos:1
+                              controller: _swiperController,
+                              //autoplay: true,
+                              onTap: (index) => Fluttertoast.showToast(
+                                  msg: "点击了第$index个",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIos:1
 //            backgroundColor: Color(0xe74c3c),
 //            textColor: Color(0xffffff)
 
-                                ),
-                              )),
+                              ),
+                            )),
                         new Container(
-                          width: MediaQuery.of(context).size.width,
-                          height:200.0,
-                          decoration:  new BoxDecoration(
-                          color: Colors.white,
-                          ),
-                          child: new Column(
-                               //mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment:CrossAxisAlignment.start,
-                                children: <Widget>[
+                            width: MediaQuery.of(context).size.width,
+                            height:200.0,
+                            decoration:  new BoxDecoration(
+                              color: Colors.white,
+                            ),
+                            child: new Column(
+                              //mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment:CrossAxisAlignment.start,
+                              children: <Widget>[
                                 new Padding(
-                                padding: const EdgeInsets.only(left: 10.0,top: 0.0),
-                                child: new Text("￥200.00",
-                                style: new TextStyle(fontSize: 12.0,
-                                color:const Color(0xFFe9546b)),)),
+                                    padding: const EdgeInsets.only(left: 10.0,top: 0.0),
+                                    child: new Text("￥200.00",
+                                      style: new TextStyle(fontSize: 12.0,
+                                          color:const Color(0xFFe9546b)),)),
                                 new Padding(
-                                padding: const EdgeInsets.only(left: 10.0,top: 0.0),
-                                child: new Text("￥320.00",
-                                style: new TextStyle(fontSize: 12.0,
-                                color:const Color(0xFFc8c8c8)),)),
+                                    padding: const EdgeInsets.only(left: 10.0,top: 0.0),
+                                    child: new Text("￥320.00",
+                                      style: new TextStyle(fontSize: 12.0,
+                                          color:const Color(0xFFc8c8c8)),)),
 
                                 new Padding(
-                                padding: const EdgeInsets.only(left: 15.0,top: 0.0),
-                                child: new Text("正品芦荟胶祛痘睡眠美白面膜泥粉免洗女男补水保湿面霜春季护肤品",
-                                style: new TextStyle(fontSize: 12.0,
-                                color:const Color(0xFFaaaaaa)),)),
+                                    padding: const EdgeInsets.only(left: 15.0,top: 0.0),
+                                    child: new Text("正品芦荟胶祛痘睡眠美白面膜泥粉免洗女男补水保湿面霜春季护肤品",
+                                      style: new TextStyle(fontSize: 12.0,
+                                          color:const Color(0xFFaaaaaa)),)),
 
-                                ],)
+                              ],)
 
                         )
 
@@ -379,6 +390,7 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
           },
           body: new TabBarView(
             children: _allPages.keys.map((_Page page) {
+              //SafeArea 适配刘海屏的一个widget
               return new SafeArea(
                 top: false,
                 bottom: false,
@@ -427,464 +439,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
     );
   }
 
-  fGridViewItem(item,context) {
-    return new Container(
-        padding: const EdgeInsets.only(left: 0.0,top: 10.0,bottom: 20.0),
-        decoration:  new BoxDecoration(
-          borderRadius: new BorderRadius.circular(5.0),
-          color: Colors.white,
-        ),
-        child: new InkWell(
-          onTap: () {
-            Fluttertoast.showToast(
-                msg: "正在建设中...",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-            );
-          },
-          child: new Column(
-            //mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                new Padding(
-                    padding: const EdgeInsets.only(left: 0.0,top: 0.0),
-                    child: new Image.asset("static/images/zhengzu_icon.png",
-                      width: 30.0,
-                      height: 30.0,)),
-                new Padding(
-                    padding: const EdgeInsets.only(left: 0.0),
-                    child: new Text(item.name,
-                      style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
-              ]
-
-          ),
-
-
-        )
-    );
-  }
-
-
-  gridViewItem(item,context) {
-    return new Container(
-        width: MediaQuery.of(context).size.width,
-        height:MediaQuery.of(context).size.height,
-        decoration:  new BoxDecoration(
-          borderRadius: new BorderRadius.circular(5.0),
-          color: Colors.white,
-        ),
-        child: new InkWell(
-          onTap: () {
-            Fluttertoast.showToast(
-                msg: "正在建设中...",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-            );
-          },
-          child: new Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              new Padding(
-                  padding: const EdgeInsets.only(left: 0.0,top: 0.0,
-                      bottom: 0.0),
-                  child:  new Image.network("https://img.alicdn.com/imgextra/i2/O1CN01suz9u92HRpmDbT7TJ_!!0-juitemmedia.jpg_270x270.jpg",
-                      alignment: Alignment.bottomRight,
-                      colorBlendMode: BlendMode.colorBurn,
-                      fit: BoxFit.cover, // 填充拉伸裁剪
-                      width: MediaQuery.of(context).size.width,
-                      height: 100.0)),
-              new Padding(padding:  const EdgeInsets.only(left: 0.0,top: 0.0,
-                  bottom: 0.0),child: new Column(
-                //mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  new Padding(
-                      padding: const EdgeInsets.only(left: 0.0,top: 0.0),
-                      child: new Text("￥200.00",
-                        style: new TextStyle(fontSize: 12.0,
-                            color:const Color(0xFFe9546b)),)),
-                  new Padding(
-                      padding: const EdgeInsets.only(left: 0.0,top: 0.0),
-                      child: new Text("￥320.00",
-                        style: new TextStyle(fontSize: 12.0,
-                            color:const Color(0xFFc8c8c8)),)),
-
-                  new Padding(
-                      padding: const EdgeInsets.only(left: 15.0,top: 0.0),
-                      child: new Text("正品芦荟胶祛痘睡眠美白...",
-                        style: new TextStyle(fontSize: 12.0,
-                            color:const Color(0xFFaaaaaa)),)),
-
-                ],))
-
-            ],
-          ),
-
-
-        )
-    );
-  }
-
-
-  Widget bgWidget = new Opacity(
-
-      opacity: 0.98,
-      child: new Container(
-        decoration: new BoxDecoration(
-          image: new DecorationImage(
-            image: new ExactAssetImage('static/images/login_back.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
-      )
-  );
-
-
-
-
-  Widget topMenuWidget=new Container(
-      padding: const EdgeInsets.only( bottom: 10.0),
-      margin: const EdgeInsets.only( bottom: 10.0),
-      color: Colors.white,
-      child:new Row(
-        //水平方向填充
-        mainAxisSize: MainAxisSize.max,
-        //平分空白
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children:[
-
-          Expanded(
-              flex: 1,
-              child:
-              new GestureDetector(
-                  onTap: (){
-                    Fluttertoast.showToast(
-                        msg: "正在建设中...",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-                    );
-                  },
-                  child:
-                  new Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new Padding(
-                            padding: const EdgeInsets.only(left: 0.0),
-                            child: new Image.asset("static/images/vip.png",
-                              width: 30.0,
-                              height: 30.0,)),
-                        new Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: new Text("会员卡",
-                              style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
-                      ]
-                  ))),    Expanded(
-              flex: 1,
-              child:
-              new GestureDetector(
-                  onTap: (){
-                    Fluttertoast.showToast(
-                        msg: "正在建设中...",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-                    );
-                  },
-                  child:new Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new Padding(
-                            padding: const EdgeInsets.only(left: 15.0),
-                            child: new Image.asset("static/images/coupon.png",
-                              width: 30.0,
-                              height: 30.0,)),
-                        new Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: new Text("优惠券",
-                              style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
-                      ]
-                  ))),   Expanded(
-              flex: 1,
-              child:
-              new GestureDetector(
-                  onTap: (){
-                    Fluttertoast.showToast(
-                        msg: "正在建设中...",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-                    );
-                  },
-                  child:
-                  new Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        new Padding(
-                            padding: const EdgeInsets.only(left: 15.0),
-                            child: new Image.asset("static/images/shopping_cart.png",
-                              width: 30.0,
-                              height: 30.0,)),
-                        new Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: new Text("购物车",
-                              style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
-                      ]
-                  ))),   Expanded(
-              flex: 1,
-              child:
-              new GestureDetector(
-                  onTap: (){
-                    Fluttertoast.showToast(
-                        msg: "正在建设中...",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-                    );
-                  },
-                  child:
-                  new Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        new Padding(
-                            padding: const EdgeInsets.only(left: 15.0),
-                            child: new Image.asset("static/images/my_collect.png",
-                              width: 30.0,
-                              height: 30.0,)),
-                        new Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: new Text("收藏",
-                              style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
-                      ]
-                  )))],
-      )
-
-
-  );
-
-
-
-
-  Widget orderWidget=new Container(
-      padding: const EdgeInsets.only( bottom: 10.0,top: 10.0),
-      margin: const EdgeInsets.only( bottom: 10.0),
-      color: Colors.white,
-      child:new Column(
-        //水平方向填充
-          mainAxisSize: MainAxisSize.max,
-          //平分空白
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children:[
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                new Row(
-
-                  children: <Widget>[
-                    new Padding(
-                        padding: const EdgeInsets.only(top: 0.0,bottom: 15.0,left: 15.0),
-                        child: new Text("我的订单",
-                          style: new TextStyle(fontWeight: FontWeight.w700  ,fontSize: 14.0, color:const Color(0xFF333333)),)),
-
-                  ],
-                ),
-                new GestureDetector(
-                    onTap: (){
-                      Fluttertoast.showToast(
-                          msg: "正在建设中...",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-                      );
-                    },
-                    child:
-                    new Row(
-                      children: <Widget>[
-                        new Padding(
-                            padding: const EdgeInsets.only(left: 8.0,bottom: 15.0),
-                            child: new Text("查看全部订单",
-                              style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
-                        new Padding(
-                            padding: const EdgeInsets.only(right: 15.0,left: 10.0,bottom: 15.0),
-                            child: new Image.asset("static/images/enter.png",
-                                width: 16.0,
-                                height: 16.0)),
-                      ],
-                    ))
-              ],
-            ),
-
-            new Row( children: <Widget>[
-              Expanded(
-                  flex: 1,
-                  child:
-                  new GestureDetector(
-                      onTap: (){
-                        Fluttertoast.showToast(
-                            msg: "正在建设中...",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-                        );
-                      },
-                      child:
-                      new Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            new Padding(
-                                padding: const EdgeInsets.only(left: 0.0),
-                                child: new Image.asset("static/images/wallet.png",
-                                  width: 30.0,
-                                  height: 30.0,)),
-                            new Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: new Text("待付款",
-                                  style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
-                          ]
-                      ))),  Expanded(
-                  flex: 1,
-                  child:
-                  new GestureDetector(
-                      onTap: (){
-                        Fluttertoast.showToast(
-                            msg: "正在建设中...",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-                        );
-                      },
-                      child:new Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            new Padding(
-                                padding: const EdgeInsets.only(left: 15.0),
-                                child: new Image.asset("static/images/daifahuo_icon.png",
-                                  width: 30.0,
-                                  height: 30.0,)),
-                            new Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: new Text("待发货",
-                                  style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
-                          ]
-                      ))),   Expanded(
-                  flex: 1,
-                  child:
-                  new GestureDetector(
-                      onTap: (){
-                        Fluttertoast.showToast(
-                            msg: "正在建设中...",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-                        );
-                      },
-                      child:new Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            new Padding(
-                                padding: const EdgeInsets.only(left: 15.0),
-                                child: new Image.asset("static/images/receiving.png",
-                                  width: 30.0,
-                                  height: 30.0,)),
-                            new Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: new Text("待收货",
-                                  style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
-                          ]
-                      ))),   Expanded(
-                  flex: 1,
-                  child:
-                  new GestureDetector(
-                      onTap: (){
-                        Fluttertoast.showToast(
-                            msg: "正在建设中...",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-                        );
-                      },
-                      child:
-                      new Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            new Padding(
-                                padding: const EdgeInsets.only(left: 15.0),
-                                child: new Image.asset("static/images/evaluate.png",
-                                  width: 30.0,
-                                  height: 30.0,)),
-                            new Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: new Text("待评价",
-                                  style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
-                          ]
-                      ))),   Expanded(
-                  flex: 1,
-                  child:
-                  new GestureDetector(
-                      onTap: (){
-                        Fluttertoast.showToast(
-                            msg: "正在建设中...",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-                        );
-                      },
-                      child:
-                      new Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            new Padding(
-                                padding: const EdgeInsets.only(left: 15.0),
-                                child: new Image.asset("static/images/aftersale.png",
-                                  width: 30.0,
-                                  height: 30.0,)),
-                            new Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: new Text("退款/售后",
-                                  style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
-                          ]
-                      )))],
-            )])
-
-
-  );
-
   Widget dividerWidget=new Container(
     //margin: const EdgeInsets.only( left: 10.0,right: 10.0),
       child: new Padding(
@@ -893,199 +447,6 @@ class _GoodsDetailPageState extends State<GoodsDetailPage> {
           new Divider(height: 1.0,indent: 0.0,color: Color(0xFFe5e5e5))
       )
 
-  );
-  Widget integralWidget=new Container(
-      color: const Color(0xFFFFFFFF),
-      height: 50.0,
-      child:new InkWell(
-        onTap: () {
-          Fluttertoast.showToast(
-              msg: "正在建设中...",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-          );
-        },
-        child: new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            new Row(
-              children: <Widget>[
-                new Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: new Image.asset("static/images/my_points.png",
-                      width: 20.0,
-                      height: 20.0,)),
-
-                new Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: new Text("我的积分",
-                      style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
-
-              ],
-            ),
-
-            new Row(
-              children: <Widget>[
-                new Padding(
-                    padding: const EdgeInsets.only(left: 10.0,bottom: 0.0),
-                    child: new Text("1000.00",
-                      style: new TextStyle(fontSize: 14.0, color:const Color(0xFF888888)),))
-                ,new Padding(
-                    padding: const EdgeInsets.only(right: 15.0,left: 10.0),
-                    child: new Image.asset("static/images/enter.png",
-                        width: 16.0,
-                        height: 16.0)),
-              ],
-            )
-          ],
-        ),
-      )
-  );
-  Widget walletWidget=new Container(
-      color: const Color(0xFFFFFFFF),
-      height: 50.0,
-      child:new InkWell(
-        onTap: () {
-          Fluttertoast.showToast(
-              msg: "正在建设中...",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-          );
-        },
-        child: new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            new Row(
-              children: <Widget>[
-                new Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: new Image.asset("static/images/account_balance.png",
-                      width: 20.0,
-                      height: 20.0,)),
-
-                new Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: new Text("我的钱包",
-                      style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
-
-              ],
-            ),
-
-            new Row(
-              children: <Widget>[
-                new Padding(
-                    padding: const EdgeInsets.only(right: 15.0,left: 10.0),
-                    child: new Image.asset("static/images/enter.png",
-                        width: 16.0,
-                        height: 16.0)),
-              ],
-            )
-          ],
-        ),
-      )
-  );
-  Widget aboutWidget=new Container(
-      color: const Color(0xFFFFFFFF),
-      height: 50.0,
-      child:new InkWell(
-        onTap: () {
-          Fluttertoast.showToast(
-              msg: "正在建设中...",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-          );
-        },
-        child: new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            new Row(
-              children: <Widget>[
-                new Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: new Image.asset("static/images/about.png",
-                      width: 20.0,
-                      height: 20.0,)),
-
-                new Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: new Text("关于我们",
-                      style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
-
-              ],
-            ),
-
-            new Row(
-              children: <Widget>[
-                new Padding(
-                    padding: const EdgeInsets.only(right: 15.0,left: 10.0),
-                    child: new Image.asset("static/images/enter.png",
-                        width: 16.0,
-                        height: 16.0)),
-              ],
-            )
-          ],
-        ),
-      )
-  );
-
-  Widget settingWidget=new Container(
-      color: const Color(0xFFFFFFFF),
-      height: 50.0,
-      child:new InkWell(
-        onTap: () {
-          Fluttertoast.showToast(
-              msg: "正在建设中...",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-          );
-        },
-        child: new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            new Row(
-              children: <Widget>[
-                new Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: new Image.asset("static/images/setting_icon.png",
-                      width: 20.0,
-                      height: 20.0,)),
-
-                new Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: new Text("设置",
-                      style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
-
-              ],
-            ),
-
-            new Row(
-              children: <Widget>[
-                new Padding(
-                    padding: const EdgeInsets.only(right: 15.0,left: 10.0),
-                    child: new Image.asset("static/images/enter.png",
-                        width: 16.0,
-                        height: 16.0)),
-              ],
-            )
-          ],
-        ),
-      )
   );
 
   @override
