@@ -29,6 +29,7 @@ dependencies:
   dio: ^3.0.3
   flutter_swiper: ^1.0.6 #https://github.com/best-flutter/flutter_swiper
   flutter_screenutil: ^0.5.3  #https://github.com/OpenFlutter/flutter_screenutil
+  flutter_slidable: "^0.5.4"  #https://github.com/letsar/flutter_slidable
 #  cached_network_image: ^0.8.0
 #  transparent_image: ^1.0.0
 

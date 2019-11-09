@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+/**
+ * 颜色配置
+ * Created by yangdecheng
+ * Date: 2019-11-04
+ */
 class YDColors {
   static const Color colorPrimary = Color(0xff4caf50);
   static const Color colorPrimaryDark = Color(0xff388E3C);
@@ -21,6 +26,13 @@ class YDColors {
   static const Color color_f3f3f3 = Color(0xfff3f3f3);
   static const Color color_f1f1f1 = Color(0xfff1f1f1);
   static const Color color_fff = Color(0xffffffff);
+
+  /**
+   * 品红
+   */
+  static const Color color_magenta= Color(0xffe9546b);
+
+
 
   /* 主题列表 */
   static const Map themeColor = {
