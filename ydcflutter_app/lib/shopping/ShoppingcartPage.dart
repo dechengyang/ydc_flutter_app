@@ -25,6 +25,45 @@ class _ShoppingcartPageState extends State<ShoppingcartPage> {
   bool isSelect = false;
 
   void _categoryChild() {
+
+    for(int j=0;j<2;j++){
+
+      ShopCartResult cartResult=ShopCartResult();
+      cartResult.storeName="Better Me韩"+(j+1).toString();
+      cartResult.selected=true;
+      cartResult.goodsIdStr="1";
+      cartResult.couponShow=true;
+      cartResult.storeId="1";
+      print("title ====== "+cartResult.storeName);
+      List<GoodsToBuyDtos> _gList=new List();
+      for(int i=0;i<2;i++){
+        GoodsToBuyDtos dtos=GoodsToBuyDtos();
+        dtos.name="SK2限量版";
+        dtos.selected=true;
+        dtos.count="2";
+        dtos.dValue="100";
+        dtos.fee="200";
+        dtos.goodsId="1";
+        dtos.inventory="1";
+        dtos.id="1";
+        dtos.inventory="100";
+        dtos.isGoodsNew=true;
+        dtos.price="100";
+        dtos.limitDesc="10";
+        dtos.maxBatch="10";
+        dtos.skuCfg="10";
+        dtos.storeType="10";
+        dtos.memo="10";
+        dtos.minBatch="10";
+        dtos.path="xxx";
+        _gList.add(dtos);
+      }
+
+      cartResult.goodsToBuyDtos=_gList;
+      _list.add(cartResult);
+      print("size ====== "+cartResult.goodsToBuyDtos.length.toString());
+    }
+
 //    ApiService.getLogin("toBuy/list", "POST", null, (callBack) {
 //      if (callBack != null) {
 //        var categoryChildBean = ShopCartBean.fromJson(callBack);
@@ -186,6 +225,7 @@ class _ShoppingcartPageState extends State<ShoppingcartPage> {
       listWidgetChild.add(new Padding(
         padding: EdgeInsets.only(top: 10, bottom: 10),
         child: new Slidable(
+            actionPane: SlidableScrollActionPane(),
             child: new Container(
               child: new Row(
                 children: <Widget>[
@@ -289,4 +329,3 @@ class _ShoppingcartPageState extends State<ShoppingcartPage> {
     });
   }
 }
-

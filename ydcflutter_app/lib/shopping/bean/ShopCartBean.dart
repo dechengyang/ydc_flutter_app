@@ -46,7 +46,7 @@ class ShopCartResult {
   @JsonKey(name: 'storeName')
   String storeName;
 
-  ShopCartResult(this.couponShow,this.goodsIdStr,this.goodsToBuyDtos,this.selected,this.storeId,this.storeName,);
+  //ShopCartResult(this.couponShow,this.goodsIdStr,this.goodsToBuyDtos,this.selected,this.storeId,this.storeName,);
 
   //factory ShopCartResult.fromJson(Map<String, dynamic> srcJson) => _$ShopCartResultFromJson(srcJson);
 
@@ -113,7 +113,7 @@ class GoodsToBuyDtos {
   @JsonKey(name: 'storeType')
   String storeType;
 
-  GoodsToBuyDtos(this.count,this.dValue,this.fee,this.goodsId,this.id,this.inventory,this.isGoodsNew,this.limitDesc,this.maxBatch,this.memo,this.minBatch,this.name,this.path,this.price,this.selected,this.skuCfg,this.standardCfg,this.status,this.storeType,);
+  //GoodsToBuyDtos(this.count,this.dValue,this.fee,this.goodsId,this.id,this.inventory,this.isGoodsNew,this.limitDesc,this.maxBatch,this.memo,this.minBatch,this.name,this.path,this.price,this.selected,this.skuCfg,this.standardCfg,this.status,this.storeType,);
 
   //factory GoodsToBuyDtos.fromJson(Map<String, dynamic> srcJson) => _$GoodsToBuyDtosFromJson(srcJson);
 
