@@ -1,120 +1,160 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:io';
-import 'package:flutter/services.dart';//导入网络请求相关的包
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:ydcflutter_app/main/MainPage.dart';
+import 'package:dio/dio.dart';
+import 'dart:convert';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:ydcflutter_app/common/api.dart';
+import 'package:ydcflutter_app/category/bean/navi_entity.dart';
+import 'package:ydcflutter_app/res/ydc_colors.dart';
 
 class CategoryPage extends StatefulWidget {
   @override
-  State createState() => new _CategoryPageState();
+  State<StatefulWidget> createState() {
+    return _CategoryPageState();
+  }
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  final TextEditingController _phoneController = new TextEditingController();
-  final TextEditingController _passwordController = new TextEditingController();
-  String mPhoneText;
+  List<NaviData> _datas = List(); //一级分类集合
+  List<NaviDataArticle> articles = List(); //二级分类集合
+  int index; //一级分类下标
 
+  @override
+  void initState() {
+    super.initState();
+    getHttp();
+  }
+
+  void getHttp() async {
+    try {
+      Response response =
+      await Dio().get(Api.BASE_URL+Api.NAVI);
+      //var response =await Dio().get(Api.NAVI);
+      Map userMap = json.decode(response.toString());
+      print("get ====== "+response.toString());
+      var naviEntity = NaviEntity.fromJson(userMap);
+
+      /// 初始化
+      setState(() {
+        print("title ====== "+naviEntity.toString());
+        _datas = naviEntity.data;
+        index = 0;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-
-    void _loginAction(){
-      //print("点击了按钮22");
-
-      Fluttertoast.showToast(
-          msg: "分类！",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-      );
-
-    }
-
-    Widget buttonLogin = new FlatButton(
-
-        onPressed: () {
-          _loginAction();
-        },
-
-        child: new Container(
-          height: 45.0,
-          margin: new EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 0.0),
-          decoration: new BoxDecoration(
-              borderRadius: new BorderRadius.all(new Radius.circular(50.0)),
-              gradient: new LinearGradient(
-                  colors: [const Color(0xFF5AA1FD), const Color(0xFF3C73F1)])
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Expanded(
+          flex: 2,
+          child: Container(
+            color: YDColors.color_fff,
+            child: ListView.builder(
+              itemCount: _datas.length,
+              itemBuilder: (BuildContext context, int position) {
+                return getRow(position);
+              },
+            ),
           ),
-          child: new Center(
-              child: new Text(
-                "分类正在建设中...",
-                textScaleFactor: 1.1,
-                style: new TextStyle(fontSize: 16.0, color: Colors.white),
-              )),
-        ));
-
-
-    void _openSignUp() {
-//      setState(() {
-//        Navigator.of(context).push(new MaterialPageRoute<Null>(
-//          builder: (BuildContext context) {
-//            return new SignUp();
-//          },
-//        ));
-//      });
-    }
-
-
-
-
-
-    Widget whitleContent = new Center(
-      child: new Container(
-//        margin: new EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
-        constraints: new BoxConstraints.expand(width: MediaQuery
-            .of(context)
-            .size
-            .width * 0.9, height: 450.0,),
-        decoration: new BoxDecoration(
-          color: Colors.white,
-          border: new Border.all(color: Colors.white, width: 5.0,),
-          borderRadius: new BorderRadius.all(new Radius.circular(15.0)),
         ),
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            buttonLogin,
-
-
-
-          ],
-        ),
-      ),
-    );
-
-    return new Scaffold(
-      body: new Stack(
-        children: <Widget>[
-          new ListView(
-            children: <Widget>[
-              whitleContent,
-            ],
-          )
-        ],
-      ),
+        Expanded(
+            flex: 5,
+            child: ListView(
+              children: <Widget>[
+                Container(
+                  //height: double.infinity,
+                  alignment: Alignment.topLeft,
+                  padding: const EdgeInsets.all(10),
+                  color: YDColors.color_F9F9F9,
+                  child: getChip(index), //传入一级分类下标
+                ),
+              ],
+            )),
+      ],
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-
+  Widget getRow(int i) {
+    Color textColor = Theme.of(context).primaryColor; //字体颜色
+    return GestureDetector(
+      child: Container(
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+        //Container下的color属性会与decoration下的border属性冲突，所以要用decoration下的color属性
+        decoration: BoxDecoration(
+          color: index == i ? Colors.white :YDColors.color_f3f3f3,
+          border: Border(
+            left: BorderSide(
+                width: 5,
+                color:
+                index == i ? Theme.of(context).primaryColor : Colors.white),
+          ),
+        ),
+        child: Text(
+          _datas[i].name,
+          style: TextStyle(
+            color: index == i ? YDColors.black_3 : YDColors.color_666,
+            fontWeight: index == i ? FontWeight.w600 : FontWeight.w400,
+            fontSize: 16,
+          ),
+        ),
+      ),
+      onTap: () {
+        setState(() {
+          index = i; //记录选中的下标
+          textColor = YDColors.colorPrimary;
+        });
+      },
+    );
   }
 
+  Widget getChip(int i) {
+    //更新对应下标数据
+    _updateArticles(i);
+    return Wrap(
+      spacing: 10.0, //两个widget之间横向的间隔
+      direction: Axis.horizontal, //方向
+      alignment: WrapAlignment.start, //内容排序方式
+      children: List<Widget>.generate(
+        articles.length,
+            (int index) {
+          return ActionChip(
+            //标签文字
+            label: Text(
+              articles[index].title,
+              style: TextStyle(fontSize: 16, color: YDColors.color_666),
+            ),
+            //点击事件
+            onPressed: () {
+//              Navigator.push(
+//                context,
+//                MaterialPageRoute(
+//                  builder: (context) => ArticleDetail(
+//                      title: articles[index].title, url: articles[index].link),
+//                ),
+//              );
+            },
+            elevation: 3,
+            backgroundColor: Colors.grey.shade200,
+          );
+        },
+      ).toList(),
+    );
+  }
 
-
+  ///
+  /// 根据一级分类下标更新二级分类集合
+  ///
+  List<NaviDataArticle> _updateArticles(int i) {
+    setState(() {
+      if (_datas.length != 0) articles = _datas[i].articles;
+    });
+    return articles;
+  }
 }
