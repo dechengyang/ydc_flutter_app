@@ -3,6 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:ydcflutter_app/shopping/bean/ShopCartBean.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';//侧滑删除
 import 'package:ydcflutter_app/res/ydc_colors.dart';
+import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
+import 'package:ydcflutter_app/httpservice/ydc_httpmanager.dart';
+import 'package:ydcflutter_app/datarepository/ydc_sharedpreferences.dart';
+import 'package:ydcflutter_app/config/SharePreferenceKey.dart';
+import 'package:ydcflutter_app/config/ApiConfig.dart';
+import 'package:ydcflutter_app/config/Constant.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:async';
+import 'package:dio/dio.dart';
+import 'dart:convert';
 
 class ShoppingcartPage extends StatefulWidget {
   @override
@@ -10,6 +20,7 @@ class ShoppingcartPage extends StatefulWidget {
 }
 
 class _ShoppingcartPageState extends State<ShoppingcartPage> {
+  var mContext=null;
   List<ShopCartResult> _list = new List();
   var money = 0.00;
   var selectCount = 0;
@@ -20,10 +31,86 @@ class _ShoppingcartPageState extends State<ShoppingcartPage> {
     // TODO: implement initState
     super.initState();
     _categoryChild();
+    _getData();
   }
 
   bool isSelect = false;
 
+
+  void _getData() async {
+    String token = await SharedPreferencesHelper.get(SharePreferenceKey.TOKEN_KEY);
+    if (token == null) {
+      print("getToken ====== ");
+      print(token);
+      print("getToken2 ====== ");
+    }
+    YDCLoadingPage loadingPage = YDCLoadingPage(mContext);
+    loadingPage.show();
+    var params = {
+      'appid': Constant.appId,
+      'appsecret':Constant.SECRETKEY,
+      'token': token
+    };
+    print("params ====== ");
+    print(params);
+    print("params2 ====== ");
+    httpManager.clearAuthorization();
+    var res = await httpManager.request(
+        ApiConfig.BASE_URL+ApiConfig.getshoppingcart, params, null, new Options(method: "post"));
+    if (res != null ) {
+      if (Constant.DEBUG) {
+        print("result999======"+res.data.toString());
+        final data = json.decode(res.data.toString());
+        var code= data['code'];
+        var message= data['message'];
+        if(code=="1000"){
+          Future.delayed(
+            Duration(seconds: 2),
+                () {
+              loadingPage.close();
+              setState(() {
+                Fluttertoast.showToast(
+                    msg: "登录成功！",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                );
+
+
+
+              });
+            },
+          );
+
+        }else{
+          Future.delayed(
+            Duration(seconds: 2),
+                () {
+              loadingPage.close();
+              setState(() {
+                Fluttertoast.showToast(
+                    msg: message,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                );
+
+
+              });
+            },
+          );
+        }
+
+      }
+
+    }
+  }
   void _categoryChild() {
 
     for(int j=0;j<2;j++){
@@ -90,6 +177,7 @@ class _ShoppingcartPageState extends State<ShoppingcartPage> {
   @override
   Widget build(BuildContext context) {
 // TODO: implement build
+    mContext=context;
     return new Scaffold(
       appBar: new AppBar(
         automaticallyImplyLeading: false, //左边按钮
