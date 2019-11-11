@@ -3,12 +3,18 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'dart:convert';
 import 'package:flutter/services.dart';//导入网络请求相关的包
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ydcflutter_app/main/MainPage.dart';
 import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
 import 'package:ydcflutter_app/utils/ydc_verify.dart';
 import 'package:ydcflutter_app/login/RegisterPage.dart';
+import 'package:ydcflutter_app/httpservice/ydc_httpmanager.dart';
+import 'package:ydcflutter_app/datarepository/local_storage.dart';
+import 'package:ydcflutter_app/config/SharePreferenceKey.dart';
 
 /**
  * 登录
@@ -21,11 +27,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
+
   final TextEditingController _phoneController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
 
@@ -65,6 +74,28 @@ class _LoginPageState extends State<LoginPage> {
 
   _cancelTimer() {
     _timer?.cancel();
+  }
+  void _loginHttp() async {
+    var params = {
+      'appid': 'ydc20191111',
+      'appsecret': 'ydc19491001',
+      'username': '18721564883',
+      'password': '123456'
+    };
+    httpManager.clearAuthorization();
+
+    var res = await httpManager.request(
+        "http://sanzhangwl.com/BusinessWebsite/open/api/v1/login.do", params, null, new Options(method: "post"));
+
+    if (res != null && res.result) {
+      //await LocalStorage.save(Config.PW_KEY, password);
+      //var resultData = await getUserInfo(null);
+      if (Config.DEBUG) {
+        print("user result " + res.result.toString());
+        print(res.data);
+        print(res.data.toString());
+      }
+    }
   }
 
   @override
@@ -291,12 +322,14 @@ class _LoginPageState extends State<LoginPage> {
 //            textColor: Color(0xffffff)
 
               );
-              Navigator.of(context).push(new MaterialPageRoute<Null>(
-                builder: (BuildContext context) {
-//                return new HomePage();
-                  return new MainPage();
-                },
-              ));
+//              Navigator.of(context).push(new MaterialPageRoute<Null>(
+//                builder: (BuildContext context) {
+////                return new HomePage();
+//                  return new MainPage();
+//                },
+//              ));
+
+              _loginHttp();
             });
           },
         );

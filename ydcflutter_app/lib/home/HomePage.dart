@@ -31,8 +31,7 @@ class _HomePageState extends State<HomePage> {
   void _getDio() async {
 //    YDCLoadingPage loadingPage = YDCLoadingPage(context);
 //    loadingPage.show();
-    Response response =
-    await Dio().get("https://www.runoob.com/try/ajax/json_demo.json");
+    Response response = await Dio().get("https://www.runoob.com/try/ajax/json_demo.json");
     print("get ====== "+response.toString());
     final body = json.decode(response.toString());
 

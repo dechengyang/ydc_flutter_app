@@ -30,6 +30,9 @@ dependencies:
   flutter_swiper: ^1.0.6 #https://github.com/best-flutter/flutter_swiper
   flutter_screenutil: ^0.5.3  #https://github.com/OpenFlutter/flutter_screenutil
   flutter_slidable: "^0.5.4"  #https://github.com/letsar/flutter_slidable
+  shared_preferences: 0.5.3+4
+  connectivity: 0.4.4
+  event_bus:  ^1.1.0
 #  cached_network_image: ^0.8.0
 #  transparent_image: ^1.0.0
 
