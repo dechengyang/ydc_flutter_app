@@ -76,7 +76,8 @@ class HttpManager {
     Response response;
     try {
       //response = await _dio.request(url, data: params, options: option);
-      response = await _dio.request(url, queryParameters: params, options: option);
+      //response = await _dio.request(url, data: params, options: option);//json格式传递方式
+      response = await _dio.request(url, queryParameters: params, options: option);//直接key-value传递方式
     } on DioError catch (e) {
       return resultError(e);
     }

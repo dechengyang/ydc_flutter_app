@@ -1,10 +1,7 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';//导入网络请求相关的包
 import 'package:fluttertoast/fluttertoast.dart';
@@ -15,6 +12,8 @@ import 'package:ydcflutter_app/login/RegisterPage.dart';
 import 'package:ydcflutter_app/httpservice/ydc_httpmanager.dart';
 import 'package:ydcflutter_app/datarepository/local_storage.dart';
 import 'package:ydcflutter_app/config/SharePreferenceKey.dart';
+import 'package:ydcflutter_app/config/ApiConfig.dart';
+import 'package:ydcflutter_app/login/bean/LoginBean.dart';
 
 /**
  * 登录
@@ -35,6 +34,7 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
   }
 
+  var mContext=null;
   final TextEditingController _phoneController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
 
@@ -83,17 +83,25 @@ class _LoginPageState extends State<LoginPage> {
       'password': '123456'
     };
     httpManager.clearAuthorization();
-
     var res = await httpManager.request(
-        "http://sanzhangwl.com/BusinessWebsite/open/api/v1/login.do", params, null, new Options(method: "post"));
-
-    if (res != null && res.result) {
-      //await LocalStorage.save(Config.PW_KEY, password);
-      //var resultData = await getUserInfo(null);
+        ApiConfig.BASE_URL+ApiConfig.LOGIN, params, null, new Options(method: "post"));
+    if (res != null ) {
       if (Config.DEBUG) {
-        print("user result " + res.result.toString());
-        print(res.data);
+        print("user result");
+        print(res);
         print(res.data.toString());
+        final data = json.decode(res.data.toString());
+        var code= data['code'];
+        var token= data['token'];
+        print("code ====== "+code);
+        print("code ====== "+token);
+        if(mContext!=null){
+//          Navigator.of(mContext).push(new MaterialPageRoute<Null>(
+//                builder: (BuildContext context) {
+//                  return new MainPage();
+//                },
+//              ));
+        }
       }
     }
   }
@@ -101,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-
+    mContext=context;
     Widget phoneInputWidget = new Container(
       margin: new EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
       width: MediaQuery
