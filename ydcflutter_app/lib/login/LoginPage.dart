@@ -10,7 +10,7 @@ import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
 import 'package:ydcflutter_app/utils/ydc_verify.dart';
 import 'package:ydcflutter_app/login/RegisterPage.dart';
 import 'package:ydcflutter_app/httpservice/ydc_httpmanager.dart';
-import 'package:ydcflutter_app/datarepository/ydc_sharedPreferenceshelper.dart';
+import 'package:ydcflutter_app/datarepository/ydc_sharedpreferences.dart';
 import 'package:ydcflutter_app/config/SharePreferenceKey.dart';
 import 'package:ydcflutter_app/config/ApiConfig.dart';
 import 'package:ydcflutter_app/login/bean/LoginBean.dart';
@@ -80,10 +80,10 @@ class _LoginPageState extends State<LoginPage> {
     YDCLoadingPage loadingPage = YDCLoadingPage(mContext);
     loadingPage.show();
     var params = {
-      'appid': 'ydc20191111',
-      'appsecret': 'ydc19491001',
-      'username': '18721564883',
-      'password': '123456'
+      'appid': Constant.appId,
+      'appsecret':Constant.SECRETKEY,
+      'username': _userName,
+      'password': _password
     };
     httpManager.clearAuthorization();
     var res = await httpManager.request(

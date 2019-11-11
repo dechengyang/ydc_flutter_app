@@ -3,11 +3,20 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
+import 'dart:async';
+import 'package:dio/dio.dart';
+import 'dart:convert';
 import 'package:flutter/services.dart';//导入网络请求相关的包
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ydcflutter_app/main/MainPage.dart';
 import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
 import 'package:ydcflutter_app/utils/ydc_verify.dart';
+import 'package:ydcflutter_app/httpservice/ydc_httpmanager.dart';
+import 'package:ydcflutter_app/datarepository/ydc_sharedpreferences.dart';
+import 'package:ydcflutter_app/config/SharePreferenceKey.dart';
+import 'package:ydcflutter_app/config/ApiConfig.dart';
+import 'package:ydcflutter_app/login/bean/LoginBean.dart';
+import 'package:ydcflutter_app/config/Constant.dart';
 
 /**
  * 注册
@@ -25,6 +34,8 @@ class _RegisterPageState extends State<RegisterPage> {
     // TODO: implement initState
     super.initState();
   }
+
+  var mContext=null;
   final TextEditingController _phoneController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
 
@@ -33,6 +44,7 @@ class _RegisterPageState extends State<RegisterPage> {
   var _userName = "";
   var _password = "";
   var _code = "";
+  var _email="";
 
   bool _correctPhone = true;
   bool _correctPassword = true;
@@ -40,11 +52,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
   int _seconds = 0;
   String _verifyStr = '获取验证码';
-  String _loginTypeChangeStr='手机快捷登录';
   Timer _timer;
 
   _startTimer() {
-    _seconds = 10;
+    _seconds = 120;
 
     _timer = new Timer.periodic(new Duration(seconds: 1), (timer) {
       if (_seconds == 0) {
@@ -65,9 +76,169 @@ class _RegisterPageState extends State<RegisterPage> {
     _timer?.cancel();
   }
 
+
+  void _getCode() async {
+    YDCLoadingPage loadingPage = YDCLoadingPage(mContext);
+    loadingPage.show();
+    var params = {
+      'appid': Constant.appId,
+      'appsecret':Constant.SECRETKEY,
+      'username': _userName,
+      'type': '1000'
+    };
+    httpManager.clearAuthorization();
+    var res = await httpManager.request(
+        ApiConfig.BASE_URL+ApiConfig.getcode, params, null, new Options(method: "post"));
+    if (res != null ) {
+      if (Constant.DEBUG) {
+        final data = json.decode(res.data.toString());
+        var code= data['code'];
+        var message= data['message'];
+        if(code=="1000"){
+          Future.delayed(
+            Duration(seconds: 2),
+                () {
+              loadingPage.close();
+              setState(() {
+                Fluttertoast.showToast(
+                    msg: message,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                );
+
+
+              });
+            },
+          );
+
+        }else{
+          Future.delayed(
+            Duration(seconds: 2),
+                () {
+              loadingPage.close();
+              setState(() {
+                Fluttertoast.showToast(
+                    msg: message,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                );
+
+
+              });
+            },
+          );
+        }
+
+      }
+
+    }else{
+
+      Future.delayed(
+        Duration(seconds: 2),
+            () {
+          loadingPage.close();
+          setState(() {
+            Fluttertoast.showToast(
+                msg: res.data.toString(),
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+            );
+
+
+          });
+        },
+      );
+    }
+  }
+
+  void _registerHttp() async {
+    YDCLoadingPage loadingPage = YDCLoadingPage(mContext);
+    loadingPage.show();
+    var params = {
+      'appid': Constant.appId,
+      'appsecret':Constant.SECRETKEY,
+      'username': _userName,
+      'password': _password,
+      "verificationcode":_code,
+      "developer":"个人",
+      "email":_email
+    };
+    httpManager.clearAuthorization();
+    var res = await httpManager.request(
+        ApiConfig.BASE_URL+ApiConfig.REGISTER, params, null, new Options(method: "post"));
+    if (res != null ) {
+      if (Constant.DEBUG) {
+        print("user result");
+        print(res);
+        print(res.data.toString());
+        final data = json.decode(res.data.toString());
+        var code= data['code'];
+        var message= data['message'];
+        if(code=="1000"){
+          Future.delayed(
+            Duration(seconds: 2),
+                () {
+              loadingPage.close();
+              setState(() {
+                Fluttertoast.showToast(
+                    msg: message,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                );
+                Navigator.of(context).pop();
+
+
+              });
+            },
+          );
+
+        }else{
+          Future.delayed(
+            Duration(seconds: 2),
+                () {
+              loadingPage.close();
+              setState(() {
+                Fluttertoast.showToast(
+                    msg: message,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                );
+
+
+              });
+            },
+          );
+        }
+
+      }
+
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    mContext=context;
 
     Widget phoneInputWidget = new Container(
       margin: new EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
@@ -136,13 +307,40 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
 
+    Widget emailInputWidget=new Padding(
+      padding: new EdgeInsets.only(right: 20.0),
+      child:
+      new TextField(
+        keyboardType: TextInputType.text,
+        maxLines: 1,
+        //controller: _passwordController,
+        style: new TextStyle(fontSize: 16.0, color: Colors.black),
+        decoration:new InputDecoration(
+          hintText: '请输入邮箱',
+//          errorText: _correctPassword
+//              ? null
+//              : '请输入正确的验证码',
+          icon: new Image.asset(
+            'images/iv_vercode.png',
+            width: 20.0,
+            height: 20.0,
+          ),
+        ),
+
+        onChanged: (String value){
+          _email=value;
+        },
+      ),
+    );
+
+
     Widget codeInputWidget=new Padding(
       padding: new EdgeInsets.only(right: 20.0),
       child:
       new TextField(
         keyboardType: TextInputType.number,
         maxLines: 1,
-        controller: _passwordController,
+        //controller: _passwordController,
         style: new TextStyle(fontSize: 16.0, color: Colors.black),
         decoration:new InputDecoration(
           hintText: '请输入验证码',
@@ -166,6 +364,33 @@ class _RegisterPageState extends State<RegisterPage> {
     Widget codeBtnWidget = new InkWell(
       onTap: (_seconds == 0)
           ? () {
+        if (_userName == null || _userName.length == 0) {
+          Fluttertoast.showToast(
+              msg: "账号不能为空！",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+          );
+          return;
+        }else{
+          if(!YDCVerify.isPhone(_userName)){
+            Fluttertoast.showToast(
+                msg: "请输入正确的手机号码！",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+            );
+            return;
+          }
+        }
+        _getCode();
+
         setState(() {
           _startTimer();
         });
@@ -266,29 +491,21 @@ class _RegisterPageState extends State<RegisterPage> {
           );
           return;
         }
-
-
-      if(_checkSelected){
-        YDCLoadingPage loadingPage = YDCLoadingPage(context);
-        loadingPage.show();
-        Future.delayed(
-          Duration(seconds: 3),
-              () {
-            loadingPage.close();
-            setState(() {
-              Fluttertoast.showToast(
-                  msg: "登录成功！",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIos:1
+        if (_email == null || _email.length == 0) {
+          Fluttertoast.showToast(
+              msg: "邮箱不能为空！",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIos: 1
 //            backgroundColor: Color(0xe74c3c),
 //            textColor: Color(0xffffff)
 
-              );
-              Navigator.of(context).pop();
-            });
-          },
-        );
+          );
+          return;
+        }
+
+      if(_checkSelected){
+        _registerHttp();
       }else{
         Fluttertoast.showToast(
             msg: "请勾选协议！",
@@ -398,6 +615,7 @@ class _RegisterPageState extends State<RegisterPage> {
           children: <Widget>[
             phoneInputWidget,
             passwordInputWidget,
+            emailInputWidget,
             codeWidget,
             btnLoginWidget,
             agreementWidget

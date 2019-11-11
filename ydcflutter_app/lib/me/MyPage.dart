@@ -9,7 +9,7 @@ import 'dart:convert';
 import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
 
 import 'package:ydcflutter_app/config/SharePreferenceKey.dart';
-import 'package:ydcflutter_app/datarepository/ydc_sharedPreferenceshelper.dart';
+import 'package:ydcflutter_app/datarepository/ydc_sharedpreferences.dart';
 
 class MyPage extends StatefulWidget {
   @override
