@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 ///SharedPreferences 本地存储
-class LocalStorage {
+class SharedPreferencesHelper {
 
   static save(String key, value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

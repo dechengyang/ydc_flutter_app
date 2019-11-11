@@ -10,10 +10,11 @@ import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
 import 'package:ydcflutter_app/utils/ydc_verify.dart';
 import 'package:ydcflutter_app/login/RegisterPage.dart';
 import 'package:ydcflutter_app/httpservice/ydc_httpmanager.dart';
-import 'package:ydcflutter_app/datarepository/local_storage.dart';
+import 'package:ydcflutter_app/datarepository/ydc_sharedPreferenceshelper.dart';
 import 'package:ydcflutter_app/config/SharePreferenceKey.dart';
 import 'package:ydcflutter_app/config/ApiConfig.dart';
 import 'package:ydcflutter_app/login/bean/LoginBean.dart';
+import 'package:ydcflutter_app/config/Constant.dart';
 
 /**
  * 登录
@@ -76,6 +77,8 @@ class _LoginPageState extends State<LoginPage> {
     _timer?.cancel();
   }
   void _loginHttp() async {
+    YDCLoadingPage loadingPage = YDCLoadingPage(mContext);
+    loadingPage.show();
     var params = {
       'appid': 'ydc20191111',
       'appsecret': 'ydc19491001',
@@ -86,23 +89,69 @@ class _LoginPageState extends State<LoginPage> {
     var res = await httpManager.request(
         ApiConfig.BASE_URL+ApiConfig.LOGIN, params, null, new Options(method: "post"));
     if (res != null ) {
-      if (Config.DEBUG) {
+      if (Constant.DEBUG) {
         print("user result");
         print(res);
         print(res.data.toString());
         final data = json.decode(res.data.toString());
         var code= data['code'];
-        var token= data['token'];
-        print("code ====== "+code);
-        print("code ====== "+token);
-        if(mContext!=null){
-//          Navigator.of(mContext).push(new MaterialPageRoute<Null>(
-//                builder: (BuildContext context) {
-//                  return new MainPage();
-//                },
-//              ));
+        var message= data['message'];
+        if(code=="1000"){
+          var token= data['token'];
+          await SharedPreferencesHelper.save(SharePreferenceKey.TOKEN_KEY, token);
+          print("code ====== "+code);
+          print("code ====== "+token);
+            Future.delayed(
+              Duration(seconds: 2),
+                  () {
+                loadingPage.close();
+                setState(() {
+                  Fluttertoast.showToast(
+                      msg: "登录成功！",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                  );
+                  if(mContext!=null) {
+                    Navigator.of(mContext).push(new MaterialPageRoute<Null>(
+                      builder: (BuildContext context) {
+                        return new MainPage();
+                      },
+                    ));
+                  }
+
+
+                });
+              },
+            );
+
+          }else{
+          Future.delayed(
+            Duration(seconds: 2),
+                () {
+              loadingPage.close();
+              setState(() {
+                Fluttertoast.showToast(
+                    msg: message,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                );
+
+
+              });
+            },
+          );
         }
-      }
+
+        }
+
     }
   }
 
@@ -314,33 +363,7 @@ class _LoginPageState extends State<LoginPage> {
 
 
       if(_checkSelected){
-        YDCLoadingPage loadingPage = YDCLoadingPage(context);
-        loadingPage.show();
-        Future.delayed(
-          Duration(seconds: 2),
-              () {
-            loadingPage.close();
-            setState(() {
-              Fluttertoast.showToast(
-                  msg: "登录成功！",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
-              );
-//              Navigator.of(context).push(new MaterialPageRoute<Null>(
-//                builder: (BuildContext context) {
-////                return new HomePage();
-//                  return new MainPage();
-//                },
-//              ));
-
-              _loginHttp();
-            });
-          },
-        );
+       _loginHttp();
       }else{
         Fluttertoast.showToast(
             msg: "请勾选协议！",

@@ -8,6 +8,9 @@ import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
 
+import 'package:ydcflutter_app/config/SharePreferenceKey.dart';
+import 'package:ydcflutter_app/datarepository/ydc_sharedPreferenceshelper.dart';
+
 class MyPage extends StatefulWidget {
   @override
   State createState() => new _MyPageState();
@@ -22,6 +25,10 @@ class _MyPageState extends State<MyPage> {
   void _getDio() async {
 //    YDCLoadingPage loadingPage = YDCLoadingPage(context);
 //    loadingPage.show();
+    String token = await SharedPreferencesHelper.get(SharePreferenceKey.TOKEN_KEY);
+    if (token == null) {
+      print("getToken ====== "+token);
+    }
     Response response =
     await Dio().get("https://www.runoob.com/try/ajax/json_demo.json");
     print("get ====== "+response.toString());
@@ -36,6 +43,14 @@ class _MyPageState extends State<MyPage> {
   }
 
   void _postDio() async {
+
+    String token = await SharedPreferencesHelper.get(SharePreferenceKey.TOKEN_KEY);
+    if (token == null) {
+      print("getToken ====== "+token);
+    }else{
+      print("getToken ====== "+token);
+    }
+
 //    YDCLoadingPage loadingPage = YDCLoadingPage(context);
 //    loadingPage.show();
     var headers = Map<String, String>();
