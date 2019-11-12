@@ -11,6 +11,17 @@ import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:ydcflutter_app/home/bean/PicModel.dart';
 import 'package:ydcflutter_app/shopping/GoodsDetailPage.dart';
+import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
+import 'package:ydcflutter_app/httpservice/ydc_httpmanager.dart';
+import 'package:ydcflutter_app/datarepository/ydc_sharedpreferences.dart';
+import 'package:ydcflutter_app/config/SharePreferenceKey.dart';
+import 'package:ydcflutter_app/config/ApiConfig.dart';
+import 'package:ydcflutter_app/config/Constant.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:async';
+import 'package:dio/dio.dart';
+import 'dart:convert';
+import 'package:ydcflutter_app/home/bean/HomeFeed.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -18,56 +29,90 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var mContext=null;
   final TextEditingController _phoneController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
   String mPhoneText;
-  List<String>   bannerDatas=List();
-  List<PicModel> picList = new List();
-  List<PicModel> functionMenuList = new List();
-
+  List<BannerBean> bannerList = new List();
+  List<GoodsBean> goodsList = new List();
+  List<MenuBean> functionMenuList = new List();
   SwiperController _swiperController;
+  
+  void _getData() async {
+    String token = await SharedPreferencesHelper.get(SharePreferenceKey.TOKEN_KEY);
+    if (token == null) {
+      print("getToken ====== ");
+      print(token);
+      print("getToken2 ====== ");
+    }
+    YDCLoadingPage loadingPage = YDCLoadingPage(mContext);
+    loadingPage.show();
+    var params = {
+      'appid': Constant.appId,
+      'appsecret':Constant.SECRETKEY,
+      'token': token
+    };
+    httpManager.clearAuthorization();
+    var res = await httpManager.request(
+        ApiConfig.BASE_URL+ApiConfig.gethemo, params, null, new Options(method: "post"));
+    if (res != null ) {
+      if (Constant.DEBUG) {
+        print("result999======"+res.data.toString());
+        final data = json.decode(res.data.toString());
+        var code= data['code'];
+        var message= data['message'];
+        if(code=="1000"){
+          var feed=HomeFeed.fromJson(data);
+          print("HomeFeed======"+(feed.data.banner.length).toString());
+          functionMenuList=feed.data.menu;
+          goodsList=feed.data.goods;
+          bannerList=feed.data.banner;
+          Future.delayed(
+            Duration(seconds: 2),
+                () {
+              loadingPage.close();
+              setState(() {
+                Fluttertoast.showToast(
+                    msg: message,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
 
-  String data;
-  void _getDio() async {
-//    YDCLoadingPage loadingPage = YDCLoadingPage(context);
-//    loadingPage.show();
-    Response response = await Dio().get("https://www.runoob.com/try/ajax/json_demo.json");
-    print("get ====== "+response.toString());
-    final body = json.decode(response.toString());
+                );
 
-    setState(() {
-      data = body['name'];
-      print("title ====== "+data);
+              });
+            },
+          );
 
-      bannerDatas = [
-        'https://img.alicdn.com/tps/TB1oHwXMVXXXXXnXVXXXXXXXXXX-570-400.jpg',
-        'https://img.alicdn.com/tps/TB1XF.gJpXXXXaUXVXXXXXXXXXX-570-400.jpg',
-        'https://img.alicdn.com/tps/i4/TB1VGZBJXXXXXX3aXXXCtjtIVXX-570-400.jpg',
-        'https://aecpm.alicdn.com/simba/img/TB1t9gUXXXXXXczaVXXSutbFXXX.jpg',
-      ];
-      print("bannerDatas ====== "+bannerDatas.toString());
+        }else{
+          Future.delayed(
+            Duration(seconds: 2),
+                () {
+              loadingPage.close();
+              setState(() {
+                Fluttertoast.showToast(
+                    msg: message,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
 
-      List<PicModel> pList = new List();
-      List<PicModel> fList = new List();
-      for(int i=0;i<10;i++){
-        var p = PicModel();
-        p.imageUrl="https://img.alicdn.com/tps/TB1G5oxMVXXXXbFXFXXXXXXXXXX-190-200.jpg";
-        p.name="功能菜单"+(i+1).toString();
-        pList.add(p);
+                );
+
+
+              });
+            },
+          );
+        }
+
       }
 
-      for(int i=0;i<10;i++){
-        var p = PicModel();
-        p.imageUrl="https://img.alicdn.com/tps/TB1oHwXMVXXXXXnXVXXXXXXXXXX-570-400.jpg";
-        p.name="功能菜单"+(i+1).toString();
-        fList.add(p);
-      }
-      picList=pList;
-      functionMenuList=fList;
-    });
+    }
 
     _swiperController.startAutoplay();
-    //loadingPage.close();
   }
 
   void _postDio() async {
@@ -122,13 +167,13 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
     _swiperController = SwiperController();
-    _getDio();
-   // _postDio();
+    _getData();
 
   }
 
   @override
   Widget build(BuildContext context) {
+    mContext=context;
     return new Scaffold(
       body:new Stack(
         children: <Widget>[
@@ -140,9 +185,9 @@ class _HomePageState extends State<HomePage> {
                   child:
                   new Swiper(
                     itemBuilder: (BuildContext context,int index){
-                      return new Image.network(bannerDatas[index],fit: BoxFit.fill,);
+                      return new Image.network(bannerList[index].url,fit: BoxFit.fill,);
                     },
-                    itemCount: bannerDatas.length,
+                    itemCount: bannerList.length,
                     //触发时是否停止播放
                     autoplayDisableOnInteraction: true,
                     //pagination: new SwiperPagination(),
@@ -202,12 +247,12 @@ class _HomePageState extends State<HomePage> {
                     mainAxisSpacing: 10.0,
                     crossAxisSpacing: 10.0,
                     ),
-                    itemCount: picList.length,
+                    itemCount: goodsList.length,
                     itemBuilder: (BuildContext context, int index) {
 //                    if(index == picList.length - 1 ){
 //                    _getPicList();
 //                    }
-                  return gridViewItem(picList[index],context);
+                  return gridViewItem(goodsList[index],context);
                   }))
             ],
           ),
