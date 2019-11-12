@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:ydcflutter_app/common/api.dart';
 import 'package:ydcflutter_app/category/bean/navi_entity.dart';
 import 'package:ydcflutter_app/res/ydc_colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -30,7 +29,7 @@ class _CategoryPageState extends State<CategoryPage> {
   void getHttp() async {
     try {
       Response response =
-      await Dio().get(Api.BASE_URL+Api.NAVI);
+      await Dio().get("https://www.wanandroid.com/navi/json");
       //var response =await Dio().get(Api.NAVI);
       Map userMap = json.decode(response.toString());
       print("get ====== "+response.toString());

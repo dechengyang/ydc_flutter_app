@@ -89,7 +89,7 @@ class HttpManager {
 
   ///清除授权
   clearAuthorization() {
-    _tokenInterceptors.clearAuthorization();
+   // _tokenInterceptors.clearAuthorization();//2019112 先注释掉
   }
 
   ///获取授权token
