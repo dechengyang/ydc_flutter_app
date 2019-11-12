@@ -1,32 +1,23 @@
 import 'package:json_annotation/json_annotation.dart';
-
-
+part 'ShoppingCartFeed.g.dart';
 
 
 @JsonSerializable()
-class ShopCartBean {
+class ShoppingCartFeed {
 
-  @JsonKey(name: 'code')
-  String code;
+  @JsonKey(name: 'data')
+  List<ShoppingCartStoreBean> data;
 
-  @JsonKey(name: 'msg')
-  String msg;
+  ShoppingCartFeed(this.data);
 
-  @JsonKey(name: 'result')
-  List<ShopCartResult> result;
-
-  @JsonKey(name: 'success')
-  bool success;
-
-  ShopCartBean(this.code,this.msg,this.result,this.success,);
-
-  //factory ShopCartBean.fromJson(Map<String, dynamic> srcJson) => _$ShopCartBeanFromJson(srcJson);
+  factory ShoppingCartFeed.fromJson(Map<String, dynamic> srcJson) => _$ShoppingCartFeedFromJson(srcJson);
+  Map<String,dynamic> toJson() => _$ShoppingCartFeedToJson(this);
 
 }
 
 
 @JsonSerializable()
-class ShopCartResult {
+class ShoppingCartStoreBean {
 
   @JsonKey(name: 'couponShow')
   bool couponShow;
@@ -34,8 +25,8 @@ class ShopCartResult {
   @JsonKey(name: 'goodsIdStr')
   String goodsIdStr;
 
-  @JsonKey(name: 'goodsToBuyDtos')
-  List<GoodsToBuyDtos> goodsToBuyDtos;
+  @JsonKey(name: 'item')
+  List<GoodsToBuyBean> item;
 
   @JsonKey(name: 'selected')
   bool selected;
@@ -46,15 +37,16 @@ class ShopCartResult {
   @JsonKey(name: 'storeName')
   String storeName;
 
-  //ShopCartResult(this.couponShow,this.goodsIdStr,this.goodsToBuyDtos,this.selected,this.storeId,this.storeName,);
+  ShoppingCartStoreBean(this.couponShow,this.goodsIdStr,this.item,this.selected,this.storeId,this.storeName,);
 
-  //factory ShopCartResult.fromJson(Map<String, dynamic> srcJson) => _$ShopCartResultFromJson(srcJson);
+  factory ShoppingCartStoreBean.fromJson(Map<String, dynamic> srcJson) => _$ShoppingCartStoreBeanFromJson(srcJson);
+  Map<String,dynamic> toJson() => _$ShoppingCartStoreBeanToJson(this);
 
 }
 
 
 @JsonSerializable()
-class GoodsToBuyDtos {
+class GoodsToBuyBean {
 
   @JsonKey(name: 'count')
   String count;
@@ -113,9 +105,10 @@ class GoodsToBuyDtos {
   @JsonKey(name: 'storeType')
   String storeType;
 
-  //GoodsToBuyDtos(this.count,this.dValue,this.fee,this.goodsId,this.id,this.inventory,this.isGoodsNew,this.limitDesc,this.maxBatch,this.memo,this.minBatch,this.name,this.path,this.price,this.selected,this.skuCfg,this.standardCfg,this.status,this.storeType,);
+  GoodsToBuyBean(this.count,this.dValue,this.fee,this.goodsId,this.id,this.inventory,this.isGoodsNew,this.limitDesc,this.maxBatch,this.memo,this.minBatch,this.name,this.path,this.price,this.selected,this.skuCfg,this.standardCfg,this.status,this.storeType,);
 
-  //factory GoodsToBuyDtos.fromJson(Map<String, dynamic> srcJson) => _$GoodsToBuyDtosFromJson(srcJson);
+  factory GoodsToBuyBean.fromJson(Map<String, dynamic> srcJson) => _$GoodsToBuyBeanFromJson(srcJson);
+  Map<String,dynamic> toJson() => _$GoodsToBuyBeanToJson(this);
 
 }
 

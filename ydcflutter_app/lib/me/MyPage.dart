@@ -103,7 +103,7 @@ class _MyPageState extends State<MyPage> {
     // TODO: implement initState
     super.initState();
     //_getDio();
-    _postDio();
+   // _postDio();
   }
 
   @override
