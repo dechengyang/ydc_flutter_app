@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
   List<GoodsBean> goodsList = new List();
   List<MenuBean> functionMenuList = new List();
   SwiperController _swiperController;
-  
+
   void _getData() async {
     String token = await SharedPreferencesHelper.get(SharePreferenceKey.TOKEN_KEY);
     if (token == null) {

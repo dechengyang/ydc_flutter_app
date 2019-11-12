@@ -20,7 +20,7 @@ class YDCLoadingPage {
         return SpinKitWanderingCubes(color: Colors.white);
       },
     ).then((value) {
-      onClosed(value);
+      //onClosed(value);
     });
   }
 

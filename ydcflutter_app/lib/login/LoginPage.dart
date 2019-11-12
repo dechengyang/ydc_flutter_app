@@ -97,6 +97,7 @@ class _LoginPageState extends State<LoginPage> {
         var code= data['code'];
         var message= data['message'];
         if(code=="1000"){
+          loadingPage.close();
           var token= data['token'];
           await SharedPreferencesHelper.save(SharePreferenceKey.TOKEN_KEY, token);
           print("code ====== "+code);
@@ -104,7 +105,6 @@ class _LoginPageState extends State<LoginPage> {
             Future.delayed(
               Duration(seconds: 2),
                   () {
-                loadingPage.close();
                 setState(() {
                   Fluttertoast.showToast(
                       msg: "登录成功！",
@@ -132,7 +132,6 @@ class _LoginPageState extends State<LoginPage> {
           Future.delayed(
             Duration(seconds: 2),
                 () {
-              loadingPage.close();
               setState(() {
                 Fluttertoast.showToast(
                     msg: message,
