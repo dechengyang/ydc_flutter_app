@@ -5,11 +5,13 @@ import 'package:flutter/services.dart';//导入网络请求相关的包
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dio/dio.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:ydcflutter_app/common/CommonPage.dart';
 import 'dart:convert';
 import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
 
 import 'package:ydcflutter_app/config/SharePreferenceKey.dart';
 import 'package:ydcflutter_app/datarepository/ydc_sharedpreferences.dart';
+import 'package:ydcflutter_app/common/CommonPage.dart';
 
 class MyPage extends StatefulWidget {
   @override
@@ -17,6 +19,9 @@ class MyPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPage> {
+
+  BuildContext mContext;
+
   final TextEditingController _phoneController = new TextEditingController();
   final TextEditingController _passwordController = new TextEditingController();
   String mPhoneText;
@@ -108,6 +113,7 @@ class _MyPageState extends State<MyPage> {
 
   @override
   Widget build(BuildContext context) {
+    mContext=context;
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("我的"),
@@ -130,6 +136,51 @@ class _MyPageState extends State<MyPage> {
               aboutWidget,
               dividerWidget,
               settingWidget,
+            new Container(
+                color: const Color(0xFFFFFFFF),
+                height: 50.0,
+                child:new InkWell(
+                  onTap: () {
+
+                    Navigator.of(context).push(new MaterialPageRoute<Null>(
+                      builder: (BuildContext context) {
+                        return new CommomPage();
+                      },
+                    ));
+
+                  },
+                  child: new Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      new Row(
+                        children: <Widget>[
+                          new Padding(
+                              padding: const EdgeInsets.only(left: 15.0),
+                              child: new Image.asset("static/images/setting_icon.png",
+                                width: 20.0,
+                                height: 20.0,)),
+
+                          new Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: new Text("常用功能",
+                                style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
+
+                        ],
+                      ),
+
+                      new Row(
+                        children: <Widget>[
+                          new Padding(
+                              padding: const EdgeInsets.only(right: 15.0,left: 10.0),
+                              child: new Image.asset("static/images/enter.png",
+                                  width: 16.0,
+                                  height: 16.0)),
+                        ],
+                      )
+                    ],
+                  ),
+                )
+            ),
               dividerWidget,
               walletWidget,
               dividerWidget,
@@ -757,6 +808,8 @@ class _MyPageState extends State<MyPage> {
         ),
       )
   );
+
+
 
   @override
   void dispose() {

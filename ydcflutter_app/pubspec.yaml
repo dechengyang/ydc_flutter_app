@@ -84,6 +84,8 @@ flutter:
     - static/images/personinfo_head_bg.png
     - static/images/zhengzu_icon.png
     - static/images/store.png
+    - static/images/mx_wx.png
+    - static/images/mx_qq.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

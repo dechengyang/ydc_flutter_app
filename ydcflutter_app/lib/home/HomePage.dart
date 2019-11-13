@@ -236,16 +236,20 @@ class _HomePageState extends State<HomePage> {
               new Container(
                   width: MediaQuery.of(context).size.width,
                   height:MediaQuery.of(context).size.height,
-                 margin: const EdgeInsets.only(top: 0.0),
+                  margin: const EdgeInsets.only(top: 0.0,bottom: 20.0),
                 child:
                 new GridView.builder(
                     padding: const EdgeInsets.all(10.0),
-                    shrinkWrap: true,
-                    physics: new NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,//listview嵌套gridview时处理listview嵌套报错)
+                    //滚动方
+                    scrollDirection: Axis.vertical,
+                    physics: new NeverScrollableScrollPhysics(),//listview嵌套gridview时处理GridView中滑动父级Listview无法滑动
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 10.0,
                     crossAxisSpacing: 10.0,
+                      //每个孩子的横轴与主轴范围的比率。 child的宽高比  常用来处理child的适配
+                      childAspectRatio: 4 / 5,
                     ),
                     itemCount: goodsList.length,
                     itemBuilder: (BuildContext context, int index) {
@@ -305,8 +309,6 @@ class _HomePageState extends State<HomePage> {
 
   gridViewItem(item,context) {
     return new Container(
-        width: MediaQuery.of(context).size.width,
-        height:MediaQuery.of(context).size.height,
         decoration:  new BoxDecoration(
           borderRadius: new BorderRadius.circular(5.0),
           color: Colors.white,
@@ -321,7 +323,6 @@ class _HomePageState extends State<HomePage> {
             ));
           },
           child: new Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               new Padding(
                   padding: const EdgeInsets.only(left: 0.0,top: 0.0,
@@ -331,25 +332,25 @@ class _HomePageState extends State<HomePage> {
                       colorBlendMode: BlendMode.colorBurn,
                       fit: BoxFit.cover, // 填充拉伸裁剪
                       width: MediaQuery.of(context).size.width,
-                      height: 100.0)),
+                      height: 110.0)),
               new Padding(padding:  const EdgeInsets.only(left: 0.0,top: 0.0,
                   bottom: 0.0),child: new Column(
                 //mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   new Padding(
-                      padding: const EdgeInsets.only(left: 0.0,top: 0.0),
+                      padding: const EdgeInsets.only(left: 0.0,top: 3.0),
                       child: new Text("￥200.00",
                         style: new TextStyle(fontSize: 12.0,
                             color:const Color(0xFFe9546b)),)),
                   new Padding(
-                      padding: const EdgeInsets.only(left: 0.0,top: 0.0),
+                      padding: const EdgeInsets.only(left: 0.0,top: 3.0),
                       child: new Text("￥320.00",
                         style: new TextStyle(fontSize: 12.0,
                             color:const Color(0xFFc8c8c8)),)),
 
                   new Padding(
-                      padding: const EdgeInsets.only(left: 15.0,top: 0.0),
-                      child: new Text("正品芦荟胶祛痘睡眠美白...",
+                      padding: const EdgeInsets.only(left: 10.0,top: 3.0),
+                      child: new Text("正品芦荟胶祛痘睡眠美白面膜泥粉免洗女男补水保湿面霜春季护肤品",
                         style: new TextStyle(fontSize: 12.0,
                             color:const Color(0xFFaaaaaa)),)),
 
