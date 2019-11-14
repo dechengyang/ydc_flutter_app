@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ydcflutter_app/shopping/bean/ShoppingCartFeed.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:ydcflutter_app/res/ydc_colors.dart';
+import 'package:ydcflutter_app/res/ydc_style.dart';
 import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
 import 'package:ydcflutter_app/httpservice/ydc_httpmanager.dart';
 import 'package:ydcflutter_app/datarepository/ydc_sharedpreferences.dart';

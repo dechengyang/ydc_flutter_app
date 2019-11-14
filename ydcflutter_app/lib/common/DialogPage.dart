@@ -4,6 +4,9 @@ import 'dart:io';
 import 'package:flutter/services.dart';//导入网络请求相关的包
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ydcflutter_app/widget/dialog/ydc_bottomsheet.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:ydcflutter_app/widget/dialog/ydc_loadingdialog.dart';
+import 'package:ydcflutter_app/utils/CommonUtils.dart';
 
 class DialogPage extends StatefulWidget {
   @override
@@ -122,7 +125,6 @@ class _DialogPageState extends State<DialogPage> {
                   )
               ),
               dividerWidget,
-
               new Container(
                   color: const Color(0xFFFFFFFF),
                   height: 50.0,
@@ -135,10 +137,124 @@ class _DialogPageState extends State<DialogPage> {
                       children: <Widget>[
                         new Row(
                           children: <Widget>[
-
                             new Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: new Text("弹出分享对话框",
+                                  style: new TextStyle(fontSize: 16.0, color:const Color(0xFF333333)),)),
+                          ],
+                        ),
+
+                        new Row(
+                          children: <Widget>[
+
+
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+              ),
+
+              dividerWidget,
+
+              new Container(
+                  color: const Color(0xFFFFFFFF),
+                  height: 50.0,
+                  child:new InkWell(
+                    onTap: () {
+                      showCupertinoAlertDialog(context);
+                    },
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        new Row(
+                          children: <Widget>[
+
+                            new Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: new Text("弹出消息对话框",
+                                  style: new TextStyle(fontSize: 16.0, color:const Color(0xFF333333)),)),
+
+                          ],
+                        ),
+
+                        new Row(
+                          children: <Widget>[
+
+
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+              ),
+
+              dividerWidget,
+
+              new Container(
+                  color: const Color(0xFFFFFFFF),
+                  height: 50.0,
+                  child:new InkWell(
+                    onTap: () {
+                      showInputCupertinoAlertDialog(context);
+                    },
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        new Row(
+                          children: <Widget>[
+
+                            new Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: new Text("弹出输入对话框",
+                                  style: new TextStyle(fontSize: 16.0, color:const Color(0xFF333333)),)),
+
+                          ],
+                        ),
+
+                        new Row(
+                          children: <Widget>[
+
+
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+              ),
+
+              dividerWidget,
+
+              new Container(
+                  color: const Color(0xFFFFFFFF),
+                  height: 50.0,
+                  child:new InkWell(
+                    onTap: () {
+
+                      List<String> list = [
+                        "666",
+                        "666",
+                        "666",
+                        "666",
+                        "666",
+                        "666",
+                        "666",
+                        "666",
+                        "666",
+                        "666",
+                      ];
+                      CommonUtils.showCommitOptionDialog(context, list, (index) {
+                      }, height: 400.0);
+                    },
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        new Row(
+                          children: <Widget>[
+
+                            new Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: new Text("弹出选择对话框",
                                   style: new TextStyle(fontSize: 16.0, color:const Color(0xFF333333)),)),
 
                           ],
@@ -156,6 +272,98 @@ class _DialogPageState extends State<DialogPage> {
               ),
 
 
+              dividerWidget,
+
+              new Container(
+                  color: const Color(0xFFFFFFFF),
+                  height: 50.0,
+                  child:new InkWell(
+                    onTap: () {
+                      showLoadingDialog(context);
+                    },
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        new Row(
+                          children: <Widget>[
+                            new Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: new Text("弹出Loading对话框",
+                                  style: new TextStyle(fontSize: 16.0, color:const Color(0xFF333333)),)),
+                          ],
+                        ),
+                        new Row(
+                          children: <Widget>[
+
+
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+              ),
+
+              dividerWidget,
+
+              new Container(
+                  color: const Color(0xFFFFFFFF),
+                  height: 50.0,
+                  child:new InkWell(
+                    onTap: () {
+                      CommonUtils.showLoadingDialog(context);
+                    },
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        new Row(
+                          children: <Widget>[
+                            new Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: new Text("弹出Loading第二种对话框",
+                                  style: new TextStyle(fontSize: 16.0, color:const Color(0xFF333333)),)),
+                          ],
+                        ),
+                        new Row(
+                          children: <Widget>[
+
+
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+              ),
+
+              dividerWidget,
+
+              new Container(
+                  color: const Color(0xFFFFFFFF),
+                  height: 50.0,
+                  child:new InkWell(
+                    onTap: () {
+                      CommonUtils.showUpdateDialog(context, "Bug修复");
+                    },
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        new Row(
+                          children: <Widget>[
+                            new Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: new Text("弹出升级对话框",
+                                  style: new TextStyle(fontSize: 16.0, color:const Color(0xFF333333)),)),
+                          ],
+                        ),
+                        new Row(
+                          children: <Widget>[
+
+
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+              ),
             ],
           )
         ],
@@ -247,55 +455,91 @@ class _DialogPageState extends State<DialogPage> {
     );
 
   }
-  takephotosDialogWidget(context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context){
-          return new Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              new ListTile(
-                leading: new Icon(Icons.photo_camera),
-                title: new Text("拍照"),
-                onTap: () async {
-                  Navigator.pop(context);
+
+  showCupertinoAlertDialog(context) {
+    showDialog(context: context,
+        builder: (BuildContext context) {
+         return CupertinoAlertDialog(
+            title: Text('我是标题'),
+            content:Text('我是content'),
+            actions:<Widget>[
+              CupertinoDialogAction(
+                child: Text('取消'),
+                onPressed: (){
+                  print('yes...');
+                  Navigator.of(context).pop();
                 },
               ),
-              dividerWidget,
-              new ListTile(
-                leading: new Icon(Icons.photo_library),
-                title: new Text("选择相册"),
-                onTap: () async {
-                  Navigator.pop(context);
+              CupertinoDialogAction(
+                child: Text('确定'),
+                onPressed: (){
+                  print('no...');
+                  Navigator.of(context).pop();
                 },
-              ),
-
-              dividerWidget,
-
-              new Container(
-                  child: new InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: new Padding(
-                        padding: const EdgeInsets.only(left: 0.0,top: 10.0,bottom: 10.0),
-                        child: new Text("取消",
-                          style: new TextStyle(fontSize: 18.0,
-                              color:const Color(0xFFaaaaaa)),)),
-                  )
               ),
             ],
           );
-        }
-    );
+
+    });
+
   }
 
+
+  showInputCupertinoAlertDialog(context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text('温馨提示'),
+            content: Card(
+              elevation: 0.0,
+              child: Column(
+                children: <Widget>[
+                  TextField(
+                    decoration: InputDecoration(
+                        hintText: '请输入内容',
+                        filled: true,
+                        fillColor: Colors.grey.shade50),
+                        onChanged: (String value){
+                    },
+                  ),
+
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('取消'),
+              ),
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('确定'),
+              ),
+            ],
+          );
+        });
+
+
+  }
+
+  showLoadingDialog(context) {showDialog<Null>(
+      context: context, //BuildContext对象
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return new YDCLoadingDialog( //调用对话框
+          text: '正在处理中...',
+        );
+      });
+  }
   @override
   void dispose() {
     super.dispose();
 
   }
-
-
 
 }

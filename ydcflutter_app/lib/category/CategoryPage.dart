@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:ydcflutter_app/category/bean/CategoryFeed.dart';
-import 'package:ydcflutter_app/res/ydc_colors.dart';
+import 'package:ydcflutter_app/res/ydc_style.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
 import 'package:ydcflutter_app/httpservice/ydc_httpmanager.dart';
@@ -125,7 +125,7 @@ class _CategoryPageState extends State<CategoryPage> {
         Expanded(
           flex: 2,
           child: Container(
-            color: YDColors.color_fff,
+            color: YDCColors.color_fff,
             child: ListView.builder(
               itemCount: _datas.length,
               itemBuilder: (BuildContext context, int position) {
@@ -146,7 +146,7 @@ class _CategoryPageState extends State<CategoryPage> {
                   //height: double.infinity,
                   alignment: Alignment.topLeft,
                   padding: const EdgeInsets.all(10),
-                  color: YDColors.color_F9F9F9,
+                  color: YDCColors.color_F9F9F9,
                   child: getChip(index), //传入一级分类下标
                 ),
               ],
@@ -163,18 +163,18 @@ class _CategoryPageState extends State<CategoryPage> {
         padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
         //Container下的color属性会与decoration下的border属性冲突，所以要用decoration下的color属性
         decoration: BoxDecoration(
-          color: index == i ? Colors.white :YDColors.color_f3f3f3,
+          color: index == i ? Colors.white :YDCColors.color_f3f3f3,
           border: Border(
             left: BorderSide(
                 width: 5,
                 color:
-                index == i ? YDColors.color_magenta: Colors.white),
+                index == i ? YDCColors.color_magenta: Colors.white),
           ),
         ),
         child: Text(
           _datas[i].name,
           style: TextStyle(
-            color: index == i ? YDColors.black_3 : YDColors.color_666,
+            color: index == i ? YDCColors.black_3 : YDCColors.color_666,
             fontWeight: index == i ? FontWeight.w600 : FontWeight.w400,
             fontSize: 16,
           ),
@@ -183,7 +183,7 @@ class _CategoryPageState extends State<CategoryPage> {
       onTap: () {
         setState(() {
           index = i; //记录选中的下标
-          textColor = YDColors.colorPrimary;
+          textColor = YDCColors.colorPrimary;
         });
       },
     );
