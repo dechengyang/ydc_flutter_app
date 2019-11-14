@@ -8,8 +8,9 @@ class ApiConfig{
 
   static const String getcode = "open/api/v1/getcode.do";
 
-
   static const String getshoppingcart = "open/api/v1/shoppingcart.do";
 
   static const String gethemo = "open/api/v1/home.do";
+
+  static const String getcategory = "open/api/v1/category.do";
 }

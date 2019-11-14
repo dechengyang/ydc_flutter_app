@@ -4,9 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:ydcflutter_app/category/bean/navi_entity.dart';
+import 'package:ydcflutter_app/category/bean/CategoryFeed.dart';
 import 'package:ydcflutter_app/res/ydc_colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
+import 'package:ydcflutter_app/httpservice/ydc_httpmanager.dart';
+import 'package:ydcflutter_app/datarepository/ydc_sharedpreferences.dart';
+import 'package:ydcflutter_app/config/SharePreferenceKey.dart';
+import 'package:ydcflutter_app/config/ApiConfig.dart';
+import 'package:ydcflutter_app/config/Constant.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:async';
+import 'package:dio/dio.dart';
+import 'dart:convert';
 
 class CategoryPage extends StatefulWidget {
   @override
@@ -16,38 +26,99 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  List<NaviData> _datas = List(); //一级分类集合
-  List<NaviDataArticle> articles = List(); //二级分类集合
+  List<CategoryBean> _datas = List(); //一级分类集合
+  List<CategoryChildBean> articles = List(); //二级分类集合
   int index; //一级分类下标
+  var mContext=null;
 
+
+  void _getData() async {
+    String token = await SharedPreferencesHelper.get(SharePreferenceKey.TOKEN_KEY);
+    if (token == null) {
+      print("getToken ====== ");
+      print(token);
+      print("getToken2 ====== ");
+    }
+    YDCLoadingPage loadingPage = YDCLoadingPage(mContext);
+    loadingPage.show();
+    var params = {
+      'appid': Constant.appId,
+      'appsecret':Constant.SECRETKEY,
+      'token': token
+    };
+    print("params ====== ");
+    print(params);
+    print("params2 ====== ");
+    httpManager.clearAuthorization();
+    var res = await httpManager.request(
+        ApiConfig.BASE_URL+ApiConfig.getcategory, params, null, new Options(method: "post"));
+    if (res != null ) {
+      if (Constant.DEBUG) {
+        print("result999======"+res.data.toString());
+        final data = json.decode(res.data.toString());
+        var code= data['code'];
+        var message= data['message'];
+        if(code=="1000"){
+          var feed=CategoryFeed.fromJson(data);
+          /// 初始化
+          setState(() {
+            _datas = feed.data;
+            index = 0;
+          });
+          Future.delayed(
+            Duration(seconds: 2),
+                () {
+              loadingPage.close();
+              setState(() {
+                Fluttertoast.showToast(
+                    msg: message,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                );
+
+              });
+            },
+          );
+
+        }else{
+          Future.delayed(
+            Duration(seconds: 2),
+                () {
+              loadingPage.close();
+              setState(() {
+                Fluttertoast.showToast(
+                    msg: message,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+
+                );
+
+
+              });
+            },
+          );
+        }
+
+      }
+
+    }
+  }
   @override
   void initState() {
     super.initState();
-    getHttp();
-  }
-
-  void getHttp() async {
-    try {
-      Response response =
-      await Dio().get("https://www.wanandroid.com/navi/json");
-      //var response =await Dio().get(Api.NAVI);
-      Map userMap = json.decode(response.toString());
-      print("get ====== "+response.toString());
-      var naviEntity = NaviEntity.fromJson(userMap);
-
-      /// 初始化
-      setState(() {
-        print("title ====== "+naviEntity.toString());
-        _datas = naviEntity.data;
-        index = 0;
-      });
-    } catch (e) {
-      print(e);
-    }
+    _getData();
   }
 
   @override
   Widget build(BuildContext context) {
+    mContext=context;
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -198,7 +269,7 @@ class _CategoryPageState extends State<CategoryPage> {
             //mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 new Container(
-                    child:  new Image.network("https://img.alicdn.com/tps/TB1G5oxMVXXXXbFXFXXXXXXXXXX-190-200.jpg",
+                    child:  new Image.network(item.pic,
                         alignment: Alignment.bottomRight,
                         colorBlendMode: BlendMode.colorBurn,
                         fit: BoxFit.cover, // 填充拉伸裁剪
@@ -207,7 +278,7 @@ class _CategoryPageState extends State<CategoryPage> {
                new Container(
                  margin: const EdgeInsets.only(left: 0.0,top: 4.0),
 
-                    child: new Text(item.title,
+                    child: new Text(item.name,
                       style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
               ]
 
@@ -220,9 +291,9 @@ class _CategoryPageState extends State<CategoryPage> {
   ///
   /// 根据一级分类下标更新二级分类集合
   ///
-  List<NaviDataArticle> _updateArticles(int i) {
+  List<CategoryChildBean> _updateArticles(int i) {
     setState(() {
-      if (_datas.length != 0) articles = _datas[i].articles;
+      if (_datas.length != 0) articles = _datas[i].item;
     });
     return articles;
   }
