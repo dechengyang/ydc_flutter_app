@@ -3,13 +3,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/services.dart';//导入网络请求相关的包
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:dio/dio.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'dart:convert';
-import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
-
-import 'package:ydcflutter_app/config/SharePreferenceKey.dart';
-import 'package:ydcflutter_app/datarepository/ydc_sharedpreferences.dart';
+import 'package:ydcflutter_app/widget/dialog/ydc_bottomsheet.dart';
 
 class DialogPage extends StatefulWidget {
   @override
@@ -74,7 +68,34 @@ class _DialogPageState extends State<DialogPage> {
                   height: 50.0,
                   child:new InkWell(
                     onTap: () {
-                      takephotosDialogWidget(context);
+                      //takephotosDialogWidget(context);
+                      showDialog(
+                          barrierDismissible: true,//是否点击空白区域关闭对话框,默认为true，可以关闭
+                          context: context,
+                          builder: (BuildContext context) {
+                            var list = List();
+                            list.add('拍照');
+                            list.add('从手机相册选择');
+                            for(var i=3;i<8;i++){
+                              list.add('菜单'+i.toString());
+                            }
+                            return YDCBottomSheet(
+                              list: list,
+                              onItemClickListener: (index) async {
+
+                                Fluttertoast.showToast(
+                                    msg: list[index],
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
+                                );
+                                    Navigator.pop(context);
+
+                              },
+                            );
+                          });
                     },
                     child: new Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -84,7 +105,7 @@ class _DialogPageState extends State<DialogPage> {
 
                             new Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
-                                child: new Text("拍照对话框",
+                                child: new Text("弹出底部选择对话框",
                                   style: new TextStyle(fontSize: 16.0, color:const Color(0xFF333333)),)),
 
                           ],
@@ -117,7 +138,7 @@ class _DialogPageState extends State<DialogPage> {
 
                             new Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
-                                child: new Text("分享对话框",
+                                child: new Text("弹出分享对话框",
                                   style: new TextStyle(fontSize: 16.0, color:const Color(0xFF333333)),)),
 
                           ],
