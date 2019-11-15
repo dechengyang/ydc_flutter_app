@@ -700,7 +700,7 @@ class _DialogPageState extends State<DialogPage> {
           return StatefulBuilder(builder: (context, state) {
             //创建dialog
             return new YDCCustomDialog(
-              title: "服务完成给个好评价吧!",
+              title: "商品服务评价",
               negativeText: "取消",
               positiveText: "确认",
               isShowTitleDivi: false,
@@ -835,7 +835,7 @@ class _DialogPageState extends State<DialogPage> {
     lists.add(buildPariseSelectChildWidget(
         1, "服务差", pariseSelectIndex2 == 1 ? true : false,state));
     lists.add(buildPariseSelectChildWidget(
-        2, "态度不好", pariseSelectIndex2 == 2 ? true : false,state));
+        2, "次品", pariseSelectIndex2 == 2 ? true : false,state));
     clists.add(Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
