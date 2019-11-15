@@ -831,7 +831,7 @@ class _DialogPageState extends State<DialogPage> {
     List<Widget> clists = [];
 
     lists.add(buildPariseSelectChildWidget(
-        0, "出车慢", pariseSelectIndex2 == 0 ? true : false,state));
+        0, "送货慢", pariseSelectIndex2 == 0 ? true : false,state));
     lists.add(buildPariseSelectChildWidget(
         1, "服务差", pariseSelectIndex2 == 1 ? true : false,state));
     lists.add(buildPariseSelectChildWidget(
