@@ -7,10 +7,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dio/dio.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
-import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
+import 'package:ydcflutter_app/utils/YDCLoading.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ydcflutter_app/widget/ydc_button.dart';
+import 'package:ydcflutter_app/widget/YDCButton.dart';
 
 const String _kGalleryAssetsPackage = 'flutter_gallery_assets';
 

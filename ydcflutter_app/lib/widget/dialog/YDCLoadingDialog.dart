@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
+/**
+ * 自定义LoadingDialog
+ * Created by yangdecheng
+ * Date: 2019-11-04
+ */
 class YDCLoadingDialog extends Dialog {
   BuildContext mContext;
   String text;
-
   YDCLoadingDialog({Key key, @required this.text}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     mContext=context;

@@ -3,10 +3,14 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/services.dart';//导入网络请求相关的包
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:ydcflutter_app/widget/dialog/ydc_bottomsheet.dart';
+import 'package:ydcflutter_app/widget/dialog/YDCBottomSheet.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:ydcflutter_app/widget/dialog/ydc_loadingdialog.dart';
-import 'package:ydcflutter_app/utils/CommonUtils.dart';
+import 'package:ydcflutter_app/widget/dialog/YDCLoadingDialog.dart';
+import 'package:ydcflutter_app/utils/YDCCommonUtils.dart';
+import 'package:ydcflutter_app/widget/dialog/YDCMessageDialog.dart';
+import 'package:ydcflutter_app/widget/dialog/YDCCustomSureDialog.dart';
+
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DialogPage extends StatefulWidget {
   @override
@@ -52,6 +56,12 @@ class _DialogPageState extends State<DialogPage> {
 
   @override
   Widget build(BuildContext context) {
+    // 方式一：默认设置宽度1080px，高度1920px
+    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
+    // 方式二：设置宽度750px，高度1334px
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
+    // 方式三：设置宽度750px，高度1334px，根据系统字体进行缩放
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);
     mContext=context;
     return new Scaffold(
       appBar: new AppBar(
@@ -188,6 +198,107 @@ class _DialogPageState extends State<DialogPage> {
                     ),
                   )
               ),
+              dividerWidget,
+
+              new Container(
+                  color: const Color(0xFFFFFFFF),
+                  height: 50.0,
+                  child:new InkWell(
+                    onTap: () {
+                      showDialog<Null>(
+                          context: context,
+                          barrierDismissible: false,//点击遮罩不关闭对话框,对于自定义Dialog没起作用，需要在内部自己处理
+                          builder: (context) {
+                            //StatefulBuilder 来构建 dialog
+                            //使用参数 state来更新 dialog 中的数据内容
+                            return new CustomSureDialog(
+                              message: "我是中国人",
+                              sureEvent: () {
+                                print("确认 关闭");
+                                Navigator.pop(context);
+                              },
+                              onCloseEvent: () {
+                                print("取消 关闭");
+                                Navigator.pop(context);
+                              },
+                              //通过state来刷新内容
+                            );
+
+                          });
+
+                    },
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        new Row(
+                          children: <Widget>[
+                            new Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: new Text("弹出第二种消息提示对话框",
+                                  style: new TextStyle(fontSize: 16.0, color:const Color(0xFF333333)),)),
+                          ],
+                        ),
+                        new Row(
+                          children: <Widget>[
+
+
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+              ),
+              dividerWidget,
+
+              new Container(
+                  color: const Color(0xFFFFFFFF),
+                  height: 50.0,
+                  child:new InkWell(
+                    onTap: () {
+                      showDialog<Null>(
+                          context: context,
+                          barrierDismissible: false,//点击遮罩不关闭对话框
+                          builder: (context) {
+                            //StatefulBuilder 来构建 dialog
+                            //使用参数 state来更新 dialog 中的数据内容
+                            return new YDCMessageDialog(
+                              title: "我是title",
+                              message: "我是中国人我是中国人我是中国人我是中国人我是中国人我是中国人我是中国人我是中国人我是中国人我是中国人",
+                              onPositivePressEvent: () {
+                                print("确认 关闭");
+                                Navigator.pop(context);
+                              },
+                              onCloseEvent: () {
+                                print("取消 关闭");
+                                Navigator.pop(context);
+                              },
+                              //通过state来刷新内容
+                            );
+
+                          });
+
+                    },
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        new Row(
+                          children: <Widget>[
+                            new Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: new Text("弹出第三种消息提示对话框",
+                                  style: new TextStyle(fontSize: 16.0, color:const Color(0xFF333333)),)),
+                          ],
+                        ),
+                        new Row(
+                          children: <Widget>[
+
+
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+              ),
 
               dividerWidget,
 
@@ -243,7 +354,7 @@ class _DialogPageState extends State<DialogPage> {
                         "666",
                         "666",
                       ];
-                      CommonUtils.showCommitOptionDialog(context, list, (index) {
+                      YDCCommonUtils.showCommitOptionDialog(context, list, (index) {
                       }, height: 400.0);
                     },
                     child: new Row(
@@ -310,7 +421,7 @@ class _DialogPageState extends State<DialogPage> {
                   height: 50.0,
                   child:new InkWell(
                     onTap: () {
-                      CommonUtils.showLoadingDialog(context);
+                      YDCCommonUtils.showLoadingDialog(context);
                     },
                     child: new Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -341,7 +452,7 @@ class _DialogPageState extends State<DialogPage> {
                   height: 50.0,
                   child:new InkWell(
                     onTap: () {
-                      CommonUtils.showUpdateDialog(context, "Bug修复");
+                      YDCCommonUtils.showAlertDialog(context, "Bug修复");
                     },
                     child: new Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -351,6 +462,41 @@ class _DialogPageState extends State<DialogPage> {
                             new Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: new Text("弹出升级对话框",
+                                  style: new TextStyle(fontSize: 16.0, color:const Color(0xFF333333)),)),
+                          ],
+                        ),
+                        new Row(
+                          children: <Widget>[
+
+
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+              ),
+
+
+
+              dividerWidget,
+
+              new Container(
+                  color: const Color(0xFFFFFFFF),
+                  height: 50.0,
+                  child:new InkWell(
+                    onTap: () {
+
+                      showtest(context);
+
+                    },
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        new Row(
+                          children: <Widget>[
+                            new Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: new Text("TEST",
                                   style: new TextStyle(fontSize: 16.0, color:const Color(0xFF333333)),)),
                           ],
                         ),
@@ -527,7 +673,8 @@ class _DialogPageState extends State<DialogPage> {
 
   }
 
-  showLoadingDialog(context) {showDialog<Null>(
+  showLoadingDialog(context) {
+    showDialog<Null>(
       context: context, //BuildContext对象
       barrierDismissible: true,
       builder: (BuildContext context) {
@@ -536,6 +683,13 @@ class _DialogPageState extends State<DialogPage> {
         );
       });
   }
+
+
+  showtest(context){
+
+
+  }
+
   @override
   void dispose() {
     super.dispose();

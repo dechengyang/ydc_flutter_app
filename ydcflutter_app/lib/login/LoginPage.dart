@@ -6,8 +6,8 @@ import 'dart:convert';
 import 'package:flutter/services.dart';//导入网络请求相关的包
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ydcflutter_app/main/MainPage.dart';
-import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
-import 'package:ydcflutter_app/utils/ydc_verify.dart';
+import 'package:ydcflutter_app/utils/YDCLoading.dart';
+import 'package:ydcflutter_app/utils/YDCVerify.dart';
 import 'package:ydcflutter_app/login/RegisterPage.dart';
 import 'package:ydcflutter_app/httpservice/ydc_httpmanager.dart';
 import 'package:ydcflutter_app/datarepository/ydc_sharedpreferences.dart';

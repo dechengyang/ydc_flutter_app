@@ -2,11 +2,17 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ydcflutter_app/utils/NavigatorUtils.dart';
+import 'package:ydcflutter_app/utils/YDCNavigatorUtils.dart';
 import 'package:ydcflutter_app/res/ydc_style.dart';
 import 'package:ydcflutter_app/widget/YDCFlexButton.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-class CommonUtils {
+
+/**
+ * 通用工具类
+ * Created by yangdecheng
+ * Date: 2019-11-04
+ */
+class YDCCommonUtils {
 
   ///列表item dialog
   static Future<Null> showCommitOptionDialog(
@@ -16,7 +22,7 @@ class CommonUtils {
         width = 300.0,
         height = 400.0,
       }) {
-    return NavigatorUtils.showYDCDialog(
+    return YDCNavigatorUtils.showYDCDialog(
         context: context,
         builder: (BuildContext context) {
           return Center(
@@ -54,7 +60,7 @@ class CommonUtils {
 
 
   static Future<Null> showLoadingDialog(BuildContext context) {
-    return NavigatorUtils.showYDCDialog(
+    return YDCNavigatorUtils.showYDCDialog(
         context: context,
         builder: (BuildContext context) {
           return new Material(
@@ -90,10 +96,12 @@ class CommonUtils {
         });
   }
 
-  ///版本更新
-  static Future<Null> showUpdateDialog(
+  /**
+   * AlertDialog
+   */
+  static Future<Null> showAlertDialog(
       BuildContext context, String contentMsg) {
-    return NavigatorUtils.showYDCDialog(
+    return YDCNavigatorUtils.showYDCDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(

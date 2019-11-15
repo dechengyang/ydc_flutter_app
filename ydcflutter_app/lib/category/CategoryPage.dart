@@ -7,7 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:ydcflutter_app/category/bean/CategoryFeed.dart';
 import 'package:ydcflutter_app/res/ydc_style.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:ydcflutter_app/utils/ydc_loading_page.dart';
+import 'package:ydcflutter_app/utils/YDCLoading.dart';
 import 'package:ydcflutter_app/httpservice/ydc_httpmanager.dart';
 import 'package:ydcflutter_app/datarepository/ydc_sharedpreferences.dart';
 import 'package:ydcflutter_app/config/SharePreferenceKey.dart';

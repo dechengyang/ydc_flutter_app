@@ -2,7 +2,13 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-class NavigatorUtils {
+
+/**
+ * 页面跳转管理
+ * Created by yangdecheng
+ * Date: 2019-11-04
+ */
+class YDCNavigatorUtils {
 
   //弹出 dialog
   static Future<T> showYDCDialog<T>({
