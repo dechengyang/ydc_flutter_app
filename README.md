@@ -9,7 +9,7 @@
 
 ## Flutter技术交流群二维码
 
-![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/ydc_qq.png) 
+![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/ydc_qq_flutter.png) 
 
 ****
 
