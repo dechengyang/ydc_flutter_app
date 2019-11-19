@@ -4,10 +4,10 @@
 
 |作者|西南黑少|
 |---|---
-|技术支持群(仅限于本项目)|207833859
+|Flutter技术交流|429542590
 |博客地址|https://blog.csdn.net/XiNanHeiShao/article/details/102906322
 
-## 本项目技术支持群二维码
+## Flutter技术交流群二维码
 
 ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/ydc_qq.png) 
 

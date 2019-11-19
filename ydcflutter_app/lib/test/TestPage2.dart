@@ -20,8 +20,8 @@ class _TestPage2State extends State<TestPage2> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold( body:Center(
-
+    return new Scaffold(
+      body:Center(
         child: Builder(builder: (context) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -35,7 +35,6 @@ class _TestPage2State extends State<TestPage2> {
                 return Text("总价: ${cart.totalPrice}");
               }),
               Builder(builder: (context) {
-                print("RaisedButton build"); //在后面优化部分会用到
                 return RaisedButton(
                   child: Text("添加商品"),
                   onPressed: () {
@@ -45,12 +44,11 @@ class _TestPage2State extends State<TestPage2> {
                 );
               }),
               Builder(builder: (context) {
-                print("RaisedButton build"); //在后面优化部分会用到
                 return RaisedButton(
                   child: Text("修改商品名称"),
                   onPressed: () {
-                    //给购物车中添加商品，添加后总价会更新
-                    Provider.of<CartModel>(context).setName("毛巾");
+                    //使用Provider修改商品名称
+                    Provider.of<CartModel>(context).setName("无用牌毛巾");
                   },
                 );
               }),

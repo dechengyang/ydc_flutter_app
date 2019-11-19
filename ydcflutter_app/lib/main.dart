@@ -10,13 +10,13 @@ import 'package:ydcflutter_app/test/bean/User.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
-//
-//void main() => runApp( ChangeNotifierProvider<CartModel>.value(
-//    value: new CartModel("格子衬衫"),
-//    child:new YDCApp()));
+
+void main() => runApp( ChangeNotifierProvider<CartModel>.value(
+    value: new CartModel(""),
+    child:new YDCApp()));
 
 
-void main() => runApp( new YDCApp());
+//void main() => runApp( new YDCApp());
 
 final ThemeData kIOSTheme = new ThemeData(
   primarySwatch: Colors.orange,

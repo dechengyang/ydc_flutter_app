@@ -51,13 +51,12 @@ class _TestPageState extends State<TestPage> {
                 return RaisedButton(
                   child: Text("修改商品名称"),
                   onPressed: () {
-                    //给购物车中添加商品，添加后总价会更新
-                    Provider.of<CartModel>(context).setName("毛巾");
+                    //使用Provider修改商品名称
+                    Provider.of<CartModel>(context).setName("无用牌毛巾");
                   },
                 );
               }),
               Builder(builder: (context) {
-                print("RaisedButton build"); //在后面优化部分会用到
                 return RaisedButton(
                   child: Text("测试跨页面共享数据"),
                   onPressed: () {
