@@ -18,8 +18,6 @@ import 'package:redux/redux.dart';
 
 void main() => runApp( new YDCApp());
 
-
-
 final ThemeData kIOSTheme = new ThemeData(
   primarySwatch: Colors.orange,
   primaryColor: Colors.grey[100],
