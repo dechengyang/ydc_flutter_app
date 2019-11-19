@@ -2,7 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ydcflutter_app/login/LoginPage.dart';
 
-void main() => runApp(new TalkcasuallyApp());
+import 'package:ydcflutter_app/common/test/CartModel.dart';
+import 'package:ydcflutter_app/common/test/Item.dart';
+import 'package:provider/provider.dart';
+import 'package:ydcflutter_app/test/bean/YDCState.dart';
+import 'package:ydcflutter_app/test/bean/User.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
+
+//
+//void main() => runApp( ChangeNotifierProvider<CartModel>.value(
+//    value: new CartModel("格子衬衫"),
+//    child:new YDCApp()));
+
+
+void main() => runApp( new YDCApp());
+
+
+
 final ThemeData kIOSTheme = new ThemeData(
   primarySwatch: Colors.orange,
   primaryColor: Colors.grey[100],
@@ -14,12 +31,23 @@ final ThemeData kDefaultTheme = new ThemeData(
   accentColor: Colors.orangeAccent[400],
 );
 
-class TalkcasuallyApp  extends StatelessWidget {
+class YDCApp  extends StatelessWidget {
+  /// 创建Store，引用 YDCState 中的 appReducer 创建 Reducer
+  /// initialState 初始化 State
+  final store = new Store<YDCState>(
+    appReducer,
+    initialState: new YDCState(
+        user: User(""),
 
+  ));
+  YDCApp({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    /// 通过 StoreProvider Widget 应用 store
+    return new StoreProvider(
+        store: store,
+        child:new MaterialApp(
 //      title: '谈天说地',
 //      theme: defaultTargetPlatform == TargetPlatform.iOS
 //          ? kIOSTheme
@@ -44,7 +72,7 @@ class TalkcasuallyApp  extends StatelessWidget {
 //      ],
 
       home:  new LoginPage(),
-    );
+    ));
   }
 }
 

@@ -2,7 +2,7 @@
 
 ****
 
-|Author|西南黑少|
+|作者|西南黑少|
 |---|---
 |本项目手把手技术支持群|207833859
 |博客地址|https://blog.csdn.net/XiNanHeiShao/article/details/102906322
@@ -17,8 +17,9 @@
 
 ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/login_page.png) ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/my_page.png)
 ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/register_page.png) ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/home_page.png)
-![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/goodsdetail_page.png) ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/shoppingcart_page.png)
-![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/category_page.png)  ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/dialog01.png) 
+![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/goodsdetail_page.png) ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/shopping_detail_page2.png)
+![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/shoppingcart_page.png)![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/category_page.png) 
+![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/dialog01.png) 
 ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/dialog02.png)  ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/dialog02_1.png)
 ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/dialog03.png)  ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/dialog04.png)
 ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/dialog05.png)  ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/dialog06.png) 

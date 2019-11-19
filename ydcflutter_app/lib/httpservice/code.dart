@@ -1,5 +1,5 @@
 import 'package:ydcflutter_app/eventbus/http_error_event.dart';
-import 'package:ydcflutter_app/eventbus/index.dart';
+import 'package:ydcflutter_app/eventbus/YDCEventBusManage.dart';
 
 ///错误编码
 class Code {
