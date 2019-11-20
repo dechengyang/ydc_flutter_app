@@ -62,19 +62,32 @@ class YDCApp  extends StatelessWidget {
         ),
         hintColor: Colors.grey[400],
       ),
-      title: '纸聊',
+      title: 'ydc_flutter_app',
+//      onGenerateRoute: (RouteSettings settings){
+//        return MaterialPageRoute(builder: (context){
+//          String routeName = settings.name;
+//          print("66"+routeName);
+//        });
+//      },
+          navigatorObservers:[MyObserver(),] ,
 
-//      supportedLocales: [
-//        const Locale('zh', 'CH'),
-//        const Locale('en', 'US'),
-//      ],
 
       home:  new LoginPage(),
     ));
   }
 }
 
-
-
+//继承NavigatorObserver
+class MyObserver extends NavigatorObserver {
+  @override
+  void didPush(Route route, Route previousRoute) {
+    // 当调用Navigator.push时回调
+    super.didPush(route, previousRoute);
+    //可通过route.settings获取路由相关内容
+    //route.currentResult获取返回内容
+    //....等等
+    print(route.settings.name);
+  }
+}
 
 

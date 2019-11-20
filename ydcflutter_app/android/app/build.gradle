@@ -8,7 +8,7 @@ if (localPropertiesFile.exists()) {
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+   // throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
@@ -41,17 +41,35 @@ android {
         applicationId "com.ydc.ydcflutter_app"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        versionCode 1
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        debug {
+            storeFile file("../ydcapp.jks")
+            storePassword "ydcapp"
+            keyAlias "ydcapp"
+            keyPassword "ydcapp"
+        }
+        release {
+            storeFile file("../ydcapp.jks")
+            storePassword "ydcapp"
+            keyAlias "ydcapp"
+            keyPassword "ydcapp"
+        }
     }
 
     buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+        debug {
             signingConfig signingConfigs.debug
         }
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 

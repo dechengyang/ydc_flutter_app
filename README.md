@@ -13,6 +13,10 @@
 
 ****
 
+### 下载
+
+#### Apk下载链接： [Apk下载链接](https://github.com/dechengyang/ydc_flutter_app/blob/master/apk/page/ydc_flutter_app.apk)
+
 ## 效果图
 
 ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/login_page.png) ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/my_page.png)

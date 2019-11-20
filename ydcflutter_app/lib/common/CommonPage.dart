@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:ydcflutter_app/common/DialogPage.dart';
 import 'package:ydcflutter_app/test/EventBusTestPage1.dart';
+import 'package:ydcflutter_app/test/MethodChannelPageTest.dart';
 import 'package:ydcflutter_app/test/TestPage.dart';
 import 'package:ydcflutter_app/test/TestPage2.dart';
 import 'package:ydcflutter_app/test/TestReduxPage.dart';
@@ -231,7 +232,53 @@ class _CommomPageState extends State<CommomPage> {
                   )
               ),
 
+              dividerWidget,
+              new Container(
+                  color: const Color(0xFFFFFFFF),
+                  height: 50.0,
+                  child:new InkWell(
+                    onTap: () {
 
+                      Navigator.of(context).push(new MaterialPageRoute<Null>(
+                        builder: (BuildContext context) {
+                          return new TestMethodChannelPage();
+                        },
+                      ));
+                    },
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        new Row(
+                          children: <Widget>[
+                            new Padding(
+                                padding: const EdgeInsets.only(left: 15.0),
+                                child: new Image.asset("static/images/account_balance.png",
+                                  width: 20.0,
+                                  height: 20.0,)),
+
+
+                            new Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: new Text("测试平台通道",
+                                  style: new TextStyle(fontSize: 14.0, color:const Color(0xFF333333)),)),
+
+                          ],
+                        ),
+
+                        new Row(
+                          children: <Widget>[
+
+                            new Padding(
+                                padding: const EdgeInsets.only(right: 15.0,left: 10.0),
+                                child: new Image.asset("static/images/enter.png",
+                                    width: 16.0,
+                                    height: 16.0)),
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+              ),
             ],
           )
         ],
