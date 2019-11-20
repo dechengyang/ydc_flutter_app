@@ -15,7 +15,7 @@
 
 ### 下载
 
-#### Apk下载链接(账号请自己注册)： [Apk下载链接](https://github.com/dechengyang/ydc_flutter_app/blob/master/apk/ydc_flutter_app.apk)
+#### Apk下载链接(测试账号:18721568888 密码:123456)： [Apk下载链接](https://github.com/dechengyang/ydc_flutter_app/blob/master/apk/ydc_flutter_app.apk)
 
 ## 效果图
 
