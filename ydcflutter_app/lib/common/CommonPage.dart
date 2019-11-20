@@ -97,7 +97,7 @@ class _CommomPageState extends State<CommomPage> {
 
                       Navigator.of(context).push(new MaterialPageRoute<Null>(
                         builder: (BuildContext context) {
-                          return new TestPage2();
+                          return new TestPage();
                         },
                       ));
                     },

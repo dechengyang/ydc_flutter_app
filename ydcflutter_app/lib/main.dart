@@ -42,10 +42,7 @@ class YDCApp  extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// 通过 StoreProvider Widget 应用 store
-    return new StoreProvider(
-        store: store,
-        child:new MaterialApp(
+    return new MaterialApp(
 //      title: '谈天说地',
 //      theme: defaultTargetPlatform == TargetPlatform.iOS
 //          ? kIOSTheme
@@ -73,7 +70,7 @@ class YDCApp  extends StatelessWidget {
 
 
       home:  new LoginPage(),
-    ));
+    );
   }
 }
 

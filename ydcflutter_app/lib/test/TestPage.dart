@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ydcflutter_app/common/test/CartModel.dart';
 import 'package:ydcflutter_app/common/test/Item.dart';
 import 'package:provider/provider.dart';
-import 'package:ydcflutter_app/test/TestPage2.dart';
 
 class TestPage extends StatefulWidget {
   @override
@@ -52,22 +51,11 @@ class _TestPageState extends State<TestPage> {
                   child: Text("修改商品名称"),
                   onPressed: () {
                     //使用Provider修改商品名称
-                    Provider.of<CartModel>(context).setName("无用牌毛巾");
+                    Provider.of<CartModel>(context).setName("修改为无用牌毛巾");
                   },
                 );
               }),
-              Builder(builder: (context) {
-                return RaisedButton(
-                  child: Text("测试跨页面共享数据"),
-                  onPressed: () {
-                    Navigator.of(context).push(new MaterialPageRoute<Null>(
-                      builder: (BuildContext context) {
-                        return new TestPage2();
-                      },
-                    ));
-                  },
-                );
-              }),
+
             ],
           );
         }),
