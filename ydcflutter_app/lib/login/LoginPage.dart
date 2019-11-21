@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';//导入网络请求相关的包
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ydcflutter_app/httpservice/code.dart';
 import 'package:ydcflutter_app/main/MainPage.dart';
 import 'package:ydcflutter_app/utils/YDCLoading.dart';
 import 'package:ydcflutter_app/utils/YDCVerify.dart';
@@ -15,6 +16,8 @@ import 'package:ydcflutter_app/config/SharePreferenceKey.dart';
 import 'package:ydcflutter_app/config/ApiConfig.dart';
 import 'package:ydcflutter_app/login/bean/LoginBean.dart';
 import 'package:ydcflutter_app/config/Constant.dart';
+import 'package:ydcflutter_app/eventbus/YDCEventBusManage.dart';
+import 'package:ydcflutter_app/eventbus/http_error_event.dart';
 
 /**
  * 登录
@@ -89,19 +92,20 @@ class _LoginPageState extends State<LoginPage> {
     var res = await httpManager.request(
         ApiConfig.BASE_URL+ApiConfig.LOGIN, params, null, new Options(method: "post"));
     if (res != null ) {
-      if (Constant.DEBUG) {
-        print("user result");
-        print(res);
-        print(res.data.toString());
-        final data = json.decode(res.data.toString());
-        var code= data['code'];
-        var message= data['message'];
-        if(code=="1000"){
-          loadingPage.close();
-          var token= data['token'];
-          await SharedPreferencesHelper.save(SharePreferenceKey.TOKEN_KEY, token);
-          print("code ====== "+code);
-          print("code ====== "+token);
+      try{
+        if (Constant.DEBUG) {
+          print("user result");
+          print(res);
+          print(res.data.toString());
+          final data = json.decode(res.data.toString());
+          var code= data['code'];
+          var message= data['message'];
+          if(code=="1000"){
+            loadingPage.close();
+            var token= data['token'];
+            await SharedPreferencesHelper.save(SharePreferenceKey.TOKEN_KEY, token);
+            print("code ====== "+code);
+            print("code ====== "+token);
             Future.delayed(
               Duration(seconds: 2),
                   () {
@@ -129,27 +133,31 @@ class _LoginPageState extends State<LoginPage> {
             );
 
           }else{
-          Future.delayed(
-            Duration(seconds: 2),
-                () {
-              setState(() {
-                Fluttertoast.showToast(
-                    msg: message,
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIos:1
+            Future.delayed(
+              Duration(seconds: 2),
+                  () {
+                setState(() {
+                  Fluttertoast.showToast(
+                      msg: message,
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIos:1
 //            backgroundColor: Color(0xe74c3c),
 //            textColor: Color(0xffffff)
 
-                );
+                  );
 
 
-              });
-            },
-          );
+                });
+              },
+            );
+          }
+
         }
+      }catch(e){
+        eventBus.fire(new HttpErrorEvent(Code.NETWORK_ERROR, "登录时网络错误"));
+      }
 
-        }
 
     }
   }
