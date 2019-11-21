@@ -13,4 +13,6 @@ class ApiConfig{
   static const String gethemo = "open/api/v1/home.do";
 
   static const String getcategory = "open/api/v1/category.do";
+
+  static const String getUserinfo = "open/api/v1/userinfo.do";
 }

@@ -8,6 +8,11 @@ import 'package:ydcflutter_app/common/CommonPage.dart';
 import 'dart:convert';
 import 'package:ydcflutter_app/config/SharePreferenceKey.dart';
 import 'package:ydcflutter_app/datarepository/ydc_sharedpreferences.dart';
+import 'package:ydcflutter_app/httpservice/ydc_httpmanager.dart';
+import 'package:ydcflutter_app/config/ApiConfig.dart';
+import 'package:ydcflutter_app/config/Constant.dart';
+import 'package:ydcflutter_app/me/bean/UserFeed.dart';
+import 'package:ydcflutter_app/utils/YDCLoading.dart';
 
 class MyPage extends StatefulWidget {
   @override
@@ -17,94 +22,70 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> {
 
   BuildContext mContext;
+  UserInfoBean _user;
 
-  final TextEditingController _phoneController = new TextEditingController();
-  final TextEditingController _passwordController = new TextEditingController();
-  String mPhoneText;
-
-  String data;
-  void _getDio() async {
-//    YDCLoadingPage loadingPage = YDCLoadingPage(context);
-//    loadingPage.show();
+  void _getData() async {
     String token = await SharedPreferencesHelper.get(SharePreferenceKey.TOKEN_KEY);
     if (token == null) {
-      print("getToken ====== "+token);
+      print("getToken ====== ");
+      print(token);
+      print("getToken2 ====== ");
     }
-    Response response =
-    await Dio().get("https://www.runoob.com/try/ajax/json_demo.json");
-    print("get ====== "+response.toString());
-    final body = json.decode(response.toString());
-
-    setState(() {
-      data = body['name'];
-      print("title ====== "+data);
-    });
-
-    //loadingPage.close();
-  }
-
-  void _postDio() async {
-
-    String token = await SharedPreferencesHelper.get(SharePreferenceKey.TOKEN_KEY);
-    if (token == null) {
-      print("getToken ====== "+token);
-    }else{
-      print("getToken ====== "+token);
-    }
-
-//    YDCLoadingPage loadingPage = YDCLoadingPage(context);
-//    loadingPage.show();
-    var headers = Map<String, String>();
-    headers['loginSource'] = 'Android';
-    headers['useVersion'] = '3.1.0';
-    headers['isEncoded'] = '1';
-    headers['bundleId'] = 'com.nongfadai.iospro';
-    headers['Content-Type'] = 'application/json';
-
-    Dio dio = Dio();
-    dio.options.baseUrl = "http://api.juheapi.com/japi/toh";
-    dio.options.connectTimeout = 60000;
-    dio.options.receiveTimeout = 60000;
-    dio.options.headers.addAll(headers);
-    dio.options.method = 'post';
-
+    YDCLoadingPage loadingPage = YDCLoadingPage(mContext);
+    loadingPage.show();
     var params = {
-      'v': '1.0',
-      'month': '7',
-      'day': '25',
-      'key': 'bd6e35a2691ae5bb8425c8631e475c2a'
+      'appid': Constant.appId,
+      'appsecret':Constant.SECRETKEY,
+      'token': token
     };
+    httpManager.clearAuthorization();
+    var res = await httpManager.request(
+        ApiConfig.BASE_URL+ApiConfig.getUserinfo, params, null, new Options(method: "post"));
+    if (res != null ) {
+      if (Constant.DEBUG) {
+        print("my_result======"+res.data.toString());
+        final data = json.decode(res.data.toString());
+        var code= data['code'];
+        var message= data['message'];
+        if(code=="1000"){
+          var feed=UserFeed.fromJson(data);
+           UserInfoBean user=feed.user;
+           setState(() {
+             _user=user;
+           });
+           loadingPage.close();
+        }else{
+          Future.delayed(
+            Duration(seconds: 2),
+                () {
+              loadingPage.close();
+              setState(() {
+                Fluttertoast.showToast(
+                    msg: message,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIos:1
+//            backgroundColor: Color(0xe74c3c),
+//            textColor: Color(0xffffff)
 
-    Options option = Options(method: 'post');
-    Response response = await dio.post("http://api.juheapi.com/japi/toh",
-        /*data: {
-          "v": "1.0",
-          "month": "7",
-          "day": "25",
-          "key": "bd6e35a2691ae5bb8425c8631e475c2a"
-        },*/
-        data: params,
-        options: option);
+                );
 
-    if (response.statusCode == 200) {
-      debugPrint('===请求求url: ${response.request.uri.toString()}');
-      debugPrint('===请求headler: ${response.request.headers}');
-      debugPrint('===请求结果: \n${response.data}\n');
-      //loadingPage.close();
-    } else {
-      print('请求失败');
-      //loadingPage.close();
+
+              });
+            },
+          );
+        }
+
+      }
+
     }
-
-
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    //_getDio();
-   // _postDio();
+       _getData();
   }
 
   @override
@@ -122,7 +103,7 @@ class _MyPageState extends State<MyPage> {
         children: <Widget>[
           new ListView(
             children: <Widget>[
-              personInfoWidget,
+              getPersonInfoWidget(_user, context),
               topMenuWidget,
               orderWidget,
               integralWidget,
@@ -205,64 +186,66 @@ class _MyPageState extends State<MyPage> {
       )
   );
 
-  Widget personInfoWidget=new Container(
-      decoration:  new BoxDecoration(
+  getPersonInfoWidget(user ,context){
+    return new Container(
+        decoration:  new BoxDecoration(
           image: new DecorationImage(
             image: new ExactAssetImage('static/images/personinfo_head_bg.png'),
             fit: BoxFit.cover,),
-      ),
-      margin: const EdgeInsets.only( bottom: 10.0),
-      //color: Colors.white,
-      child: new InkWell(
-        onTap: () {
-          Fluttertoast.showToast(
-              msg: "正在建设中...",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIos:1
+        ),
+        margin: const EdgeInsets.only( bottom: 10.0),
+        //color: Colors.white,
+        child: new InkWell(
+          onTap: () {
+            Fluttertoast.showToast(
+                msg: "正在建设中...",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIos:1
 //            backgroundColor: Color(0xe74c3c),
 //            textColor: Color(0xffffff)
 
-          );
-        },
+            );
+          },
 
-        child:new Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            new Padding(
-                padding: const EdgeInsets.only(left: 20.0,top: 30.0,
-                    bottom: 30.0),
-                child: new Image.asset("static/images/head_portrait.png",
-                  width: 60.0,
-                  height: 60.0,)),
-            new Stack(
-              children: <Widget>[
-                new Padding(
-                    padding: const EdgeInsets.only(left: 18.0),
-                    child: new Text("西南黑少",
-                      style: new TextStyle(fontSize: 20.0, color:const Color(0xFFffffff)),)),
+          child:new Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              new Padding(
+                  padding: const EdgeInsets.only(left: 20.0,top: 30.0,
+                      bottom: 30.0),
+                  child: new Image.asset("static/images/head_portrait.png",
+                    width: 60.0,
+                    height: 60.0,)),
+              new Stack(
+                children: <Widget>[
+                  new Padding(
+                      padding: const EdgeInsets.only(left: 18.0),
+                      child: new Text("西南黑少",
+                        style: new TextStyle(fontSize: 20.0, color:const Color(0xFFffffff)),)),
 
-                new Padding(
-                    padding: const EdgeInsets.only(left: 20.0,top: 29.0),
-                    child: new Text("187****4888",
-                      style: new TextStyle(fontSize: 12.0,
-                          color:const Color(0xFFffffff)),)),
+                  new Padding(
+                      padding: const EdgeInsets.only(left: 20.0,top: 29.0),
+                      child: new Text(_user==null?"187****4888":_user.username,
+                        style: new TextStyle(fontSize: 12.0,
+                            color:const Color(0xFFffffff)),)),
 
-                new Padding(
-                    padding: const EdgeInsets.only(left: 20.0,top: 50.0),
-                    child: new Text("xxxx有限公司",
-                      style: new TextStyle(fontSize: 12.0,
-                          color:const Color(0xFFffffff)),)),
+                  new Padding(
+                      padding: const EdgeInsets.only(left: 20.0,top: 50.0),
+                      child: new Text("xxxx有限公司",
+                        style: new TextStyle(fontSize: 12.0,
+                            color:const Color(0xFFffffff)),)),
 
-              ],),
-          ],
-        ),
+                ],),
+            ],
+          ),
 
 
-      )
+        )
 
-  );
+    );
 
+  }
 
 
   Widget topMenuWidget=new Container(

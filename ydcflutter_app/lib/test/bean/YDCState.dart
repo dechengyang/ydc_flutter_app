@@ -1,5 +1,4 @@
 
-
 import 'package:ydcflutter_app/me/bean/User.dart';
 import 'package:ydcflutter_app/redux/user_redux.dart';
 ///全局Redux store 的对象，保存State数据

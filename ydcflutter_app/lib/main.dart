@@ -25,7 +25,7 @@ class YDCApp  extends StatelessWidget {
   final store = new Store<YDCState>(
       appReducer,
       initialState: new YDCState(
-        user: User(""),
+        user: User.empty(),
 
       ));
   YDCApp({Key key}) : super(key: key);

@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:ydcflutter_app/redux/user_redux.dart';
 
-import 'package:ydcflutter_app/me/bean/User.dart';
 import 'package:ydcflutter_app/test/bean/YDCState.dart';
 import 'package:flutter/services.dart';
 
