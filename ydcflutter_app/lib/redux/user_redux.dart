@@ -1,5 +1,5 @@
 import 'package:redux/redux.dart';
-import 'package:ydcflutter_app/test/bean/User.dart';
+import 'package:ydcflutter_app/me/bean/User.dart';
 /**
  * 用户相关Redux
  */

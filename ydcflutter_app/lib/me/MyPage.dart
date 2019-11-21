@@ -4,14 +4,10 @@ import 'dart:io';
 import 'package:flutter/services.dart';//导入网络请求相关的包
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:dio/dio.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:ydcflutter_app/common/CommonPage.dart';
 import 'dart:convert';
-import 'package:ydcflutter_app/utils/YDCLoading.dart';
-
 import 'package:ydcflutter_app/config/SharePreferenceKey.dart';
 import 'package:ydcflutter_app/datarepository/ydc_sharedpreferences.dart';
-import 'package:ydcflutter_app/common/CommonPage.dart';
 
 class MyPage extends StatefulWidget {
   @override
@@ -115,13 +111,13 @@ class _MyPageState extends State<MyPage> {
   Widget build(BuildContext context) {
     mContext=context;
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("我的"),
-        centerTitle: true,
-        elevation: 0.25,
-        backgroundColor: Colors.white,
-        automaticallyImplyLeading: false, //设置没有返回按钮
-      ),
+//      appBar: new AppBar(
+//        title: new Text("我的"),
+//        centerTitle: true,
+//        elevation: 0.25,
+//        backgroundColor: Colors.white,
+//        automaticallyImplyLeading: false, //设置没有返回按钮
+//      ),
       body:new Stack(
         children: <Widget>[
           new ListView(
