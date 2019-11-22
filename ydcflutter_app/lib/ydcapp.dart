@@ -150,7 +150,7 @@ errorHandleFunction(int code, message) {
       break;
     default:
       Fluttertoast.showToast(
-          msg: "network_error_unknown");
+          msg: "network_error_unknown:"+code.toString());
       break;
   }
 }

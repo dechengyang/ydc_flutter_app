@@ -155,7 +155,9 @@ class _LoginPageState extends State<LoginPage> {
 
         }
       }catch(e){
-        eventBus.fire(new HttpErrorEvent(Code.NETWORK_ERROR, "登录时网络错误"));
+       // eventBus.fire(new HttpErrorEvent(Code.NETWORK_ERROR, "登录时网络错误"));
+        Fluttertoast.showToast(
+            msg: "登录失败,请联系作者!");
       }
 
 
