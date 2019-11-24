@@ -5,10 +5,10 @@ part 'UserFeed.g.dart';
 @JsonSerializable()
 class UserFeed {
 
-  @JsonKey(name: 'user')
-  UserInfoBean user;
+  @JsonKey(name: 'data')
+  UserInfoBean data;
 
-  UserFeed(this.user);
+  UserFeed(this.data);
 
   factory UserFeed.fromJson(Map<String, dynamic> srcJson) => _$UserFeedFromJson(srcJson);
   Map<String,dynamic> toJson() => _$UserFeedToJson(this);

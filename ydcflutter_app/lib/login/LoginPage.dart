@@ -97,15 +97,14 @@ class _LoginPageState extends State<LoginPage> {
           print("user result");
           print(res);
           print(res.data.toString());
-          final data = json.decode(res.data.toString());
-          var code= data['code'];
-          var message= data['message'];
+          final response = json.decode(res.data.toString());
+          var code= response['code'];
+          var message= response['message'];
           if(code=="1000"){
             loadingPage.close();
+            var data= response['data'];
             var token= data['token'];
             await SharedPreferencesHelper.save(SharePreferenceKey.TOKEN_KEY, token);
-            print("code ====== "+code);
-            print("code ====== "+token);
             Future.delayed(
               Duration(seconds: 2),
                   () {

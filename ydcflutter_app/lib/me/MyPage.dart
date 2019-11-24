@@ -49,7 +49,7 @@ class _MyPageState extends State<MyPage> {
         var message= data['message'];
         if(code=="1000"){
           var feed=UserFeed.fromJson(data);
-           UserInfoBean user=feed.user;
+           UserInfoBean user=feed.data;
            setState(() {
              _user=user;
            });

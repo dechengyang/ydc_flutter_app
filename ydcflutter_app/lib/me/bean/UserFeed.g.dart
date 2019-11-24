@@ -8,14 +8,14 @@ part of 'UserFeed.dart';
 
 UserFeed _$UserFeedFromJson(Map<String, dynamic> json) {
   return UserFeed(
-    json['user'] == null
+    json['data'] == null
         ? null
-        : UserInfoBean.fromJson(json['user'] as Map<String, dynamic>),
+        : UserInfoBean.fromJson(json['data'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$UserFeedToJson(UserFeed instance) => <String, dynamic>{
-      'user': instance.user,
+      'data': instance.data,
     };
 
 UserInfoBean _$UserInfoBeanFromJson(Map<String, dynamic> json) {
