@@ -87,7 +87,7 @@ class YDCCommonUtils {
                         new Container(
                             child: new Text(
                                 "正在处理中...",
-                                style: GSYConstant.normalTextWhite)),
+                                style: YDCConstant.normalTextWhite)),
                       ],
                     ),
                   ),

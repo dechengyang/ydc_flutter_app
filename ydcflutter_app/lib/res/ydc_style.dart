@@ -127,7 +127,7 @@ class YDCColors {
 }
 
 ///文本样式
-class GSYConstant {
+class YDCConstant {
 
 
   static const lagerTextSize = 30.0;

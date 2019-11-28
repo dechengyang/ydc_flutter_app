@@ -56,40 +56,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - static/images/password_icon.png
-    - static/images/phone_icon.png
-    - static/images/login_back.png
-    - static/images/home_normal_icon.png
-    - static/images/home_selected_icon.png
-    - static/images/category_normal_icon.png
-    - static/images/category_selected_icon.png
-    - static/images/shoppingcart_normal_icon.png
-    - static/images/shoppingcart_selected_icon.png
-    - static/images/my_normal_icon.png
-    - static/images/my_selected_icon.png
-    - static/images/logo_icon.png
-    - static/images/enter.png
-    - static/images/account_balance.png
-    - static/images/wallet.png
-    - static/images/head_portrait.png
-    - static/images/my_points.png
-    - static/images/about.png
-    - static/images/setting_icon.png
-    - static/images/vip.png
-    - static/images/coupon.png
-    - static/images/shopping_cart.png
-    - static/images/my_collect.png
-    - static/images/receiving.png
-    - static/images/evaluate.png
-    - static/images/aftersale.png
-    - static/images/daifahuo_icon.png
-    - static/images/personinfo_head_bg.png
-    - static/images/zhengzu_icon.png
-    - static/images/store.png
-    - static/images/mx_wx.png
-    - static/images/mx_qq.png
-    - static/images/uncheck.png
-    - static/images/check.png
+    - static/images/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
