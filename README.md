@@ -17,6 +17,8 @@
 
 #### Apk下载链接(测试账号:18721568888 密码:123456)： [Apk下载链接](https://github.com/dechengyang/ydc_flutter_app/blob/master/apk/ydc_flutter_app.apk)
 
+#### kotlin-mvp:https://github.com/dechengyang/ydc_kotlin_shop
+
 ## 效果图
 
 ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/login_page.png) ![](https://github.com/dechengyang/ydc_flutter_app/blob/master/picture/page/my_page.png)
