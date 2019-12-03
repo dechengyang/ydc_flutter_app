@@ -5,7 +5,7 @@
 |作者|西南黑少|
 |---|---
 |Flutter技术交流|429542590
-|博客地址|https://blog.csdn.net/XiNanHeiShao/article/details/102906322
+|博客地址|https://blog.csdn.net/XiNanHeiShao/article/details/79980286
 
 ## Flutter技术交流群二维码
 
