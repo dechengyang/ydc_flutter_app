@@ -13,6 +13,8 @@ import 'package:ydcflutter_app/config/ApiConfig.dart';
 import 'package:ydcflutter_app/config/Constant.dart';
 import 'package:ydcflutter_app/me/bean/UserFeed.dart';
 import 'package:ydcflutter_app/utils/YDCLoading.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 
 class MyPage extends StatefulWidget {
   @override
@@ -23,6 +25,7 @@ class _MyPageState extends State<MyPage> {
 
   BuildContext mContext;
   UserInfoBean _user;
+  var _image;
 
   void _getData() async {
     String token = await SharedPreferencesHelper.get(SharePreferenceKey.TOKEN_KEY);
@@ -186,6 +189,37 @@ class _MyPageState extends State<MyPage> {
       )
   );
 
+  void showActionSheet({BuildContext context, Widget child}) {
+    showCupertinoModalPopup<String>(
+      context: context,
+      builder: (BuildContext context) => child,
+    ).then((String value) {
+      if (value != null) {
+        if(value == "Camera"){
+          getImageByCamera();
+        }else if(value == "Gallery"){
+         getImageByGallery();
+        }
+      }
+    });
+  }
+
+  Future getImageByGallery() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = image;
+    });
+  }
+
+  Future getImageByCamera() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      _image = image;
+    });
+  }
+
   getPersonInfoWidget(user ,context){
     return new Container(
         decoration:  new BoxDecoration(
@@ -197,14 +231,42 @@ class _MyPageState extends State<MyPage> {
         //color: Colors.white,
         child: new InkWell(
           onTap: () {
-            Fluttertoast.showToast(
-                msg: "正在建设中...",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIos:1
-//            backgroundColor: Color(0xe74c3c),
-//            textColor: Color(0xffffff)
-
+//            Fluttertoast.showToast(
+//                msg: "正在建设中...",
+//                toastLength: Toast.LENGTH_SHORT,
+//                gravity: ToastGravity.BOTTOM,
+//                timeInSecForIos:1
+////            backgroundColor: Color(0xe74c3c),
+////            textColor: Color(0xffffff)
+//
+//            );
+            showActionSheet(
+              context: context,
+              child: CupertinoActionSheet(
+                title: const Text('拍照'),
+                //message: const Text('Please select the best mode from the options below.'),
+                actions: <Widget>[
+                  CupertinoActionSheetAction(
+                    child: const Text('相册'),
+                    onPressed: () {
+                      Navigator.pop(context, 'Gallery');
+                    },
+                  ),
+                  CupertinoActionSheetAction(
+                    child: const Text('相机'),
+                    onPressed: () {
+                      Navigator.pop(context, 'Camera');
+                    },
+                  ),
+                ],
+                cancelButton: CupertinoActionSheetAction(
+                  child: const Text('取消'),
+                  isDefaultAction: true,
+                  onPressed: () {
+                    Navigator.pop(context, 'Cancel');
+                  },
+                ),
+              ),
             );
           },
 
@@ -214,9 +276,10 @@ class _MyPageState extends State<MyPage> {
               new Padding(
                   padding: const EdgeInsets.only(left: 20.0,top: 30.0,
                       bottom: 30.0),
-                  child: new Image.asset("static/images/head_portrait.png",
+                  child: _image == null?new Image.asset("static/images/head_portrait.png",
                     width: 60.0,
-                    height: 60.0,)),
+                    height: 60.0,):new ClipOval(child:Image.file(_image, width: 60.0,
+                      height: 60.0,  fit: BoxFit.fitWidth))),
               new Stack(
                 children: <Widget>[
                   new Padding(
