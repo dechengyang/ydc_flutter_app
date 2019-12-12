@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:ydcflutter_app/common/CommonPage.dart';
 import 'dart:convert';
 import 'package:ydcflutter_app/config/SharePreferenceKey.dart';
-import 'package:ydcflutter_app/datarepository/ydc_sharedpreferences.dart';
+import 'package:ydcflutter_app/datarepository/sp/ydc_sharedpreferences.dart';
 import 'package:ydcflutter_app/httpservice/ydc_httpmanager.dart';
 import 'package:ydcflutter_app/config/ApiConfig.dart';
 import 'package:ydcflutter_app/config/Constant.dart';

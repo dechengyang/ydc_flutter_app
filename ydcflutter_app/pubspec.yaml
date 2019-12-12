@@ -38,6 +38,7 @@ dependencies:
   provider: ^3.1.0
   flutter_redux: ^0.5.3
   image_picker: ^0.6.0+9
+  sqflite: ^1.1.7+1
 #  cached_network_image: ^0.8.0
 #  transparent_image: ^1.0.0
 

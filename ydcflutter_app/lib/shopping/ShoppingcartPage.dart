@@ -5,7 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:ydcflutter_app/res/ydc_style.dart';
 import 'package:ydcflutter_app/utils/YDCLoading.dart';
 import 'package:ydcflutter_app/httpservice/ydc_httpmanager.dart';
-import 'package:ydcflutter_app/datarepository/ydc_sharedpreferences.dart';
+import 'package:ydcflutter_app/datarepository/sp/ydc_sharedpreferences.dart';
 import 'package:ydcflutter_app/config/SharePreferenceKey.dart';
 import 'package:ydcflutter_app/config/ApiConfig.dart';
 import 'package:ydcflutter_app/config/Constant.dart';
