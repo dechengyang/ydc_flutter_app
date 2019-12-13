@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:ydcflutter_app/common/CommonPage.dart';
 import 'dart:convert';
 import 'package:ydcflutter_app/config/SharePreferenceKey.dart';
+import 'package:ydcflutter_app/dao/UserDao.dart';
 import 'package:ydcflutter_app/datarepository/sp/ydc_sharedpreferences.dart';
 import 'package:ydcflutter_app/httpservice/ydc_httpmanager.dart';
 import 'package:ydcflutter_app/config/ApiConfig.dart';
@@ -56,7 +57,17 @@ class _MyPageState extends State<MyPage> {
            setState(() {
              _user=user;
            });
+          await UserDao.setUserInfo(token, user);
+          var userResult = await UserDao.getUserInfo(token);
+          if (userResult != null && userResult.result) {
+            print("getUserInfo ====== ");
+            UserInfoBean bean=userResult.data;
+            print(userResult.data);
+            print(bean.username);
+            print("getUserInfo ====== ");
+          }
            loadingPage.close();
+
         }else{
           Future.delayed(
             Duration(seconds: 2),
